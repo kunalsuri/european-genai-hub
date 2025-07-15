@@ -193,6 +193,29 @@ class EUGenAIHub {
             
             this.addEventListener(card, 'keydown', keyListener);
         });
+
+        // Featured project cards
+        const projectCards = document.querySelectorAll('.project-card[data-project]');
+        projectCards.forEach(card => {
+            const listener = (e) => {
+                e.preventDefault();
+                const project = card.dataset.project;
+                this.showProjectDetails(project);
+            };
+            
+            this.addEventListener(card, 'click', listener);
+            
+            // Add keyboard support
+            const keyListener = (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const project = card.dataset.project;
+                    this.showProjectDetails(project);
+                }
+            };
+            
+            this.addEventListener(card, 'keydown', keyListener);
+        });
     }
 
     addEventListener(element, event, handler) {
@@ -236,6 +259,59 @@ class EUGenAIHub {
                 resource.title,
                 resource.description,
                 resource.type,
+                ...(resource.keywords || []),
+                ...(resource.research_areas || [])
+            ].join(' ').toLowerCase();
+            
+            return searchTerms.some(term => 
+                searchFields.includes(term.toLowerCase())
+            );
+        });
+        
+        // Update the resources display
+        this.renderResourcesGrid(filteredResources);
+        
+        // Update search input to show what was filtered
+        const searchInput = document.getElementById('resources-search');
+        if (searchInput && searchTerms.length > 0) {
+            searchInput.value = searchTerms[0];
+            searchInput.focus();
+        }
+    }
+
+    showProjectDetails(project) {
+        if (this.isDestroyed) return;
+        
+        // Navigate to resources section and filter by project
+        this.showSection('resources');
+        
+        // Wait for resources to load, then apply project filter
+        setTimeout(() => {
+            this.filterResourcesByProject(project);
+        }, 500);
+    }
+
+    filterResourcesByProject(project) {
+        if (!this.data.resources || !Array.isArray(this.data.resources)) return;
+        
+        // Map projects to search terms
+        const projectMap = {
+            'ai-on-demand': ['AI On Demand', 'AIOD', 'European AI', 'AI4Europe'],
+            'insait': ['INSAIT', 'Sofia', 'Bulgaria', 'Eastern Europe', 'BRAIN++'],
+            'swissgpt': ['SwissGPT', 'AlpineAI', 'Swiss', 'Switzerland', 'Falcon'],
+            'matharena': ['MathArena', 'Mathematics', 'Evaluation', 'AIME', 'Competition'],
+            'adra': ['ADRA', 'AI Data Robotics', 'Partnership', 'Association'],
+            'eu-ai-office': ['European AI Office', 'AI Act', 'Governance', 'Regulation', 'European Commission']
+        };
+        
+        const searchTerms = projectMap[project] || [];
+        
+        // Filter resources based on project
+        const filteredResources = this.data.resources.filter(resource => {
+            const searchFields = [
+                resource.title,
+                resource.description,
+                resource.institution,
                 ...(resource.keywords || []),
                 ...(resource.research_areas || [])
             ].join(' ').toLowerCase();

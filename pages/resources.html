@@ -163,11 +163,14 @@
     </footer>
 
     <!-- Scripts -->
+    <script src="../js/search.js"></script>
     <script>
-        // Standalone resources page functionality
+        // Resources page functionality
         class ResourcesPage {
             constructor() {
                 this.data = [];
+                this.filteredData = [];
+                this.searchManager = null;
                 this.init();
             }
 
@@ -187,27 +190,27 @@
                 try {
                     const response = await fetch('../data/resources.json');
                     this.data = await response.json();
+                    this.filteredData = [...this.data];
                 } catch (error) {
                     console.error('Error loading resources data:', error);
                     this.data = [];
+                    this.filteredData = [];
                 }
             }
 
             setupSearch() {
-                const searchInput = document.getElementById('resources-search');
+                // Initialize search manager
+                this.searchManager = new SearchManager(this.data, {
+                    searchFields: ['title', 'description', 'authors', 'keywords', 'institution', 'type'],
+                    renderCallback: (filteredData) => this.renderResources(filteredData),
+                    searchInputId: 'resources-search',
+                    noResultsMessage: 'No resources found matching your criteria.'
+                });
+
+                // Set up additional filters
                 const typeFilter = document.getElementById('resources-filter-type');
                 const yearFilter = document.getElementById('resources-filter-year');
                 const accessFilter = document.getElementById('resources-filter-access');
-
-                if (searchInput) {
-                    let searchTimeout;
-                    searchInput.addEventListener('input', (e) => {
-                        clearTimeout(searchTimeout);
-                        searchTimeout = setTimeout(() => {
-                            this.applyFilters();
-                        }, 300);
-                    });
-                }
 
                 [typeFilter, yearFilter, accessFilter].forEach(filter => {
                     if (filter) {
@@ -233,29 +236,23 @@
             }
 
             applyFilters() {
-                const searchInput = document.getElementById('resources-search');
                 const typeFilter = document.getElementById('resources-filter-type');
                 const yearFilter = document.getElementById('resources-filter-year');
                 const accessFilter = document.getElementById('resources-filter-access');
 
-                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
                 const selectedType = typeFilter ? typeFilter.value : 'all';
                 const selectedYear = yearFilter ? yearFilter.value : 'all';
                 const selectedAccess = accessFilter ? accessFilter.value : 'all';
 
-                const filteredData = this.data.filter(resource => {
-                    const matchesSearch = !searchTerm || 
-                        resource.title.toLowerCase().includes(searchTerm) ||
-                        (resource.description && resource.description.toLowerCase().includes(searchTerm)) ||
-                        (resource.authors && resource.authors.some(author => author.toLowerCase().includes(searchTerm))) ||
-                        (resource.keywords && resource.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm))) ||
-                        (resource.institution && resource.institution.toLowerCase().includes(searchTerm));
-
+                // Apply filters to search manager's current results
+                const currentResults = this.searchManager ? this.searchManager.getCurrentResults() : this.data;
+                
+                const filteredData = currentResults.filter(resource => {
                     const matchesType = selectedType === 'all' || resource.type === selectedType;
                     const matchesYear = selectedYear === 'all' || resource.year.toString() === selectedYear;
                     const matchesAccess = selectedAccess === 'all' || resource.access_type === selectedAccess;
 
-                    return matchesSearch && matchesType && matchesYear && matchesAccess;
+                    return matchesType && matchesYear && matchesAccess;
                 });
 
                 this.renderResources(filteredData);

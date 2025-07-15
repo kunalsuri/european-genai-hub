@@ -515,13 +515,13 @@ class EUGenAIHub {
         this.populateFilterOptions('institutions-filter-country', 
             [...new Set(this.data.institutions.map(inst => inst.country).filter(Boolean))]);
 
-        // Initialize search for this section
+        // Initialize search with universal search utility
         setTimeout(() => {
-            if (window.searchManager && this.data) {
-                window.searchManager.init();
+            if (window.universalSearch && this.data.institutions) {
+                window.universalSearch.init('institutions', this.data.institutions, (filteredData) => {
+                    this.renderInstitutionsGrid(filteredData);
+                });
             }
-            // Dispatch custom event for search initialization
-            document.dispatchEvent(new CustomEvent('sectionLoaded'));
         }, 100);
 
         // Reinitialize Lucide icons
@@ -630,15 +630,14 @@ class EUGenAIHub {
 
         this.renderProjectsGrid();
         this.populateProjectFilters();
-        this.setupProjectSearch();
 
-        // Initialize search
+        // Initialize search with universal search utility
         setTimeout(() => {
-            if (window.searchManager && this.data) {
-                window.searchManager.init();
+            if (window.universalSearch && this.data.projects) {
+                window.universalSearch.init('projects', this.data.projects, (filteredData) => {
+                    this.renderProjectsGrid(filteredData);
+                });
             }
-            // Dispatch custom event for search initialization
-            document.dispatchEvent(new CustomEvent('sectionLoaded'));
         }, 100);
 
         // Reinitialize Lucide icons
@@ -771,35 +770,6 @@ class EUGenAIHub {
         }
     }
 
-    setupProjectSearch() {
-        const searchInput = document.getElementById('projects-search');
-        const statusFilter = document.getElementById('projects-filter-status');
-        const areaFilter = document.getElementById('projects-filter-area');
-
-        if (searchInput) {
-            let searchTimeout;
-            searchInput.addEventListener('input', () => {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    this.applyProjectFilters();
-                }, 300);
-            });
-        }
-
-        [statusFilter, areaFilter].forEach(filter => {
-            if (filter) {
-                filter.addEventListener('change', () => this.applyProjectFilters());
-            }
-        });
-
-        // Notify search manager
-        setTimeout(() => {
-            if (window.searchManager) {
-                window.searchManager.init();
-            }
-        }, 100);
-    }
-
     applyProjectFilters() {
         const searchInput = document.getElementById('projects-search');
         const statusFilter = document.getElementById('projects-filter-status');
@@ -879,13 +849,13 @@ class EUGenAIHub {
         this.populateFilterOptions('resources-filter-year', 
             [...new Set(this.data.resources.map(res => res.year).filter(Boolean))].sort().reverse());
 
-        // Initialize search
+        // Initialize search with universal search utility
         setTimeout(() => {
-            if (window.searchManager && this.data) {
-                window.searchManager.init();
+            if (window.universalSearch && this.data.resources) {
+                window.universalSearch.init('resources', this.data.resources, (filteredData) => {
+                    this.renderResourcesGrid(filteredData);
+                });
             }
-            // Dispatch custom event for search initialization
-            document.dispatchEvent(new CustomEvent('sectionLoaded'));
         }, 100);
 
         // Reinitialize Lucide icons
@@ -1063,43 +1033,20 @@ class EUGenAIHub {
         `;
 
         this.renderModelsTable();
-        this.setupModelsSearch();
 
-        // Initialize search
+        // Initialize search with universal search utility
         setTimeout(() => {
-            if (window.searchManager) {
-                window.searchManager.init();
+            if (window.universalSearch && this.data.models) {
+                window.universalSearch.init('models', this.data.models, (filteredData) => {
+                    this.updateModelsTable(filteredData);
+                });
             }
-            // Dispatch custom event for search initialization
-            document.dispatchEvent(new CustomEvent('sectionLoaded'));
         }, 100);
 
         // Reinitialize Lucide icons
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
-    }
-
-    setupModelsSearch() {
-        const searchInput = document.getElementById('models-search');
-        const typeFilter = document.getElementById('models-filter-type');
-        const statusFilter = document.getElementById('models-filter-status');
-
-        if (searchInput) {
-            let searchTimeout;
-            searchInput.addEventListener('input', () => {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    this.applyModelsFilters();
-                }, 300);
-            });
-        }
-
-        [typeFilter, statusFilter].forEach(filter => {
-            if (filter) {
-                filter.addEventListener('change', () => this.applyModelsFilters());
-            }
-        });
     }
 
     applyModelsFilters() {

@@ -318,8 +318,18 @@ class SearchManager {
 
 // Initialize search manager when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    if (!window.searchManager) {
-        window.searchManager = new SearchManager();
+    // Delay initialization to ensure all components are loaded
+    setTimeout(() => {
+        if (!window.searchManager) {
+            window.searchManager = new SearchManager();
+        }
+        window.searchManager.init();
+    }, 500);
+});
+
+// Re-initialize when new sections are loaded
+document.addEventListener('sectionLoaded', () => {
+    if (window.searchManager) {
         window.searchManager.init();
     }
 });

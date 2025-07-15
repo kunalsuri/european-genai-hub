@@ -185,6 +185,262 @@
                 });
             }
 
+            applyFilters() {
+                const searchInput = document.getElementById('projects-search');
+                const statusFilter = document.getElementById('projects-filter-status');
+                const areaFilter = document.getElementById('projects-filter-area');
+                const fundingFilter = document.getElementById('projects-filter-funding');
+
+                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                const selectedStatus = statusFilter ? statusFilter.value : 'all';
+                const selectedArea = areaFilter ? areaFilter.value : 'all';
+                const selectedFunding = fundingFilter ? fundingFilter.value : 'all';
+
+                const filteredData = this.data.filter(project => {
+                    const matchesSearch = !searchTerm || 
+                        (project.title && project.title.toLowerCase().includes(searchTerm)) ||
+                        (project.description && project.description.toLowerCase().includes(searchTerm)) ||
+                        (project.technologies && project.technologies.some(tech => tech.toLowerCase().includes(searchTerm))) ||
+                        (project.participants && project.participants.some(participant => participant.toLowerCase().includes(searchTerm)));
+
+                    const matchesStatus = selectedStatus === 'all' || 
+                        (project.status && project.status.toLowerCase() === selectedStatus.toLowerCase());
+                    
+                    const matchesArea = selectedArea === 'all' || 
+                        (project.technologies && project.technologies.includes(selectedArea)) ||
+                        (project.category && project.category.toLowerCase().includes(selectedArea.toLowerCase()));
+
+                    const matchesFunding = selectedFunding === 'all' ||
+                        (project.funding && project.funding.toLowerCase().includes(selectedFunding.toLowerCase()));
+
+                    return matchesSearch && matchesStatus && matchesArea && matchesFunding;
+                });
+
+                this.renderProjectsGrid(filteredData);
+            }
+
+            renderProjectsGrid(customData = null) {
+                const container = document.getElementById('projects-grid');
+                if (!container) return;
+
+                const projectsToRender = customData || this.data || [];
+
+                if (!Array.isArray(projectsToRender) || projectsToRender.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i data-lucide="search-x" class="empty-icon"></i>
+                            <h3>No projects found</h3>
+                            <p>Try adjusting your search criteria or browse all projects</p>
+                        </div>
+                    `;
+                    if (typeof lucide !== 'undefined') {
+                        lucide.createIcons();
+                    }
+                    return;
+                }
+
+                container.innerHTML = projectsToRender.map(project => `
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i data-lucide="rocket"></i>
+                            </div>
+                            <span class="card-badge card-badge-${this.getStatusColor(project.status)}">
+                                ${this.escapeHtml(project.status || 'Unknown')}
+                            </span>
+                        </div>
+
+                        <h3 class="card-title">${this.escapeHtml(project.title || 'Unknown Project')}</h3>
+
+                        <div class="card-meta-grid">
+                            <div class="card-meta">
+                                <i data-lucide="calendar"></i>
+                                <span>${this.formatDateRange(project.start_date, project.end_date)}</span>
+                            </div>
+                            <div class="card-meta">
+                                <i data-lucide="euro"></i>
+                                <span class="font-semibold">${this.escapeHtml(project.funding || 'N/A')}</span>
+                            </div>
+                        </div>
+
+                        <p class="card-description">
+                            ${this.escapeHtml(this.truncateText(project.description || '', 150))}
+                        </p>
+
+                        ${project.technologies && Array.isArray(project.technologies) ? `
+                            <div class="card-section">
+                                <h4 class="card-section-title">Key Technologies</h4>
+                                <div class="card-tags">
+                                    ${project.technologies.slice(0, 3).map(tech => 
+                                        `<span class="tag tag-primary">${this.escapeHtml(tech)}</span>`
+                                    ).join('')}
+                                    ${project.technologies.length > 3 ? 
+                                        `<span class="tag">+${project.technologies.length - 3} more</span>` : ''
+                                    }
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${project.participants && Array.isArray(project.participants) ? `
+                            <div class="card-section">
+                                <h4 class="card-section-title">Research Partners</h4>
+                                <div class="card-tags">
+                                    ${project.participants.slice(0, 4).map(partner => 
+                                        `<span class="tag">${this.escapeHtml(partner)}</span>`
+                                    ).join('')}
+                                    ${project.participants.length > 4 ? 
+                                        `<span class="tag">+${project.participants.length - 4} more</span>` : ''
+                                    }
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${project.website ? `
+                            <div style="margin-top: 1rem;">
+                                <a href="${this.escapeHtml(project.website)}" target="_blank" rel="noopener noreferrer"
+                                   class="card-link">
+                                    <span>Project Details</span>
+                                    <i data-lucide="external-link"></i>
+                                </a>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+
+                // Reinitialize Lucide icons
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+
+            // Utility functions
+            escapeHtml(text) {
+                if (typeof text !== 'string') return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            truncateText(text, maxLength) {
+                if (typeof text !== 'string') return '';
+                if (text.length <= maxLength) return text;
+                return text.substring(0, maxLength).trim() + '...';
+            }
+
+            formatDateRange(startDate, endDate) {
+                try {
+                    const start = startDate ? this.formatDate(startDate) : 'Unknown';
+                    const end = endDate ? this.formatDate(endDate) : 'Ongoing';
+                    return `${start} - ${end}`;
+                } catch (error) {
+                    return 'Unknown';
+                }
+            }
+
+            formatDate(dateString) {
+                if (!dateString) return 'Unknown';
+                try {
+                    const date = new Date(dateString);
+                    if (isNaN(date.getTime())) return dateString;
+                    return date.toLocaleDateString('en-EU', {
+                        year: 'numeric',
+                        month: 'short'
+                    });
+                } catch (error) {
+                    return dateString;
+                }
+            }
+
+            getStatusColor(status) {
+                const colors = {
+                    'active': 'green',
+                    'completed': 'blue',
+                    'planned': 'yellow',
+                    'released': 'green',
+                    'research': 'orange'
+                };
+                return colors[status] || 'gray';
+            }
+
+            showError() {
+                const container = document.getElementById('projects-grid');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="error-state">
+                            <h3>Error Loading Projects</h3>
+                            <p>Failed to load projects data. Please try refreshing the page.</p>
+                            <button onclick="location.reload()" class="btn btn-primary">Refresh Page</button>
+                        </div>
+                    `;
+                }
+            }
+
+            renderProjects() {
+                const container = document.getElementById('projects-grid');
+                if (!container) return;
+
+                this.renderProjectsGrid();
+            }
+
+            populateFilters() {
+                // Populate area filter
+                const areaFilter = document.getElementById('projects-filter-area');
+                if (areaFilter && this.data.length > 0) {
+                    const technologies = [...new Set(this.data.flatMap(proj => proj.technologies || []))];
+                    const categories = [...new Set(this.data.map(proj => proj.category).filter(Boolean))];
+                    const areas = [...new Set([...technologies, ...categories])].sort();
+                    
+                    areas.forEach(area => {
+                        const option = document.createElement('option');
+                        option.value = area;
+                        option.textContent = area;
+                        areaFilter.appendChild(option);
+                    });
+                }
+
+                // Populate funding filter
+                const fundingFilter = document.getElementById('projects-filter-funding');
+                if (fundingFilter && this.data.length > 0) {
+                    const fundings = [...new Set(this.data.map(proj => {
+                        if (proj.funding && proj.funding.includes('€')) {
+                            return proj.funding.split(' ')[0]; // Get just the amount part
+                        }
+                        return proj.funding;
+                    }).filter(Boolean))].sort();
+                    
+                    fundings.forEach(funding => {
+                        const option = document.createElement('option');
+                        option.value = funding;
+                        option.textContent = funding;
+                        fundingFilter.appendChild(option);
+                    });
+                }
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            new ProjectsPage();
+            
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>
+                            this.applyFilters();
+                        }, 300);
+                    });
+                }
+
+                [statusFilter, areaFilter, fundingFilter].forEach(filter => {
+                    if (filter) {
+                        filter.addEventListener('change', () => this.applyFilters());
+                    }
+                });
+            }
+
             populateFilters() {
                 if (this.data.length === 0) return;
 

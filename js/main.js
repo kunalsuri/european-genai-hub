@@ -516,9 +516,13 @@ class EUGenAIHub {
             [...new Set(this.data.institutions.map(inst => inst.country).filter(Boolean))]);
 
         // Initialize search for this section
-        if (window.searchManager && this.data) {
-            window.searchManager.init();
-        }
+        setTimeout(() => {
+            if (window.searchManager && this.data) {
+                window.searchManager.init();
+            }
+            // Dispatch custom event for search initialization
+            document.dispatchEvent(new CustomEvent('sectionLoaded'));
+        }, 100);
 
         // Reinitialize Lucide icons
         if (typeof lucide !== 'undefined') {
@@ -629,9 +633,13 @@ class EUGenAIHub {
         this.setupProjectSearch();
 
         // Initialize search
-        if (window.searchManager && this.data) {
-            window.searchManager.init();
-        }
+        setTimeout(() => {
+            if (window.searchManager && this.data) {
+                window.searchManager.init();
+            }
+            // Dispatch custom event for search initialization
+            document.dispatchEvent(new CustomEvent('sectionLoaded'));
+        }, 100);
 
         // Reinitialize Lucide icons
         if (typeof lucide !== 'undefined') {
@@ -753,7 +761,7 @@ class EUGenAIHub {
             const technologies = [...new Set(this.data.projects.flatMap(proj => proj.technologies || []))];
             const categories = [...new Set(this.data.projects.map(proj => proj.category).filter(Boolean))];
             const areas = [...new Set([...technologies, ...categories])].sort();
-            
+
             areas.forEach(area => {
                 const option = document.createElement('option');
                 option.value = area;
@@ -803,7 +811,7 @@ class EUGenAIHub {
                 (project.category && project.category.toLowerCase().includes(searchTerm));
 
             const matchesStatus = selectedStatus === 'all' || project.status.toLowerCase() === selectedStatus.toLowerCase();
-            
+
             const matchesArea = selectedArea === 'all' || 
                 (project.technologies && project.technologies.includes(selectedArea)) ||
                 (project.category && project.category.toLowerCase().includes(selectedArea.toLowerCase()));
@@ -865,9 +873,13 @@ class EUGenAIHub {
             [...new Set(this.data.resources.map(res => res.year).filter(Boolean))].sort().reverse());
 
         // Initialize search
-        if (window.searchManager && this.data) {
-            window.searchManager.init();
-        }
+        setTimeout(() => {
+            if (window.searchManager && this.data) {
+                window.searchManager.init();
+            }
+            // Dispatch custom event for search initialization
+            document.dispatchEvent(new CustomEvent('sectionLoaded'));
+        }, 100);
 
         // Reinitialize Lucide icons
         if (typeof lucide !== 'undefined') {
@@ -885,8 +897,7 @@ class EUGenAIHub {
             container.innerHTML = `
                 <div class="empty-state">
                     <i data-lucide="search-x" class="empty-icon"></i>
-                    <h3>No resources found</h3>
-                    <p>Try adjusting your search criteria or browse all resources</p>
+                    <h3>No resources found</h3>                    <p>Try adjusting your search criteria or browse all resources</p>
                     <button class="btn btn-primary" onclick="window.euGenAIHub.renderResourcesGrid()">
                         Show All Resources
                     </button>
@@ -1048,9 +1059,13 @@ class EUGenAIHub {
         this.setupModelsSearch();
 
         // Initialize search
-        if (window.searchManager) {
-            window.searchManager.init();
-        }
+        setTimeout(() => {
+            if (window.searchManager) {
+                window.searchManager.init();
+            }
+            // Dispatch custom event for search initialization
+            document.dispatchEvent(new CustomEvent('sectionLoaded'));
+        }, 100);
 
         // Reinitialize Lucide icons
         if (typeof lucide !== 'undefined') {

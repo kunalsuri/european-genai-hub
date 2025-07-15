@@ -1173,9 +1173,10 @@ class EUGenAIHub {
         const icons = {
             'report': 'file-text',
             'dataset': 'database',
-            'tool': 'wrench',
+            'tool': 'settings',
             'paper': 'scroll',
-            'framework': 'layers'
+            'framework': 'layers',
+            'platform': 'globe'
         };
         return icons[type] || 'file-text';
     }

@@ -177,7 +177,9 @@ class ResearchMap {
             'Athens': { lat: 37.9838, lng: 23.7275 },
             'Dublin': { lat: 53.3498, lng: -6.2603 },
             'Cambridge': { lat: 52.2053, lng: 0.1218 },
-            'London': { lat: 51.5074, lng: -0.1278 }
+            'London': { lat: 51.5074, lng: -0.1278 },
+            'Rocquencourt': { lat: 48.8356, lng: 2.1074 },
+            'Kaiserslautern': { lat: 49.4401, lng: 7.7491 }
         };
 
         // Try to find coordinates by city first, then country

@@ -12,7 +12,8 @@
       "Machine Learning",
       "Robotics"
     ],
-    "website": "https://www.dfki.de"
+    "website": "https://www.dfki.de",
+    "coordinates": [49.4401, 7.7491]
   },
   {
     "name": "INRIA - French National Institute for Research in Digital Science",
@@ -27,7 +28,8 @@
       "Distributed Systems",
       "Data Science"
     ],
-    "website": "https://www.inria.fr"
+    "website": "https://www.inria.fr",
+    "coordinates": [48.8405, 2.0770]
   },
   {
     "name": "University of Cambridge - AI Lab",
@@ -58,7 +60,8 @@
       "Probabilistic Models",
       "AI Safety"
     ],
-    "website": "https://www.ethz.ch"
+    "website": "https://www.ethz.ch",
+    "coordinates": [47.3769, 8.5417]
   },
   {
     "name": "DeepMind London",
@@ -89,7 +92,8 @@
       "Industrial AI",
       "Human-AI Interaction"
     ],
-    "website": "https://www.tum.de"
+    "website": "https://www.tum.de",
+    "coordinates": [48.1351, 11.5820]
   },
   {
     "name": "CWI - Centrum Wiskunde & Informatica",
@@ -104,7 +108,8 @@
       "Algorithms",
       "Data Analytics"
     ],
-    "website": "https://www.cwi.nl"
+    "website": "https://www.cwi.nl",
+    "coordinates": [52.3676, 4.9041]
   },
   {
     "name": "KTH Royal Institute of Technology",
@@ -119,7 +124,8 @@
       "Computer Vision",
       "Digital Twins"
     ],
-    "website": "https://www.kth.se"
+    "website": "https://www.kth.se",
+    "coordinates": [59.3293, 18.0686]
   },
   {
     "name": "EPFL",
@@ -136,9 +142,6 @@
       "Digital Epidemiology"
     ],
     "website": "https://www.epfl.ch",
-    "verified_sources": [
-      "EPFL AI Center home – multidisciplinary hub for AI research and education :contentReference[oaicite:1]{index=1}",
-      "EPFL AI Center research areas cover ML, robotics, health and society :contentReference[oaicite:2]{index=2}"
-    ]
+    "coordinates": [46.5197, 6.6323]
   }
 ]

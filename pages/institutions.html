@@ -278,7 +278,10 @@
 
         // Initialize page when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            new InstitutionsPage();
+            window.institutionsPage = new InstitutionsPage();
+            
+            // Notify search manager that page instance is created
+            window.dispatchEvent(new CustomEvent('pageInstanceCreated'));
         });
     </script>
 </body>

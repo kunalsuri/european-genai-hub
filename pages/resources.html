@@ -359,7 +359,10 @@
 
         // Initialize page when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            new ResourcesPage();
+            window.resourcesPage = new ResourcesPage();
+            
+            // Notify search manager that page instance is created
+            window.dispatchEvent(new CustomEvent('pageInstanceCreated'));
         });
     </script>
 </body>

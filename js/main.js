@@ -791,6 +791,13 @@ class EUGenAIHub {
                 filter.addEventListener('change', () => this.applyProjectFilters());
             }
         });
+
+        // Notify search manager
+        setTimeout(() => {
+            if (window.searchManager) {
+                window.searchManager.init();
+            }
+        }, 100);
     }
 
     applyProjectFilters() {
@@ -1412,7 +1419,7 @@ class EUGenAIHub {
         const icons = {
             'report': 'file-text',
             'dataset': 'database',
-            'tool': 'wrench',
+            'tool': 'settings',
             'paper': 'scroll',
             'framework': 'layers',
             'platform': 'globe',

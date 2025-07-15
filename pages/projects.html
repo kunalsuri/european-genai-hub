@@ -11,7 +11,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/style.css">
-    
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
@@ -205,7 +205,7 @@
 
                     const matchesStatus = selectedStatus === 'all' || 
                         (project.status && project.status.toLowerCase() === selectedStatus.toLowerCase());
-                    
+
                     const matchesArea = selectedArea === 'all' || 
                         (project.technologies && project.technologies.includes(selectedArea)) ||
                         (project.category && project.category.toLowerCase().includes(selectedArea.toLowerCase()));
@@ -389,7 +389,7 @@
                     const technologies = [...new Set(this.data.flatMap(proj => proj.technologies || []))];
                     const categories = [...new Set(this.data.map(proj => proj.category).filter(Boolean))];
                     const areas = [...new Set([...technologies, ...categories])].sort();
-                    
+
                     areas.forEach(area => {
                         const option = document.createElement('option');
                         option.value = area;
@@ -407,7 +407,7 @@
                         }
                         return proj.funding;
                     }).filter(Boolean))].sort();
-                    
+
                     fundings.forEach(funding => {
                         const option = document.createElement('option');
                         option.value = funding;
@@ -420,107 +420,14 @@
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', () => {
-            new ProjectsPage();
-            
+            window.projectsPage = new ProjectsPage();
+
+            // Notify search manager that page instance is created
+            window.dispatchEvent(new CustomEvent('pageInstanceCreated'));
+
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
-        });
-    </script>
-</body>
-</html>
-                            this.applyFilters();
-                        }, 300);
-                    });
-                }
-
-                [statusFilter, areaFilter].forEach(filter => {
-                    if (filter) {
-                        filter.addEventListener('change', () => this.applyFilters());
-                    }
-                });
-            }
-
-            populateFilters() {
-                if (this.data.length === 0) return;
-
-                // Populate research areas filter with technologies and categories
-                const areaFilter = document.getElementById('projects-filter-area');
-                if (areaFilter) {
-                    const technologies = [...new Set(this.data.flatMap(proj => proj.technologies || []))];
-                    const categories = [...new Set(this.data.map(proj => proj.category).filter(Boolean))];
-                    const areas = [...new Set([...technologies, ...categories])].sort();
-
-                    areas.forEach(area => {
-                        const option = document.createElement('option');
-                        option.value = area;
-                        option.textContent = area;
-                        areaFilter.appendChild(option);
-                    });
-                }
-            }
-
-            applyFilters() {
-                const searchInput = document.getElementById('projects-search');
-                const statusFilter = document.getElementById('projects-filter-status');
-                const areaFilter = document.getElementById('projects-filter-area');
-
-                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
-                const selectedStatus = statusFilter ? statusFilter.value : 'all';
-                const selectedArea = areaFilter ? areaFilter.value : 'all';
-
-                const filteredData = this.data.filter(project => {
-                    const matchesSearch = !searchTerm || 
-                        (project.title && project.title.toLowerCase().includes(searchTerm)) ||
-                        (project.description && project.description.toLowerCase().includes(searchTerm)) ||
-                        (project.technologies && project.technologies.some(tech => tech.toLowerCase().includes(searchTerm))) ||
-                        (project.participants && project.participants.some(participant => participant.toLowerCase().includes(searchTerm))) ||
-                        (project.category && project.category.toLowerCase().includes(searchTerm));
-
-                    const matchesStatus = selectedStatus === 'all' || 
-                        (project.status && project.status.toLowerCase() === selectedStatus.toLowerCase());
-
-                    const matchesArea = selectedArea === 'all' || 
-                        (project.technologies && project.technologies.includes(selectedArea)) ||
-                        (project.category && project.category.toLowerCase().includes(selectedArea.toLowerCase()));
-
-                    return matchesSearch && matchesStatus && matchesArea;
-                });
-
-                this.renderProjectsGrid(filteredData);
-            }
-
-            showError() {
-                const container = document.getElementById('projects-grid');
-                if (container) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <h3>Loading Error</h3>
-                            <p>Unable to load research projects data. Please refresh the page to try again.</p>
-                            <button onclick="location.reload()" class="btn btn-primary" style="margin-top: 1rem;">
-                                Refresh Page
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-
-            escapeHtml(text) {
-                if (typeof text !== 'string') return text || '';
-                const div = document.createElement('div');
-                div.textContent = text;
-                return div.innerHTML;
-            }
-
-            formatNumber(num) {
-                if (typeof num !== 'number') return num;
-                return num.toLocaleString();
-            }
-        }
-
-        // Initialize page when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new ProjectsPage();
         });
     </script>
 </body>

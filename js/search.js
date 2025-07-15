@@ -1,4 +1,5 @@
-// Search functionality with security and performance improvements
+
+// Enhanced Search functionality with comprehensive error handling
 'use strict';
 
 class SearchManager {
@@ -7,6 +8,7 @@ class SearchManager {
         this.isDestroyed = false;
         this.searchCache = new Map();
         this.maxCacheSize = 50;
+        this.activeFilters = {};
     }
 
     init() {
@@ -14,6 +16,7 @@ class SearchManager {
         
         this.setupSearchInputs();
         this.setupFilters();
+        this.setupGlobalSearch();
     }
 
     setupSearchInputs() {
@@ -22,24 +25,13 @@ class SearchManager {
         searchInputs.forEach(input => {
             if (!input) return;
             
-            // Sanitize input value on change
-            input.addEventListener('input', (e) => {
-                const value = this.sanitizeInput(e.target.value);
-                if (value !== e.target.value) {
-                    e.target.value = value;
-                }
-                this.handleSearch(e);
-            });
+            // Remove existing listeners to prevent duplicates
+            input.removeEventListener('input', this.handleSearchInput);
+            input.removeEventListener('paste', this.handleSearchPaste);
             
-            // Prevent XSS in search inputs
-            input.addEventListener('paste', (e) => {
-                setTimeout(() => {
-                    const sanitized = this.sanitizeInput(e.target.value);
-                    if (sanitized !== e.target.value) {
-                        e.target.value = sanitized;
-                    }
-                }, 0);
-            });
+            // Add new listeners
+            input.addEventListener('input', (e) => this.handleSearchInput(e));
+            input.addEventListener('paste', (e) => this.handleSearchPaste(e));
         });
     }
 
@@ -49,19 +41,81 @@ class SearchManager {
         filterSelects.forEach(select => {
             if (!select) return;
             
-            select.addEventListener('change', (e) => {
-                // Validate filter value against allowed options
-                const selectedValue = e.target.value;
-                const validOptions = Array.from(e.target.options).map(opt => opt.value);
-                
-                if (!validOptions.includes(selectedValue)) {
-                    e.target.value = '';
-                    return;
-                }
-                
-                this.handleFilter(e);
+            select.removeEventListener('change', this.handleFilterChange);
+            select.addEventListener('change', (e) => this.handleFilterChange(e));
+        });
+    }
+
+    setupGlobalSearch() {
+        // Add global search functionality for standalone pages
+        if (window.location.pathname.includes('/pages/')) {
+            this.initStandalonePageSearch();
+        }
+    }
+
+    initStandalonePageSearch() {
+        const pageName = this.getPageNameFromUrl();
+        if (!pageName) return;
+
+        // Initialize search for specific page type
+        setTimeout(() => {
+            this.setupPageSpecificSearch(pageName);
+        }, 500);
+    }
+
+    getPageNameFromUrl() {
+        const path = window.location.pathname;
+        if (path.includes('institutions')) return 'institutions';
+        if (path.includes('projects')) return 'projects';
+        if (path.includes('resources')) return 'resources';
+        if (path.includes('models')) return 'models';
+        return null;
+    }
+
+    setupPageSpecificSearch(pageType) {
+        const searchInput = document.getElementById(`${pageType}-search`);
+        const filters = document.querySelectorAll(`select[id*="${pageType}-filter"]`);
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                this.handlePageSearch(e, pageType);
+            });
+        }
+
+        filters.forEach(filter => {
+            filter.addEventListener('change', (e) => {
+                this.handlePageFilter(e, pageType);
             });
         });
+    }
+
+    handleSearchInput(e) {
+        const value = this.sanitizeInput(e.target.value);
+        if (value !== e.target.value) {
+            e.target.value = value;
+        }
+        this.handleSearch(e);
+    }
+
+    handleSearchPaste(e) {
+        setTimeout(() => {
+            const sanitized = this.sanitizeInput(e.target.value);
+            if (sanitized !== e.target.value) {
+                e.target.value = sanitized;
+            }
+        }, 0);
+    }
+
+    handleFilterChange(e) {
+        const selectedValue = e.target.value;
+        const validOptions = Array.from(e.target.options).map(opt => opt.value);
+        
+        if (!validOptions.includes(selectedValue)) {
+            e.target.value = 'all';
+            return;
+        }
+        
+        this.handleFilter(e);
     }
 
     handleSearch(event) {
@@ -70,7 +124,6 @@ class SearchManager {
         const query = this.sanitizeInput(event.target.value.trim());
         const sectionType = this.getSectionTypeFromInput(event.target);
         
-        // Debounce search for performance
         clearTimeout(this.debounceTimer);
         this.debounceTimer = setTimeout(() => {
             this.performSearch(query, sectionType);
@@ -82,46 +135,98 @@ class SearchManager {
         
         const filterValue = event.target.value;
         const sectionType = this.getSectionTypeFromInput(event.target);
+        const filterType = this.getFilterTypeFromInput(event.target);
         
-        this.performFilter(filterValue, sectionType);
+        // Store active filter
+        if (!this.activeFilters[sectionType]) {
+            this.activeFilters[sectionType] = {};
+        }
+        this.activeFilters[sectionType][filterType] = filterValue;
+        
+        this.performFilter(sectionType);
+    }
+
+    handlePageSearch(event, pageType) {
+        const query = this.sanitizeInput(event.target.value.trim());
+        
+        clearTimeout(this.debounceTimer);
+        this.debounceTimer = setTimeout(() => {
+            this.performPageSearch(query, pageType);
+        }, 300);
+    }
+
+    handlePageFilter(event, pageType) {
+        const filterValue = event.target.value;
+        const filterType = this.getFilterTypeFromInput(event.target);
+        
+        if (!this.activeFilters[pageType]) {
+            this.activeFilters[pageType] = {};
+        }
+        this.activeFilters[pageType][filterType] = filterValue;
+        
+        this.performPageFilter(pageType);
     }
 
     performSearch(query, sectionType) {
-        if (!window.euGenAIHub || !window.euGenAIHub.data) return;
-        
-        const cacheKey = `${sectionType}-${query}`;
-        
-        // Check cache first
-        if (this.searchCache.has(cacheKey)) {
-            this.displayResults(this.searchCache.get(cacheKey), sectionType);
-            return;
+        // Handle main app search
+        if (window.euGenAIHub && window.euGenAIHub.data) {
+            const data = window.euGenAIHub.data[sectionType];
+            if (!data) return;
+            
+            const results = this.filterData(data, query);
+            this.displayResults(results, sectionType);
         }
-        
-        const data = window.euGenAIHub.data[sectionType];
-        if (!data) return;
-        
-        const results = this.filterData(data, query);
-        
-        // Cache results
-        this.cacheResults(cacheKey, results);
-        this.displayResults(results, sectionType);
     }
 
-    performFilter(filterValue, sectionType) {
-        if (!window.euGenAIHub || !window.euGenAIHub.data) return;
-        
-        const data = window.euGenAIHub.data[sectionType];
-        if (!data) return;
-        
-        const results = filterValue ? 
-            data.filter(item => this.matchesFilter(item, filterValue)) : 
-            data;
-        
-        this.displayResults(results, sectionType);
+    performFilter(sectionType) {
+        // Handle main app filtering
+        if (window.euGenAIHub && window.euGenAIHub.data) {
+            const data = window.euGenAIHub.data[sectionType];
+            if (!data) return;
+            
+            const searchInput = document.getElementById(`${sectionType}-search`);
+            const searchQuery = searchInput ? searchInput.value.trim() : '';
+            
+            let results = this.filterData(data, searchQuery);
+            results = this.applyFilters(results, sectionType);
+            
+            this.displayResults(results, sectionType);
+        }
+    }
+
+    performPageSearch(query, pageType) {
+        // Handle standalone page search
+        const pageInstance = this.getPageInstance(pageType);
+        if (pageInstance && pageInstance.data) {
+            const results = this.filterData(pageInstance.data, query);
+            this.displayPageResults(results, pageType, pageInstance);
+        }
+    }
+
+    performPageFilter(pageType) {
+        // Handle standalone page filtering
+        const pageInstance = this.getPageInstance(pageType);
+        if (pageInstance && pageInstance.data) {
+            const searchInput = document.getElementById(`${pageType}-search`);
+            const searchQuery = searchInput ? searchInput.value.trim() : '';
+            
+            let results = this.filterData(pageInstance.data, searchQuery);
+            results = this.applyFilters(results, pageType);
+            
+            this.displayPageResults(results, pageType, pageInstance);
+        }
+    }
+
+    getPageInstance(pageType) {
+        // Get the page instance from global scope
+        if (window.institutionsPage && pageType === 'institutions') return window.institutionsPage;
+        if (window.projectsPage && pageType === 'projects') return window.projectsPage;
+        if (window.resourcesPage && pageType === 'resources') return window.resourcesPage;
+        return null;
     }
 
     filterData(data, query) {
-        if (!query) return data;
+        if (!query || !Array.isArray(data)) return data;
         
         const queryLower = query.toLowerCase();
         
@@ -133,153 +238,113 @@ class SearchManager {
         });
     }
 
+    applyFilters(data, sectionType) {
+        const filters = this.activeFilters[sectionType];
+        if (!filters) return data;
+        
+        return data.filter(item => {
+            return Object.entries(filters).every(([filterType, filterValue]) => {
+                if (filterValue === 'all') return true;
+                
+                switch (filterType) {
+                    case 'country':
+                        return item.country === filterValue;
+                    case 'type':
+                        return item.type === filterValue;
+                    case 'status':
+                        return item.status === filterValue;
+                    case 'area':
+                        return this.matchesArea(item, filterValue);
+                    case 'year':
+                        return item.year && item.year.toString() === filterValue;
+                    case 'access':
+                        return item.access_type === filterValue;
+                    default:
+                        return true;
+                }
+            });
+        });
+    }
+
+    matchesArea(item, filterValue) {
+        const areas = [
+            ...(item.research_areas || []),
+            ...(item.technologies || []),
+            item.category
+        ].filter(Boolean);
+        
+        return areas.some(area => 
+            area.toLowerCase().includes(filterValue.toLowerCase()) ||
+            filterValue.toLowerCase().includes(area.toLowerCase())
+        );
+    }
+
     getSearchFields(item) {
-        // Extract searchable fields from different item types
         const fields = [];
         
-        if (item.name) fields.push(item.name);
-        if (item.title) fields.push(item.title);
-        if (item.project_name) fields.push(item.project_name);
-        if (item.description) fields.push(item.description);
-        if (item.country) fields.push(item.country);
-        if (item.city) fields.push(item.city);
-        if (item.type) fields.push(item.type);
-        if (item.area) fields.push(item.area);
-        if (item.status) fields.push(item.status);
-        if (item.institution) fields.push(item.institution);
-        if (item.funding) fields.push(item.funding);
-        if (item.category) fields.push(item.category);
+        // Basic fields
+        ['name', 'title', 'project_name', 'description', 'country', 'city', 'type', 'area', 'status', 'institution', 'funding', 'category'].forEach(field => {
+            if (item[field]) fields.push(item[field]);
+        });
         
-        // Handle arrays
-        if (Array.isArray(item.key_partners)) fields.push(...item.key_partners);
-        if (Array.isArray(item.models_developed)) fields.push(...item.models_developed);
-        if (Array.isArray(item.technologies)) fields.push(...item.technologies);
-        if (Array.isArray(item.participants)) fields.push(...item.participants);
-        if (Array.isArray(item.keywords)) fields.push(...item.keywords);
-        if (Array.isArray(item.research_areas)) fields.push(...item.research_areas);
-        if (Array.isArray(item.authors)) fields.push(...item.authors);
-        if (Array.isArray(item.languages)) fields.push(...item.languages);
+        // Array fields
+        ['key_partners', 'models_developed', 'technologies', 'participants', 'keywords', 'research_areas', 'authors', 'languages'].forEach(field => {
+            if (Array.isArray(item[field])) {
+                fields.push(...item[field]);
+            }
+        });
         
         return fields.filter(field => typeof field === 'string');
     }
 
-    matchesFilter(item, filterValue) {
-        // Generic filter matching logic
-        return Object.values(item).some(value => {
-            if (Array.isArray(value)) {
-                return value.includes(filterValue);
-            }
-            return value === filterValue;
-        });
-    }
-
     displayResults(results, sectionType) {
-        // Update the data in the main app
         if (window.euGenAIHub) {
-            // For models, we need to update the table directly
-            if (sectionType === 'models') {
-                window.euGenAIHub.updateModelsTable(results);
-            } else {
-                // Re-render the section with filtered data
-                switch(sectionType) {
-                    case 'institutions':
+            switch(sectionType) {
+                case 'institutions':
+                    if (window.euGenAIHub.renderInstitutionsGrid) {
                         window.euGenAIHub.renderInstitutionsGrid(results);
-                        break;
-                    case 'projects':
+                    }
+                    break;
+                case 'projects':
+                    if (window.euGenAIHub.renderProjectsGrid) {
                         window.euGenAIHub.renderProjectsGrid(results);
-                        break;
-                    case 'resources':
+                    }
+                    break;
+                case 'resources':
+                    if (window.euGenAIHub.renderResourcesGrid) {
                         window.euGenAIHub.renderResourcesGrid(results);
-                        break;
-                }
+                    }
+                    break;
+                case 'models':
+                    if (window.euGenAIHub.updateModelsTable) {
+                        window.euGenAIHub.updateModelsTable(results);
+                    }
+                    break;
             }
         }
     }
 
-    updateModelsTable(models) {
-        const tbody = document.getElementById('models-table-body');
-        if (!tbody || !window.euGenAIHub) return;
-
-        if (!Array.isArray(models) || models.length === 0) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="8" class="table-empty">
-                        <div class="empty-state">
-                            <i data-lucide="search-x" class="empty-icon"></i>
-                            <h3>No models found</h3>
-                            <p>Try adjusting your search or filter criteria</p>
-                        </div>
-                    </td>
-                </tr>
-            `;
-            return;
-        }
-
-        tbody.innerHTML = models.map(model => `
-            <tr class="table-row">
-                <td class="table-cell">
-                    <div class="table-cell-main">${window.euGenAIHub.escapeHtml(model.project_name || 'Unknown')}</div>
-                    <div class="table-cell-sub">${window.euGenAIHub.escapeHtml(model.year || 'Unknown')}</div>
-                </td>
-                <td class="table-cell">
-                    <span class="table-badge table-badge-${window.euGenAIHub.getModelTypeColor(model.model_type)}">
-                        ${window.euGenAIHub.escapeHtml(model.model_type || 'Unknown')}
-                    </span>
-                </td>
-                <td class="table-cell">
-                    <div class="table-tags">
-                        ${Array.isArray(model.models_developed) ? 
-                            model.models_developed.slice(0, 2).map(modelName => 
-                                `<span class="table-tag">${window.euGenAIHub.escapeHtml(modelName)}</span>`
-                            ).join('') : ''
-                        }
-                        ${Array.isArray(model.models_developed) && model.models_developed.length > 2 ? 
-                            `<span class="table-tag">+${model.models_developed.length - 2}</span>` : ''
-                        }
-                    </div>
-                </td>
-                <td class="table-cell">
-                    <div class="table-cell-content">
-                        ${Array.isArray(model.key_partners) ? 
-                            model.key_partners.slice(0, 2).map(partner => window.euGenAIHub.escapeHtml(partner)).join(', ') : 'Unknown'
-                        }
-                        ${Array.isArray(model.key_partners) && model.key_partners.length > 2 ? 
-                            `<br><span class="table-cell-sub">+${model.key_partners.length - 2} more</span>` : ''
-                        }
-                    </div>
-                </td>
-                <td class="table-cell">
-                    <div class="table-cell-main">${window.euGenAIHub.escapeHtml(model.funding || 'N/A')}</div>
-                </td>
-                <td class="table-cell">
-                    <span class="table-badge table-badge-${window.euGenAIHub.getStatusColor(model.status)}">
-                        ${window.euGenAIHub.escapeHtml(model.status || 'Unknown')}
-                    </span>
-                </td>
-                <td class="table-cell">
-                    <div class="table-cell-content">
-                        ${Array.isArray(model.languages) ? 
-                            model.languages.slice(0, 2).map(lang => window.euGenAIHub.escapeHtml(lang)).join(', ') : 'N/A'
-                        }
-                        ${Array.isArray(model.languages) && model.languages.length > 2 ? 
-                            `<br><span class="table-cell-sub">+${model.languages.length - 2} more</span>` : ''
-                        }
-                    </div>
-                </td>
-                <td class="table-cell">
-                    ${model.url ? `
-                        <a href="${window.euGenAIHub.sanitizeUrl(model.url)}" target="_blank" rel="noopener noreferrer"
-                           class="table-link">
-                            <i data-lucide="external-link"></i>
-                        </a>
-                    ` : '<span class="table-cell-sub">N/A</span>'}
-                </td>
-            </tr>
-        `).join('');
-
-        // Reinitialize Lucide icons
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
+    displayPageResults(results, pageType, pageInstance) {
+        try {
+            switch(pageType) {
+                case 'institutions':
+                    if (pageInstance.renderInstitutions) {
+                        pageInstance.renderInstitutions(results);
+                    }
+                    break;
+                case 'projects':
+                    if (pageInstance.renderProjectsGrid) {
+                        pageInstance.renderProjectsGrid(results);
+                    }
+                    break;
+                case 'resources':
+                    if (pageInstance.renderResources) {
+                        pageInstance.renderResources(results);
+                    }
+                    break;
+            }
+        } catch (error) {
+            console.error(`Error displaying ${pageType} results:`, error);
         }
     }
 
@@ -289,42 +354,42 @@ class SearchManager {
         if (id.includes('projects')) return 'projects';
         if (id.includes('resources')) return 'resources';
         if (id.includes('models')) return 'models';
-        if (id.includes('news')) return 'news';
-        return 'institutions'; // default
+        return 'institutions';
+    }
+
+    getFilterTypeFromInput(input) {
+        const id = input.id;
+        if (id.includes('country')) return 'country';
+        if (id.includes('type')) return 'type';
+        if (id.includes('status')) return 'status';
+        if (id.includes('area')) return 'area';
+        if (id.includes('year')) return 'year';
+        if (id.includes('access')) return 'access';
+        return 'type';
     }
 
     sanitizeInput(input) {
         if (typeof input !== 'string') return '';
         
-        // Remove potentially dangerous characters
         return input
-            .replace(/[<>]/g, '') // Remove HTML brackets
-            .replace(/['"]/g, '') // Remove quotes
-            .replace(/javascript:/gi, '') // Remove javascript: protocol
-            .replace(/on\w+=/gi, '') // Remove event handlers
+            .replace(/[<>]/g, '')
+            .replace(/['"]/g, '')
+            .replace(/javascript:/gi, '')
+            .replace(/on\w+=/gi, '')
             .trim()
-            .substring(0, 100); // Limit length
-    }
-
-    cacheResults(key, results) {
-        // Implement LRU cache
-        if (this.searchCache.size >= this.maxCacheSize) {
-            const firstKey = this.searchCache.keys().next().value;
-            this.searchCache.delete(firstKey);
-        }
-        this.searchCache.set(key, results);
+            .substring(0, 100);
     }
 
     destroy() {
         this.isDestroyed = true;
         clearTimeout(this.debounceTimer);
         this.searchCache.clear();
+        this.activeFilters = {};
     }
 }
 
-// Initialize search manager when DOM is ready
+// Initialize search manager
 document.addEventListener('DOMContentLoaded', () => {
-    // Delay initialization to ensure all components are loaded
     setTimeout(() => {
         if (!window.searchManager) {
             window.searchManager = new SearchManager();
@@ -333,8 +398,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
 });
 
-// Re-initialize when new sections are loaded
+// Re-initialize when sections are loaded
 document.addEventListener('sectionLoaded', () => {
+    if (window.searchManager) {
+        window.searchManager.init();
+    }
+});
+
+// Re-initialize when page instances are created
+window.addEventListener('pageInstanceCreated', () => {
     if (window.searchManager) {
         window.searchManager.init();
     }

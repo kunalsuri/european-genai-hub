@@ -248,10 +248,11 @@
                         resource.title.toLowerCase().includes(searchTerm) ||
                         (resource.description && resource.description.toLowerCase().includes(searchTerm)) ||
                         (resource.authors && resource.authors.some(author => author.toLowerCase().includes(searchTerm))) ||
-                        (resource.keywords && resource.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm)));
+                        (resource.keywords && resource.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm))) ||
+                        (resource.institution && resource.institution.toLowerCase().includes(searchTerm));
 
                     const matchesType = selectedType === 'all' || resource.type === selectedType;
-                    const matchesYear = selectedYear === 'all' || resource.year === selectedYear;
+                    const matchesYear = selectedYear === 'all' || resource.year.toString() === selectedYear;
                     const matchesAccess = selectedAccess === 'all' || resource.access_type === selectedAccess;
 
                     return matchesSearch && matchesType && matchesYear && matchesAccess;

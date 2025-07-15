@@ -1045,11 +1045,147 @@ class EUGenAIHub {
         `;
 
         this.renderModelsTable();
+        this.setupModelsSearch();
 
         // Initialize search
         if (window.searchManager) {
             window.searchManager.init();
         }
+
+        // Reinitialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    setupModelsSearch() {
+        const searchInput = document.getElementById('models-search');
+        const typeFilter = document.getElementById('models-filter-type');
+        const statusFilter = document.getElementById('models-filter-status');
+
+        if (searchInput) {
+            let searchTimeout;
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    this.applyModelsFilters();
+                }, 300);
+            });
+        }
+
+        [typeFilter, statusFilter].forEach(filter => {
+            if (filter) {
+                filter.addEventListener('change', () => this.applyModelsFilters());
+            }
+        });
+    }
+
+    applyModelsFilters() {
+        const searchInput = document.getElementById('models-search');
+        const typeFilter = document.getElementById('models-filter-type');
+        const statusFilter = document.getElementById('models-filter-status');
+
+        const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        const selectedType = typeFilter ? typeFilter.value : 'all';
+        const selectedStatus = statusFilter ? statusFilter.value : 'all';
+
+        const filteredData = this.data.models.filter(model => {
+            const matchesSearch = !searchTerm || 
+                (model.project_name && model.project_name.toLowerCase().includes(searchTerm)) ||
+                (model.models_developed && model.models_developed.some(m => m.toLowerCase().includes(searchTerm))) ||
+                (model.key_partners && model.key_partners.some(p => p.toLowerCase().includes(searchTerm))) ||
+                (model.languages && model.languages.some(l => l.toLowerCase().includes(searchTerm)));
+
+            const matchesType = selectedType === 'all' || model.model_type === selectedType;
+            const matchesStatus = selectedStatus === 'all' || model.status.toLowerCase() === selectedStatus.toLowerCase();
+
+            return matchesSearch && matchesType && matchesStatus;
+        });
+
+        this.updateModelsTable(filteredData);
+    }
+
+    updateModelsTable(models) {
+        const tbody = document.getElementById('models-table-body');
+        if (!tbody) return;
+
+        if (!Array.isArray(models) || models.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="table-empty">
+                        <div class="empty-state">
+                            <i data-lucide="search-x" class="empty-icon"></i>
+                            <h3>No models found</h3>
+                            <p>Try adjusting your search or filter criteria</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = models.map(model => `
+            <tr class="table-row">
+                <td class="table-cell">
+                    <div class="table-cell-main">${this.escapeHtml(model.project_name || 'Unknown')}</div>
+                    <div class="table-cell-sub">${this.escapeHtml(model.year || 'Unknown')}</div>
+                </td>
+                <td class="table-cell">
+                    <span class="table-badge table-badge-${this.getModelTypeColor(model.model_type)}">
+                        ${this.escapeHtml(model.model_type || 'Unknown')}
+                    </span>
+                </td>
+                <td class="table-cell">
+                    <div class="table-tags">
+                        ${Array.isArray(model.models_developed) ? 
+                            model.models_developed.slice(0, 2).map(modelName => 
+                                `<span class="table-tag">${this.escapeHtml(modelName)}</span>`
+                            ).join('') : ''
+                        }
+                        ${Array.isArray(model.models_developed) && model.models_developed.length > 2 ? 
+                            `<span class="table-tag">+${model.models_developed.length - 2}</span>` : ''
+                        }
+                    </div>
+                </td>
+                <td class="table-cell">
+                    <div class="table-cell-content">
+                        ${Array.isArray(model.key_partners) ? 
+                            model.key_partners.slice(0, 2).map(partner => this.escapeHtml(partner)).join(', ') : 'Unknown'
+                        }
+                        ${Array.isArray(model.key_partners) && model.key_partners.length > 2 ? 
+                            `<br><span class="table-cell-sub">+${model.key_partners.length - 2} more</span>` : ''
+                        }
+                    </div>
+                </td>
+                <td class="table-cell">
+                    <div class="table-cell-main">${this.escapeHtml(model.funding || 'N/A')}</div>
+                </td>
+                <td class="table-cell">
+                    <span class="table-badge table-badge-${this.getStatusColor(model.status)}">
+                        ${this.escapeHtml(model.status || 'Unknown')}
+                    </span>
+                </td>
+                <td class="table-cell">
+                    <div class="table-cell-content">
+                        ${Array.isArray(model.languages) ? 
+                            model.languages.slice(0, 3).join(', ') : 'Unknown'
+                        }
+                        ${Array.isArray(model.languages) && model.languages.length > 3 ? 
+                            `<br><span class="table-cell-sub">+${model.languages.length - 3} more</span>` : ''
+                        }
+                    </div>
+                </td>
+                <td class="table-cell">
+                    ${model.url ? `
+                        <a href="${this.sanitizeUrl(model.url)}" target="_blank" rel="noopener noreferrer"
+                           class="table-link">
+                            <i data-lucide="external-link"></i>
+                            View
+                        </a>
+                    ` : ''}
+                </td>
+            </tr>
+        `).join('');
 
         // Reinitialize Lucide icons
         if (typeof lucide !== 'undefined') {

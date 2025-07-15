@@ -168,6 +168,9 @@
                     
                     searchInput.addEventListener('input', handleSearchInput);
                     searchInput.addEventListener('keyup', handleSearchInput);
+                    searchInput.addEventListener('paste', (e) => {
+                        setTimeout(() => handleSearchInput(e), 0);
+                    });
                 }
 
                 [countryFilter, typeFilter].forEach(filter => {
@@ -195,7 +198,7 @@
                 const countryFilter = document.getElementById('institutions-filter-country');
                 const typeFilter = document.getElementById('institutions-filter-type');
 
-                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim().substring(0, 100) : '';
                 const selectedCountry = countryFilter ? countryFilter.value : 'all';
                 const selectedType = typeFilter ? typeFilter.value : 'all';
 
@@ -294,9 +297,6 @@
         // Initialize page when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             window.institutionsPage = new InstitutionsPage();
-            
-            // Notify search manager that page instance is created
-            window.dispatchEvent(new CustomEvent('pageInstanceCreated'));
         });
     </script>
 </body>

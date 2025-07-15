@@ -5,7 +5,7 @@
 
 ![European Union Flag](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/100px-Flag_of_Europe.svg.png)
 
-**European Generative AI Research Portal**
+**European Generative AI Research Space**
 
 *A comprehensive hub for exploring and accessing the latest knowledge on Generative AI research and innovation across the European Union*
 
@@ -98,7 +98,6 @@ Access research resources including:
 ## 🔧 Features
 
 - **🔍 Universal Search**: Advanced search across all content types with filters
-- **🗺️ Interactive Map**: Geographic visualization of institutions
 - **📊 Statistics Dashboard**: Real-time metrics and data insights
 - **📱 Mobile Responsive**: Optimized for all device sizes
 - **⚡ Fast Performance**: Optimized loading and search performance

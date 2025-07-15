@@ -22,6 +22,12 @@ class UniversalSearchManager {
     init(pageType, dataSource, renderCallback) {
         if (this.isDestroyed) return;
         
+        // Prevent duplicate initialization
+        if (this.pageType === pageType && this.dataSource === dataSource) {
+            console.log(`Search already initialized for ${pageType}`);
+            return;
+        }
+        
         this.pageType = pageType;
         this.dataSource = dataSource;
         this.renderCallback = renderCallback;
@@ -215,9 +221,13 @@ class UniversalSearchManager {
         switch (this.pageType) {
             case 'institutions':
                 return [
-                    ...baseFields,
+                    item.name || '',
+                    item.description || '',
+                    item.country || '',
+                    item.city || '',
                     item.type || '',
-                    ...keywordFields
+                    item.focus || '',
+                    ...(item.research_areas || [])
                 ];
             case 'projects':
                 return [

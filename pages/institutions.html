@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,32 +122,38 @@
     <!-- Scripts -->
     <script src="../js/search-utility.js"></script>
     <script>
+        let institutionsData = [];
+        let isSearchInitialized = false;
+
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize Lucide icons
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
             
-            // Initialize page-specific functionality
+            // Load institutions data
             loadInstitutionsData();
         });
 
         async function loadInstitutionsData() {
             try {
                 const response = await fetch('../data/institutions.json');
-                const institutions = await response.json();
+                institutionsData = await response.json();
                 
-                // Populate filter options first
-                populateCountryFilter(institutions);
+                console.log('Loaded institutions data:', institutionsData.length, 'items');
                 
-                // Initialize search with universal search utility
-                if (window.universalSearch) {
-                    console.log('Initializing search for institutions with', institutions.length, 'items');
-                    window.universalSearch.init('institutions', institutions, renderInstitutions);
-                }
+                // Populate filter options
+                populateCountryFilter(institutionsData);
                 
                 // Render initial data
-                renderInstitutions(institutions);
+                renderInstitutions(institutionsData);
+                
+                // Initialize search only once
+                if (!isSearchInitialized && window.universalSearch) {
+                    window.universalSearch.init('institutions', institutionsData, renderInstitutions);
+                    isSearchInitialized = true;
+                    console.log('Search initialized for institutions');
+                }
                 
             } catch (error) {
                 console.error('Error loading institutions data:', error);
@@ -208,20 +215,19 @@
             const countryFilter = document.getElementById('institutions-filter-country');
             if (!countryFilter) return;
 
+            // Get unique countries
             const countries = [...new Set(institutions.map(inst => inst.country).filter(Boolean))].sort();
-            console.log('Available countries:', countries);
             
+            // Clear existing options except "All Countries"
+            countryFilter.innerHTML = '<option value="all">All Countries</option>';
+            
+            // Add country options
             countries.forEach(country => {
                 const option = document.createElement('option');
                 option.value = country;
                 option.textContent = country;
                 countryFilter.appendChild(option);
             });
-            
-            // Also populate the search utility with the filter options
-            if (window.universalSearch) {
-                window.universalSearch.populateFilterOptions('institutions-filter-country', countries);
-            }
         }
     </script>
 </body>

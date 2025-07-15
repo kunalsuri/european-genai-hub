@@ -137,9 +137,6 @@ class EUGenAIHub {
                 case 'resources':
                     this.renderResources();
                     break;
-                case 'news':
-                    this.renderNews();
-                    break;
             }
         } catch (error) {
             console.error(`Error loading ${sectionName} content:`, error);
@@ -157,7 +154,11 @@ class EUGenAIHub {
             countries: new Set(this.data.institutions.map(inst => inst.country)).size
         };
 
+        // Calculate total resources for AIOD-style display
+        const totalResources = stats.institutions + stats.projects + stats.resources;
+
         // Animate counters
+        this.animateCounter('total-resources-count', totalResources);
         this.animateCounter('institutions-count', stats.institutions);
         this.animateCounter('projects-count', stats.projects);
         this.animateCounter('resources-count', stats.resources);
@@ -354,73 +355,98 @@ class EUGenAIHub {
         }
 
         container.innerHTML = this.data.resources.map(resource => `
-            <div class="content-card fade-in">
-                <h3>${this.escapeHtml(resource.title)}</h3>
-                <div class="meta">
-                    <strong>Type:</strong> <span class="tag primary">${this.escapeHtml(resource.type)}</span><br>
-                    <strong>Year:</strong> ${this.escapeHtml(resource.year)}<br>
-                    <strong>Authors:</strong> ${resource.authors.map(author => 
-                        this.escapeHtml(author)
-                    ).join(', ')}
-                </div>
-                <p>${this.escapeHtml(resource.description)}</p>
-                <div class="tags">
-                    ${resource.keywords.map(keyword => 
-                        `<span class="tag">${this.escapeHtml(keyword)}</span>`
-                    ).join('')}
-                </div>
-                ${resource.url ? `
-                    <div style="margin-top: 1rem;">
-                        <a href="${this.escapeHtml(resource.url)}" target="_blank" class="btn btn-primary">
-                            Access Resource
-                        </a>
+            <div class="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 overflow-hidden">
+                <div class="p-8">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-accent-purple to-accent-pink rounded-xl flex items-center justify-center">
+                                    <i data-lucide="${this.getResourceIcon(resource.type)}" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <span class="px-3 py-1 bg-${this.getTypeColor(resource.type)}/10 text-${this.getTypeColor(resource.type)} text-sm font-semibold rounded-full">
+                                    ${resource.type}
+                                </span>
+                            </div>
+                            <h3 class="text-2xl font-space font-bold text-slate-900 mb-4 leading-tight">
+                                ${this.escapeHtml(resource.title)}
+                            </h3>
+                        </div>
                     </div>
-                ` : ''}
+
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="flex items-center text-slate-600">
+                            <i data-lucide="calendar" class="w-4 h-4 mr-2"></i>
+                            <span class="text-sm">${resource.year}</span>
+                        </div>
+                        <div class="flex items-center text-slate-600">
+                            <i data-lucide="building" class="w-4 h-4 mr-2"></i>
+                            <span class="text-sm">${this.escapeHtml(resource.institution)}</span>
+                        </div>
+                    </div>
+
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        ${this.escapeHtml(resource.description)}
+                    </p>
+
+                    ${resource.keywords ? `
+                        <div class="mb-6">
+                            <h4 class="text-sm font-semibold text-slate-700 mb-3">Keywords</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${resource.keywords.slice(0, 3).map(keyword => 
+                                    `<span class="px-3 py-1 bg-accent-cyan/10 text-accent-cyan text-xs font-medium rounded-full">
+                                        ${this.escapeHtml(keyword)}
+                                    </span>`
+                                ).join('')}
+                                ${resource.keywords.length > 3 ? 
+                                    `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
+                                        +${resource.keywords.length - 3} more
+                                    </span>` : ''
+                                }
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${resource.authors ? `
+                        <div class="pt-6 border-t border-slate-100">
+                            <h4 class="text-sm font-semibold text-slate-700 mb-3">Authors</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${resource.authors.slice(0, 3).map(author => 
+                                    `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg">
+                                        ${this.escapeHtml(author)}
+                                    </span>`
+                                ).join('')}
+                                ${resource.authors.length > 3 ? 
+                                    `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg">
+                                        +${resource.authors.length - 3} more
+                                    </span>` : ''
+                                }
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${resource.url ? `
+                        <div class="mt-6">
+                            <a href="${this.escapeHtml(resource.url)}" target="_blank" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-eu-blue to-accent-purple text-white font-medium rounded-lg hover:shadow-lg transition-all duration-300">
+                                <i data-lucide="external-link" class="w-4 h-4 mr-2"></i>
+                                Access Resource
+                            </a>
+                        </div>
+                    ` : ''}
+                </div>
             </div>
         `).join('');
+        
+        // Reinitialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
 
         // Populate filter options
         this.populateFilterOptions('resources-filter-year', 
             [...new Set(this.data.resources.map(res => res.year))].sort().reverse());
     }
 
-    renderNews() {
-        const container = document.getElementById('news-grid');
-        if (!container) return;
 
-        if (this.data.news.length === 0) {
-            container.innerHTML = this.getEmptyState('news');
-            return;
-        }
-
-        // Sort news by date (newest first)
-        const sortedNews = this.data.news.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        container.innerHTML = sortedNews.map(article => `
-            <div class="content-card fade-in">
-                <h3>${this.escapeHtml(article.title)}</h3>
-                <div class="meta">
-                    <strong>Date:</strong> ${this.formatDate(article.date)}<br>
-                    <strong>Category:</strong> <span class="tag ${article.category}">${this.escapeHtml(article.category)}</span>
-                </div>
-                <p>${this.escapeHtml(article.summary)}</p>
-                ${article.tags && article.tags.length > 0 ? `
-                    <div class="tags">
-                        ${article.tags.map(tag => 
-                            `<span class="tag">${this.escapeHtml(tag)}</span>`
-                        ).join('')}
-                    </div>
-                ` : ''}
-                ${article.url ? `
-                    <div style="margin-top: 1rem;">
-                        <a href="${this.escapeHtml(article.url)}" target="_blank" class="btn btn-primary">
-                            Read More
-                        </a>
-                    </div>
-                ` : ''}
-            </div>
-        `).join('');
-    }
 
     populateFilterOptions(selectId, options) {
         const select = document.getElementById(selectId);
@@ -535,6 +561,17 @@ class EUGenAIHub {
             'industry': 'building-2'
         };
         return icons[type] || 'building-2';
+    }
+
+    getResourceIcon(type) {
+        const icons = {
+            'report': 'file-text',
+            'dataset': 'database',
+            'tool': 'tool',
+            'paper': 'scroll',
+            'framework': 'layers'
+        };
+        return icons[type] || 'library';
     }
 
     getTypeColor(type) {

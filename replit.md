@@ -9,6 +9,9 @@ EU GenAI Hub is a comprehensive web portal designed to showcase and explore Gene
 Preferred communication style: Simple, everyday language.
 Design preference: Modern, contemporary styling using Tailwind CSS instead of traditional CSS.
 Visual style: Prefers "younger" feeling designs with modern animations and gradients.
+Navigation preference: Projects section should come directly after Home tab.
+Content preference: Remove News tab - focus on Projects, Institutions, and Resources.
+Design inspiration: AIOD.eu styling with European institutional elements.
 
 ## System Architecture
 

@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM/VLM Models - EU GenAI Hub</title>
+    <meta name="description" content="Explore European Large Language Models and Vision-Language Models developed across research institutions.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1><a href="../index.html" style="text-decoration: none; color: inherit;">EU GenAI Hub</a></h1>
+                <span class="nav-subtitle">European Generative AI Research Portal</span>
+            </div>
+            <div class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#map" class="nav-link">Research Map</a>
+                <a href="institutions.html" class="nav-link">Institutions</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="#" class="nav-link active">LLM/VLM Models</a>
+                <a href="resources.html" class="nav-link">Resources</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="section-header">
+            <h1>European LLM/VLM Models</h1>
+            <p>Comprehensive overview of Large Language Models and Vision-Language Models developed across European research initiatives.</p>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-filters">
+            <input type="text" id="models-search" placeholder="Search models, projects, or partners...">
+            <select id="models-filter-type">
+                <option value="all">All Model Types</option>
+                <option value="LLM">Large Language Models</option>
+                <option value="VLM">Vision-Language Models</option>
+                <option value="Multimodal">Multimodal Models</option>
+            </select>
+            <select id="models-filter-status">
+                <option value="all">All Status</option>
+                <option value="active">Active Development</option>
+                <option value="released">Released</option>
+                <option value="research">Research Phase</option>
+            </select>
+        </div>
+
+        <!-- Models Table -->
+        <div class="table-wrapper">
+            <div class="table-container">
+                <table class="models-table">
+                    <thead class="table-header">
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Model Type</th>
+                            <th>Models Developed</th>
+                            <th>Key Partners</th>
+                            <th>Funding</th>
+                            <th>Status</th>
+                            <th>Languages</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="models-table-body">
+                        <tr>
+                            <td colspan="8" class="loading">Loading model data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Table Note -->
+        <div class="table-note">
+            <p>Data based on the International Open-Source LLM Builders Summit held in Geneva during ITU's AI for Good</p>
+        </div>
+
+        <!-- Model Categories Section -->
+        <section class="model-categories" style="margin-top: 3rem; padding: 2rem 0; background: var(--neutral-color);">
+            <div class="container">
+                <h2>Model Categories</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🧠 Large Language Models</h3>
+                        <p>Advanced text generation models trained on massive European datasets, supporting multiple EU languages and specialized domains.</p>
+                    </div>
+                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">👁️ Vision-Language Models</h3>
+                        <p>Multimodal AI systems combining visual and textual understanding, developed for European applications and languages.</p>
+                    </div>
+                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🌍 Multilingual Models</h3>
+                        <p>Models specifically designed to handle all 24 official EU languages and support European linguistic diversity.</p>
+                    </div>
+                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🏥 Domain-Specific Models</h3>
+                        <p>Specialized models for healthcare, legal, scientific, and other professional domains with European focus.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>EU GenAI Hub</h3>
+                    <p>A comprehensive portal for European Generative AI research, fostering collaboration and knowledge sharing across the continent.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../index.html#map">Research Map</a></li>
+                        <li><a href="institutions.html">Institutions</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Submit Model</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                        <li><a href="#">Data Export</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Platform Management</h4>
+                    <p>Managed by <a href="https://www.linkedin.com/in/drkualsuri/" target="_blank" rel="noopener noreferrer">Dr. Kunal Suri</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EU GenAI Hub. Supporting European AI research excellence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/search-utility.js"></script>
+    <script>
+        let modelsData = [];
+        let isSearchInitialized = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Lucide icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+            
+            // Load models data
+            loadModelsData();
+        });
+
+        async function loadModelsData() {
+            try {
+                const response = await fetch('../data/models.json');
+                modelsData = await response.json();
+                
+                console.log('Loaded models data:', modelsData.length, 'items');
+                
+                // Render initial data
+                renderModelsTable(modelsData);
+                
+                // Initialize search only once
+                if (!isSearchInitialized && window.universalSearch) {
+                    window.universalSearch.init('models', modelsData, renderModelsTable);
+                    isSearchInitialized = true;
+                    console.log('Search initialized for models');
+                }
+                
+            } catch (error) {
+                console.error('Error loading models data:', error);
+                document.getElementById('models-table-body').innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty-state">
+                            <h3>Error loading data</h3>
+                            <p>Please try refreshing the page</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function renderModelsTable(models) {
+            const tbody = document.getElementById('models-table-body');
+            if (!tbody) return;
+
+            if (!models || models.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty-state">
+                            <h3>No models found</h3>
+                            <p>Try adjusting your search criteria</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = models.map(model => `
+                <tr class="table-row">
+                    <td class="table-cell">
+                        <div class="table-cell-main">${escapeHtml(model.project_name || 'Unknown')}</div>
+                        <div class="table-cell-sub">${escapeHtml(model.year || 'Unknown')}</div>
+                    </td>
+                    <td class="table-cell">
+                        <span class="table-badge table-badge-${getModelTypeColor(model.model_type)}">
+                            ${escapeHtml(model.model_type || 'Unknown')}
+                        </span>
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-tags">
+                            ${Array.isArray(model.models_developed) ? 
+                                model.models_developed.slice(0, 2).map(modelName => 
+                                    `<span class="table-tag">${escapeHtml(modelName)}</span>`
+                                ).join('') : ''
+                            }
+                            ${Array.isArray(model.models_developed) && model.models_developed.length > 2 ? 
+                                `<span class="table-tag">+${model.models_developed.length - 2}</span>` : ''
+                            }
+                        </div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-cell-content">
+                            ${Array.isArray(model.key_partners) ?
+                                model.key_partners.slice(0, 2).map(partner => 
+                                    `<div class="table-partner">${escapeHtml(partner)}</div>`
+                                ).join('') : ''
+                            }
+                            ${Array.isArray(model.key_partners) && model.key_partners.length > 2 ? 
+                                `<div class="table-partner-more">+${model.key_partners.length - 2} more</div>` : ''
+                            }
+                        </div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-cell-content">
+                            ${escapeHtml(model.funding || 'Not specified')}
+                        </div>
+                    </td>
+                    <td class="table-cell">
+                        <span class="table-badge table-badge-${getStatusColor(model.status)}">
+                            ${escapeHtml(model.status || 'Unknown')}
+                        </span>
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-languages">
+                            ${Array.isArray(model.languages) ?
+                                model.languages.slice(0, 2).map(lang => 
+                                    `<span class="table-lang">${escapeHtml(lang)}</span>`
+                                ).join('') : ''
+                            }
+                            ${Array.isArray(model.languages) && model.languages.length > 2 ? 
+                                `<span class="table-lang-more">+${model.languages.length - 2}</span>` : ''
+                            }
+                        </div>
+                    </td>
+                    <td class="table-cell">
+                        ${model.url ? `
+                            <a href="${escapeHtml(model.url)}" class="table-link" target="_blank" rel="noopener noreferrer">
+                                <span>Visit Project</span>
+                                <i data-lucide="external-link"></i>
+                            </a>
+                        ` : ''}
+                    </td>
+                </tr>
+            `).join('');
+
+            // Reinitialize Lucide icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+
+        function getModelTypeColor(type) {
+            const colors = {
+                'LLM': 'blue',
+                'VLM': 'purple',
+                'Multimodal': 'pink'
+            };
+            return colors[type] || 'gray';
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'active': 'green',
+                'completed': 'blue',
+                'planned': 'yellow',
+                'released': 'green',
+                'research': 'orange'
+            };
+            return colors[status] || 'gray';
+        }
+
+        function escapeHtml(text) {
+            if (typeof text !== 'string') return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

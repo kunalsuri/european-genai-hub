@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://your-huggingface-space-url/sitemap.xml
+Sitemap: https://kunalsuri/european-genai-hub/sitemap.xml
 
 # Security - disallow access to sensitive paths
 Disallow: /data/

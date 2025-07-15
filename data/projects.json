@@ -1,17 +1,5 @@
+
 [
-  {
-    "title": "EuroLLM - European Large Language Model Initiative",
-    "institution": "DFKI",
-    "country": "Germany",
-    "status": "Active",
-    "category": "Language Models",
-    "description": "Developing a sovereign European large language model that respects European values and multilingual capabilities.",
-    "funding": "€50M",
-    "start_date": "2023-01-15",
-    "end_date": "2026-12-31",
-    "participants": ["DFKI", "INRIA", "University of Amsterdam"],
-    "technologies": ["Transformer Architecture", "Multilingual Training", "Constitutional AI"]
-  },
   {
     "title": "CLAIRE - Confederation of Laboratories for AI Research in Europe",
     "institution": "Multiple",
@@ -20,23 +8,25 @@
     "category": "Research Network",
     "description": "Pan-European network fostering excellence in AI research and innovation across European institutions.",
     "funding": "€200M",
-    "start_date": "2022-06-01",
-    "end_date": "2027-05-31",
-    "participants": ["ETH Zurich", "KTH", "TU Munich", "Cambridge"],
-    "technologies": ["Federated Learning", "Edge AI", "Quantum-Classical Hybrid Systems"]
+    "start_date": "2019-04-01",
+    "end_date": "2030-12-31",
+    "participants": ["ETH Zurich", "KTH", "TU Munich", "Cambridge", "INRIA", "DFKI"],
+    "technologies": ["Federated Learning", "Edge AI", "Quantum-Classical Hybrid Systems"],
+    "website": "https://claire-ai.org/"
   },
   {
     "title": "AI4Media - AI for Media and Creative Industries",
-    "institution": "INRIA",
-    "country": "France",
-    "status": "Active", 
+    "institution": "Multiple European Partners",
+    "country": "Europe-wide",
+    "status": "Completed", 
     "category": "Creative AI",
     "description": "Advancing AI technologies for next-generation media applications and creative content generation.",
     "funding": "€12M",
-    "start_date": "2022-09-01",
-    "end_date": "2025-08-31",
-    "participants": ["INRIA", "BBC", "IRT", "CWI"],
-    "technologies": ["Generative Adversarial Networks", "Neural Rendering", "Audio Synthesis"]
+    "start_date": "2020-09-01",
+    "end_date": "2024-08-31",
+    "participants": ["CERTH", "BBC", "IRT", "CWI", "Fraunhofer"],
+    "technologies": ["Generative Adversarial Networks", "Neural Rendering", "Audio Synthesis"],
+    "website": "https://ai4media.eu/"
   },
   {
     "title": "HumaneAI Net - Human-Centric AI Network",
@@ -48,21 +38,23 @@
     "funding": "€8M",
     "start_date": "2019-01-01",
     "end_date": "2023-12-31",
-    "participants": ["University of Cambridge", "KTH", "University of Amsterdam"],
-    "technologies": ["Explainable AI", "Human-in-the-loop Systems", "Ethical AI Frameworks"]
+    "participants": ["University of Cambridge", "KTH", "University of Amsterdam", "TU Delft"],
+    "technologies": ["Explainable AI", "Human-in-the-loop Systems", "Ethical AI Frameworks"],
+    "website": "https://www.humane-ai.eu/"
   },
   {
     "title": "TAILOR - Foundations of Trustworthy AI",
-    "institution": "CWI",
-    "country": "Netherlands",
-    "status": "Active",
+    "institution": "CWI Netherlands",
+    "country": "Europe-wide",
+    "status": "Completed",
     "category": "AI Safety",
     "description": "Developing theoretical and practical foundations for trustworthy AI systems with verifiable properties.",
     "funding": "€15M",
     "start_date": "2020-09-01",
     "end_date": "2024-08-31",
-    "participants": ["CWI", "KTH", "University of Bologna", "DFKI"],
-    "technologies": ["Formal Verification", "Robustness Testing", "Privacy-Preserving ML"]
+    "participants": ["CWI", "KTH", "University of Bologna", "DFKI", "TU Delft"],
+    "technologies": ["Formal Verification", "Robustness Testing", "Privacy-Preserving ML"],
+    "website": "https://tailor-network.eu/"
   },
   {
     "title": "ELLIS - European Laboratory for Learning and Intelligent Systems",
@@ -71,10 +63,39 @@
     "status": "Active",
     "category": "Machine Learning",
     "description": "Pan-European AI research laboratory fostering fundamental advances in machine learning.",
-    "funding": "€100M",
+    "funding": "€100M+",
     "start_date": "2019-07-01",
-    "end_date": "2026-06-30",
-    "participants": ["ETH Zurich", "TU Munich", "Cambridge", "KTH"],
-    "technologies": ["Deep Learning", "Reinforcement Learning", "Causal Inference", "Meta-Learning"]
+    "end_date": "2030-06-30",
+    "participants": ["ETH Zurich", "TU Munich", "Cambridge", "KTH", "INRIA", "MPI"],
+    "technologies": ["Deep Learning", "Reinforcement Learning", "Causal Inference", "Meta-Learning"],
+    "website": "https://ellis.eu/"
+  },
+  {
+    "title": "AI4EU - AI On Demand Platform",
+    "institution": "Multiple European Partners",
+    "country": "Europe-wide",
+    "status": "Active",
+    "category": "Platform",
+    "description": "European AI-on-demand platform providing resources, tools, and services for AI development and deployment.",
+    "funding": "€20M",
+    "start_date": "2019-01-01",
+    "end_date": "2025-12-31",
+    "participants": ["INRIA", "DFKI", "CNR", "CEA", "Fraunhofer"],
+    "technologies": ["AI Platform", "Federated Learning", "Edge Computing", "AI Marketplace"],
+    "website": "https://www.ai4europe.eu/"
+  },
+  {
+    "title": "EuroHPC - European High Performance Computing",
+    "institution": "EuroHPC Joint Undertaking",
+    "country": "Europe-wide",
+    "status": "Active",
+    "category": "Infrastructure",
+    "description": "European initiative to develop world-class supercomputing capabilities for AI and scientific computing.",
+    "funding": "€7B",
+    "start_date": "2018-01-01",
+    "end_date": "2030-12-31",
+    "participants": ["Multiple EU Member States", "Associated Countries"],
+    "technologies": ["Exascale Computing", "AI Acceleration", "Quantum Computing", "Green Computing"],
+    "website": "https://eurohpc-ju.europa.eu/"
   }
 ]

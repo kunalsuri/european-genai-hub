@@ -1,4 +1,3 @@
-
 // Main application JavaScript with security and performance improvements
 'use strict';
 
@@ -21,20 +20,20 @@ class EUGenAIHub {
 
     async init() {
         if (this.isDestroyed) return;
-        
+
         try {
             // Load minimal data first - only what's needed for the home page
             await this.loadHomeData();
-            
+
             // Initialize components
             this.initNavigation();
             this.initStats();
-            
+
             // Show home section
             this.showSection('home');
-            
+
             console.log('EU GenAI Hub initialized successfully');
-            
+
             // Load other data in background
             this.loadRemainingDataInBackground();
         } catch (error) {
@@ -49,7 +48,7 @@ class EUGenAIHub {
             const institutions = await this.fetchWithTimeout('data/institutions.json', 5000)
                 .then(r => r.json())
                 .catch(() => []);
-            
+
             this.data.institutions = this.sanitizeData(institutions);
         } catch (error) {
             console.error('Error loading home data:', error);
@@ -71,7 +70,7 @@ class EUGenAIHub {
             this.data.resources = this.sanitizeData(resources.status === 'fulfilled' ? resources.value : []);
             this.data.news = this.sanitizeData(news.status === 'fulfilled' ? news.value : []);
             this.data.models = this.sanitizeData(models.status === 'fulfilled' ? models.value : []);
-            
+
             // Update stats after all data is loaded
             this.initStats();
         } catch (error) {
@@ -111,7 +110,7 @@ class EUGenAIHub {
 
     sanitizeData(data) {
         if (!Array.isArray(data)) return [];
-        
+
         return data.map(item => {
             const sanitized = {};
             for (const [key, value] of Object.entries(item)) {
@@ -133,7 +132,7 @@ class EUGenAIHub {
 
     sanitizeString(str) {
         if (typeof str !== 'string') return str;
-        
+
         // Remove potential XSS vectors
         return str
             .replace(/[<>]/g, '') // Remove angle brackets
@@ -153,7 +152,7 @@ class EUGenAIHub {
                     this.showSection(section);
                 }
             };
-            
+
             this.addEventListener(link, 'click', listener);
         });
 
@@ -167,7 +166,7 @@ class EUGenAIHub {
                     this.showSection(section);
                 }
             };
-            
+
             this.addEventListener(button, 'click', listener);
         });
 
@@ -179,9 +178,9 @@ class EUGenAIHub {
                 const researchArea = card.dataset.researchArea;
                 this.showResearchAreaResources(researchArea);
             };
-            
+
             this.addEventListener(card, 'click', listener);
-            
+
             // Add keyboard support
             const keyListener = (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -190,7 +189,7 @@ class EUGenAIHub {
                     this.showResearchAreaResources(researchArea);
                 }
             };
-            
+
             this.addEventListener(card, 'keydown', keyListener);
         });
 
@@ -202,9 +201,9 @@ class EUGenAIHub {
                 const project = card.dataset.project;
                 this.showProjectDetails(project);
             };
-            
+
             this.addEventListener(card, 'click', listener);
-            
+
             // Add keyboard support
             const keyListener = (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -213,14 +212,14 @@ class EUGenAIHub {
                     this.showProjectDetails(project);
                 }
             };
-            
+
             this.addEventListener(card, 'keydown', keyListener);
         });
     }
 
     addEventListener(element, event, handler) {
         element.addEventListener(event, handler);
-        
+
         // Store for cleanup
         if (!this.eventListeners.has(element)) {
             this.eventListeners.set(element, []);
@@ -230,10 +229,10 @@ class EUGenAIHub {
 
     showResearchAreaResources(researchArea) {
         if (this.isDestroyed) return;
-        
+
         // Navigate to resources section and filter by research area
         this.showSection('resources');
-        
+
         // Wait for resources to load, then apply filter
         setTimeout(() => {
             this.filterResourcesByArea(researchArea);
@@ -242,7 +241,7 @@ class EUGenAIHub {
 
     filterResourcesByArea(researchArea) {
         if (!this.data.resources || !Array.isArray(this.data.resources)) return;
-        
+
         // Map research areas to filter terms
         const areaMap = {
             'nlp': ['Natural Language Processing', 'NLP', 'Language Model', 'Text', 'Conversational AI', 'Multilingual'],
@@ -250,9 +249,9 @@ class EUGenAIHub {
             'robotics': ['Robotics', 'Autonomous', 'Robot', 'Navigation', 'Manipulation', 'Human-Robot'],
             'ethics': ['Ethics', 'Trustworthy', 'Safety', 'Governance', 'Responsible AI', 'Fairness', 'Bias']
         };
-        
+
         const searchTerms = areaMap[researchArea] || [];
-        
+
         // Filter resources based on research area
         const filteredResources = this.data.resources.filter(resource => {
             const searchFields = [
@@ -264,15 +263,15 @@ class EUGenAIHub {
                 ...(resource.research_areas || []),
                 ...(resource.authors || [])
             ].join(' ').toLowerCase();
-            
+
             return searchTerms.some(term => 
                 searchFields.toLowerCase().includes(term.toLowerCase())
             );
         });
-        
+
         // Update the resources display
         this.renderResourcesGrid(filteredResources);
-        
+
         // Update search input to show what was filtered
         const searchInput = document.getElementById('resources-search');
         if (searchInput && searchTerms.length > 0) {
@@ -283,10 +282,10 @@ class EUGenAIHub {
 
     showProjectDetails(project) {
         if (this.isDestroyed) return;
-        
+
         // Navigate to resources section and filter by project
         this.showSection('resources');
-        
+
         // Wait for resources to load, then apply project filter
         setTimeout(() => {
             this.filterResourcesByProject(project);
@@ -295,7 +294,7 @@ class EUGenAIHub {
 
     filterResourcesByProject(project) {
         if (!this.data.resources || !Array.isArray(this.data.resources)) return;
-        
+
         // Map projects to search terms
         const projectMap = {
             'ai-on-demand': ['AI On Demand', 'AIOD', 'European AI', 'AI4Europe'],
@@ -305,9 +304,9 @@ class EUGenAIHub {
             'adra': ['ADRA', 'AI Data Robotics', 'Partnership', 'Association'],
             'eu-ai-office': ['European AI Office', 'AI Act', 'Governance', 'Regulation', 'European Commission']
         };
-        
+
         const searchTerms = projectMap[project] || [];
-        
+
         // Filter resources based on project
         const filteredResources = this.data.resources.filter(resource => {
             const searchFields = [
@@ -318,15 +317,15 @@ class EUGenAIHub {
                 ...(resource.research_areas || []),
                 ...(resource.authors || [])
             ].join(' ').toLowerCase();
-            
+
             return searchTerms.some(term => 
                 searchFields.toLowerCase().includes(term.toLowerCase())
             );
         });
-        
+
         // Update the resources display
         this.renderResourcesGrid(filteredResources);
-        
+
         // Update search input to show what was filtered
         const searchInput = document.getElementById('resources-search');
         if (searchInput && searchTerms.length > 0) {
@@ -337,7 +336,7 @@ class EUGenAIHub {
 
     showSection(sectionName) {
         if (this.isDestroyed) return;
-        
+
         // Validate section name to prevent XSS
         const allowedSections = ['home', 'institutions', 'projects', 'models', 'resources'];
         if (!allowedSections.includes(sectionName)) {
@@ -381,7 +380,7 @@ class EUGenAIHub {
 
     async loadSectionContent(sectionName) {
         if (this.isDestroyed || this.loadedSections.has(sectionName)) return;
-        
+
         try {
             switch (sectionName) {
                 case 'institutions':
@@ -397,7 +396,7 @@ class EUGenAIHub {
                     this.renderModels();
                     break;
             }
-            
+
             this.loadedSections.add(sectionName);
         } catch (error) {
             console.error(`Error loading ${sectionName} content:`, error);
@@ -449,13 +448,13 @@ class EUGenAIHub {
         const target = Math.max(0, Math.min(targetValue, 99999));
         let currentValue = 0;
         const increment = target / 50; // Reduce iterations for performance
-        
+
         const timer = setInterval(() => {
             if (this.isDestroyed) {
                 clearInterval(timer);
                 return;
             }
-            
+
             currentValue += increment;
             if (currentValue >= target) {
                 element.textContent = target;
@@ -482,7 +481,7 @@ class EUGenAIHub {
                     <h2 class="section-title">Research Institutions</h2>
                     <p class="section-description">Leading European institutions advancing Generative AI research and innovation</p>
                 </div>
-                
+
                 <div class="filter-wrapper">
                     <div class="filter-container">
                         <div class="filter-group">
@@ -507,7 +506,7 @@ class EUGenAIHub {
                         </div>
                     </div>
                 </div>
-                
+
                 <div id="institutions-grid" class="content-grid"></div>
             </div>
         `;
@@ -515,7 +514,7 @@ class EUGenAIHub {
         this.renderInstitutionsGrid();
         this.populateFilterOptions('institutions-filter-country', 
             [...new Set(this.data.institutions.map(inst => inst.country).filter(Boolean))]);
-        
+
         // Initialize search for this section
         if (window.searchManager && this.data) {
             window.searchManager.init();
@@ -541,18 +540,18 @@ class EUGenAIHub {
                         ${this.escapeHtml(institution.type || 'Unknown')}
                     </span>
                 </div>
-                
+
                 <h3 class="card-title">${this.escapeHtml(institution.name || 'Unknown Institution')}</h3>
-                
+
                 <div class="card-meta">
                     <i data-lucide="map-pin"></i>
                     <span>${this.escapeHtml(institution.city || '')}, ${this.escapeHtml(institution.country || '')}</span>
                 </div>
-                
+
                 <p class="card-description">
                     ${this.escapeHtml(this.truncateText(institution.description || '', 150))}
                 </p>
-                
+
                 ${institution.research_areas && Array.isArray(institution.research_areas) ? `
                     <div class="card-tags">
                         ${institution.research_areas.slice(0, 3).map(area => 
@@ -563,7 +562,7 @@ class EUGenAIHub {
                         }
                     </div>
                 ` : ''}
-                
+
                 ${institution.website ? `
                     <a href="${this.sanitizeUrl(institution.website)}" target="_blank" rel="noopener noreferrer"
                        class="card-link">
@@ -573,7 +572,7 @@ class EUGenAIHub {
                 ` : ''}
             </div>
         `).join('');
-        
+
         // Reinitialize Lucide icons
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
@@ -595,7 +594,7 @@ class EUGenAIHub {
                     <h2 class="section-title">Research Projects</h2>
                     <p class="section-description">Current and ongoing GenAI research initiatives across Europe</p>
                 </div>
-                
+
                 <div class="filter-wrapper">
                     <div class="filter-container">
                         <div class="filter-group">
@@ -620,13 +619,13 @@ class EUGenAIHub {
                         </div>
                     </div>
                 </div>
-                
+
                 <div id="projects-grid" class="content-grid"></div>
             </div>
         `;
 
         this.renderProjectsGrid();
-        
+
         // Initialize search
         if (window.searchManager && this.data) {
             window.searchManager.init();
@@ -652,9 +651,9 @@ class EUGenAIHub {
                         ${this.escapeHtml(project.status || 'Unknown')}
                     </span>
                 </div>
-                
+
                 <h3 class="card-title">${this.escapeHtml(project.title || 'Unknown Project')}</h3>
-                
+
                 <div class="card-meta-grid">
                     <div class="card-meta">
                         <i data-lucide="calendar"></i>
@@ -697,9 +696,28 @@ class EUGenAIHub {
                         </div>
                     </div>
                 ` : ''}
+                <div class="card-footer">
+                    <div class="card-tags">
+                        ${(project.technologies || []).slice(0, 3).map(tech => 
+                            `<span class="card-tag">${this.escapeHtml(tech)}</span>`
+                        ).join('')}
+                    </div>
+                    <div class="card-participants">
+                        <i data-lucide="users"></i>
+                        <span>${(project.participants || []).length} partners</span>
+                    </div>
+                    ${project.website ? `
+                        <div class="card-link">
+                            <a href="${this.escapeHtml(project.website)}" target="_blank" rel="noopener noreferrer" class="project-link">
+                                <span>Visit Project</span>
+                                <i data-lucide="external-link"></i>
+                            </a>
+                        </div>
+                    ` : ''}
+                </div>
             </div>
         `).join('');
-        
+
         // Reinitialize Lucide icons
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
@@ -721,7 +739,7 @@ class EUGenAIHub {
                     <h2 class="section-title">Research Resources</h2>
                     <p class="section-description">Papers, datasets, tools, and other resources from European GenAI research</p>
                 </div>
-                
+
                 <div class="filter-wrapper">
                     <div class="filter-container">
                         <div class="filter-group">
@@ -747,7 +765,7 @@ class EUGenAIHub {
                         </div>
                     </div>
                 </div>
-                
+
                 <div id="resources-grid" class="content-grid"></div>
             </div>
         `;
@@ -755,7 +773,7 @@ class EUGenAIHub {
         this.renderResourcesGrid();
         this.populateFilterOptions('resources-filter-year', 
             [...new Set(this.data.resources.map(res => res.year).filter(Boolean))].sort().reverse());
-        
+
         // Initialize search
         if (window.searchManager && this.data) {
             window.searchManager.init();
@@ -800,9 +818,9 @@ class EUGenAIHub {
                         ${this.escapeHtml(resource.type || 'Unknown')}
                     </span>
                 </div>
-                
+
                 <h3 class="card-title">${this.escapeHtml(resource.title || 'Unknown Resource')}</h3>
-                
+
                 <div class="card-meta-grid">
                     <div class="card-meta">
                         <i data-lucide="calendar"></i>
@@ -855,7 +873,7 @@ class EUGenAIHub {
                 ` : ''}
             </div>
         `).join('');
-        
+
         // Reinitialize Lucide icons
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
@@ -879,7 +897,7 @@ class EUGenAIHub {
                         Comprehensive overview of Large Language Models and Vision-Language Models developed across European research initiatives
                     </p>
                 </div>
-                
+
                 <div class="filter-wrapper">
                     <div class="filter-container">
                         <div class="filter-group">
@@ -907,7 +925,7 @@ class EUGenAIHub {
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="table-wrapper">
                     <div class="table-container">
                         <table class="models-table">
@@ -929,7 +947,7 @@ class EUGenAIHub {
                         </table>
                     </div>
                 </div>
-                
+
                 <div class="table-note">
                     <p>Data based on the International Open-Source LLM Builders Summit held in Geneva during ITU's AI for Good</p>
                 </div>
@@ -937,7 +955,7 @@ class EUGenAIHub {
         `;
 
         this.renderModelsTable();
-        
+
         // Initialize search
         if (window.searchManager) {
             window.searchManager.init();
@@ -1015,7 +1033,7 @@ class EUGenAIHub {
                 </td>
             </tr>
         `).join('');
-        
+
         // Reinitialize Lucide icons
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
@@ -1073,13 +1091,13 @@ class EUGenAIHub {
 
     showError(message) {
         if (this.isDestroyed) return;
-        
+
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-toast';
         errorDiv.textContent = this.escapeHtml(message);
-        
+
         document.body.appendChild(errorDiv);
-        
+
         setTimeout(() => {
             if (errorDiv.parentNode) {
                 errorDiv.parentNode.removeChild(errorDiv);
@@ -1111,7 +1129,7 @@ class EUGenAIHub {
 
     sanitizeUrl(url) {
         if (typeof url !== 'string') return '#';
-        
+
         // Allow only http/https protocols
         try {
             const parsed = new URL(url);
@@ -1145,7 +1163,7 @@ class EUGenAIHub {
         try {
             const date = new Date(dateString);
             if (isNaN(date.getTime())) return dateString;
-            
+
             return date.toLocaleDateString('en-EU', {
                 year: 'numeric',
                 month: 'short'
@@ -1212,10 +1230,10 @@ class EUGenAIHub {
     // Cleanup method to prevent memory leaks
     destroy() {
         this.isDestroyed = true;
-        
+
         // Cancel any pending requests
         this.abortController.abort();
-        
+
         // Remove event listeners
         for (const [element, listeners] of this.eventListeners) {
             listeners.forEach(({ event, handler }) => {
@@ -1223,7 +1241,7 @@ class EUGenAIHub {
             });
         }
         this.eventListeners.clear();
-        
+
         // Clear data
         this.data = null;
         this.loadedSections.clear();

@@ -369,8 +369,8 @@ class EUGenAIHub {
             [...new Set(this.data.institutions.map(inst => inst.country).filter(Boolean))]);
         
         // Initialize search for this section
-        if (window.SearchManager && this.data) {
-            window.SearchManager.init(this.data);
+        if (window.searchManager && this.data) {
+            window.searchManager.init();
         }
 
         // Reinitialize Lucide icons
@@ -480,8 +480,8 @@ class EUGenAIHub {
         this.renderProjectsGrid();
         
         // Initialize search
-        if (window.SearchManager && this.data) {
-            window.SearchManager.init(this.data);
+        if (window.searchManager && this.data) {
+            window.searchManager.init();
         }
 
         // Reinitialize Lucide icons
@@ -609,8 +609,8 @@ class EUGenAIHub {
             [...new Set(this.data.resources.map(res => res.year).filter(Boolean))].sort().reverse());
         
         // Initialize search
-        if (window.SearchManager && this.data) {
-            window.SearchManager.init(this.data);
+        if (window.searchManager && this.data) {
+            window.searchManager.init();
         }
 
         // Reinitialize Lucide icons
@@ -772,8 +772,8 @@ class EUGenAIHub {
         this.renderModelsTable();
         
         // Initialize search
-        if (window.SearchManager && this.data) {
-            window.SearchManager.init(this.data);
+        if (window.searchManager) {
+            window.searchManager.init();
         }
 
         // Reinitialize Lucide icons

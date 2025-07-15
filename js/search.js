@@ -164,27 +164,116 @@ class SearchManager {
     displayResults(results, sectionType) {
         // Update the data in the main app
         if (window.euGenAIHub) {
-            const filteredData = { ...window.euGenAIHub.data };
-            filteredData[sectionType] = results;
-            
-            // Re-render the section with filtered data
-            switch(sectionType) {
-                case 'institutions':
-                    window.euGenAIHub.renderInstitutions(results);
-                    break;
-                case 'projects':
-                    window.euGenAIHub.renderProjects(results);
-                    break;
-                case 'resources':
-                    window.euGenAIHub.renderResources(results);
-                    break;
-                case 'models':
-                    window.euGenAIHub.renderModels(results);
-                    break;
-                case 'news':
-                    window.euGenAIHub.renderNews(results);
-                    break;
+            // For models, we need to update the table directly
+            if (sectionType === 'models') {
+                this.updateModelsTable(results);
+            } else {
+                const filteredData = { ...window.euGenAIHub.data };
+                filteredData[sectionType] = results;
+                
+                // Re-render the section with filtered data
+                switch(sectionType) {
+                    case 'institutions':
+                        window.euGenAIHub.renderInstitutions(results);
+                        break;
+                    case 'projects':
+                        window.euGenAIHub.renderProjects(results);
+                        break;
+                    case 'resources':
+                        window.euGenAIHub.renderResources(results);
+                        break;
+                    case 'news':
+                        window.euGenAIHub.renderNews(results);
+                        break;
+                }
             }
+        }
+    }
+
+    updateModelsTable(models) {
+        const tbody = document.getElementById('models-table-body');
+        if (!tbody || !window.euGenAIHub) return;
+
+        if (!Array.isArray(models) || models.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="table-empty">
+                        <div class="empty-state">
+                            <i data-lucide="search-x" class="empty-icon"></i>
+                            <h3>No models found</h3>
+                            <p>Try adjusting your search or filter criteria</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = models.map(model => `
+            <tr class="table-row">
+                <td class="table-cell">
+                    <div class="table-cell-main">${window.euGenAIHub.escapeHtml(model.project_name || 'Unknown')}</div>
+                    <div class="table-cell-sub">${window.euGenAIHub.escapeHtml(model.year || 'Unknown')}</div>
+                </td>
+                <td class="table-cell">
+                    <span class="table-badge table-badge-${window.euGenAIHub.getModelTypeColor(model.model_type)}">
+                        ${window.euGenAIHub.escapeHtml(model.model_type || 'Unknown')}
+                    </span>
+                </td>
+                <td class="table-cell">
+                    <div class="table-tags">
+                        ${Array.isArray(model.models_developed) ? 
+                            model.models_developed.slice(0, 2).map(modelName => 
+                                `<span class="table-tag">${window.euGenAIHub.escapeHtml(modelName)}</span>`
+                            ).join('') : ''
+                        }
+                        ${Array.isArray(model.models_developed) && model.models_developed.length > 2 ? 
+                            `<span class="table-tag">+${model.models_developed.length - 2}</span>` : ''
+                        }
+                    </div>
+                </td>
+                <td class="table-cell">
+                    <div class="table-cell-content">
+                        ${Array.isArray(model.key_partners) ? 
+                            model.key_partners.slice(0, 2).map(partner => window.euGenAIHub.escapeHtml(partner)).join(', ') : 'Unknown'
+                        }
+                        ${Array.isArray(model.key_partners) && model.key_partners.length > 2 ? 
+                            `<br><span class="table-cell-sub">+${model.key_partners.length - 2} more</span>` : ''
+                        }
+                    </div>
+                </td>
+                <td class="table-cell">
+                    <div class="table-cell-main">${window.euGenAIHub.escapeHtml(model.funding || 'N/A')}</div>
+                </td>
+                <td class="table-cell">
+                    <span class="table-badge table-badge-${window.euGenAIHub.getStatusColor(model.status)}">
+                        ${window.euGenAIHub.escapeHtml(model.status || 'Unknown')}
+                    </span>
+                </td>
+                <td class="table-cell">
+                    <div class="table-cell-content">
+                        ${Array.isArray(model.languages) ? 
+                            model.languages.slice(0, 2).map(lang => window.euGenAIHub.escapeHtml(lang)).join(', ') : 'N/A'
+                        }
+                        ${Array.isArray(model.languages) && model.languages.length > 2 ? 
+                            `<br><span class="table-cell-sub">+${model.languages.length - 2} more</span>` : ''
+                        }
+                    </div>
+                </td>
+                <td class="table-cell">
+                    ${model.url ? `
+                        <a href="${window.euGenAIHub.sanitizeUrl(model.url)}" target="_blank" rel="noopener noreferrer"
+                           class="table-link">
+                            <i data-lucide="external-link"></i>
+                        </a>
+                    ` : '<span class="table-cell-sub">N/A</span>'}
+                </td>
+            </tr>
+        `).join('');
+
+        // Reinitialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
         }
     }
 

@@ -6,7 +6,8 @@ class EUGenAIHub {
             institutions: [],
             projects: [],
             resources: [],
-            news: []
+            news: [],
+            models: []
         };
         this.init();
     }
@@ -33,14 +34,15 @@ class EUGenAIHub {
 
     async loadData() {
         try {
-            const [institutions, projects, resources, news] = await Promise.all([
+            const [institutions, projects, resources, news, models] = await Promise.all([
                 fetch('data/institutions.json').then(r => r.json()).catch(() => []),
                 fetch('data/projects.json').then(r => r.json()).catch(() => []),
                 fetch('data/resources.json').then(r => r.json()).catch(() => []),
-                fetch('data/news.json').then(r => r.json()).catch(() => [])
+                fetch('data/news.json').then(r => r.json()).catch(() => []),
+                fetch('data/models.json').then(r => r.json()).catch(() => [])
             ]);
 
-            this.data = { institutions, projects, resources, news };
+            this.data = { institutions, projects, resources, news, models };
         } catch (error) {
             console.error('Error loading data:', error);
             // Initialize with empty arrays to prevent errors
@@ -48,7 +50,8 @@ class EUGenAIHub {
                 institutions: [],
                 projects: [],
                 resources: [],
-                news: []
+                news: [],
+                models: []
             };
         }
     }
@@ -136,6 +139,9 @@ class EUGenAIHub {
                     break;
                 case 'resources':
                     this.renderResources();
+                    break;
+                case 'models':
+                    this.renderModels();
                     break;
             }
         } catch (error) {
@@ -446,6 +452,84 @@ class EUGenAIHub {
             [...new Set(this.data.resources.map(res => res.year))].sort().reverse());
     }
 
+    renderModels() {
+        const tbody = document.getElementById('models-table-body');
+        if (!tbody) return;
+
+        if (this.data.models.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="px-6 py-12 text-center text-slate-500">
+                        <div class="flex flex-col items-center space-y-3">
+                            <i data-lucide="brain" class="w-12 h-12 text-slate-300"></i>
+                            <h3 class="text-lg font-semibold">No Models Found</h3>
+                            <p>No LLM/VLM models match your current filters.</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = this.data.models.map(model => `
+            <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                <td class="px-6 py-4">
+                    <div class="font-semibold text-slate-900">${this.escapeHtml(model.project_name)}</div>
+                    <div class="text-sm text-slate-500">${model.year}</div>
+                </td>
+                <td class="px-6 py-4">
+                    <span class="px-3 py-1 bg-${this.getModelTypeColor(model.model_type)}/10 text-${this.getModelTypeColor(model.model_type)} text-sm font-medium rounded-full">
+                        ${model.model_type}
+                    </span>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="flex flex-wrap gap-1">
+                        ${model.models_developed.slice(0, 2).map(modelName => 
+                            `<span class="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded">${this.escapeHtml(modelName)}</span>`
+                        ).join('')}
+                        ${model.models_developed.length > 2 ? 
+                            `<span class="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded">+${model.models_developed.length - 2}</span>` : ''
+                        }
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm text-slate-700">
+                        ${model.key_partners.slice(0, 2).map(partner => this.escapeHtml(partner)).join(', ')}
+                        ${model.key_partners.length > 2 ? `<br><span class="text-xs text-slate-500">+${model.key_partners.length - 2} more</span>` : ''}
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm font-medium text-slate-900">${this.escapeHtml(model.funding)}</div>
+                </td>
+                <td class="px-6 py-4">
+                    <span class="px-3 py-1 bg-${this.getStatusColor(model.status)}/10 text-${this.getStatusColor(model.status)} text-sm font-medium rounded-full">
+                        ${model.status}
+                    </span>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm text-slate-700">
+                        ${model.languages.slice(0, 3).join(', ')}
+                        ${model.languages.length > 3 ? `<br><span class="text-xs text-slate-500">+${model.languages.length - 3} more</span>` : ''}
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    ${model.url ? `
+                        <a href="${this.escapeHtml(model.url)}" target="_blank" 
+                           class="inline-flex items-center px-3 py-1 bg-eu-blue text-white text-sm font-medium rounded-lg hover:bg-eu-blue/90 transition-colors">
+                            <i data-lucide="external-link" class="w-3 h-3 mr-1"></i>
+                            View
+                        </a>
+                    ` : ''}
+                </td>
+            </tr>
+        `).join('');
+        
+        // Reinitialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
 
 
     populateFilterOptions(selectId, options) {
@@ -567,11 +651,20 @@ class EUGenAIHub {
         const icons = {
             'report': 'file-text',
             'dataset': 'database',
-            'tool': 'tool',
+            'tool': 'wrench',
             'paper': 'scroll',
             'framework': 'layers'
         };
         return icons[type] || 'library';
+    }
+
+    getModelTypeColor(type) {
+        const colors = {
+            'LLM': 'blue-600',
+            'VLM': 'purple-600',
+            'Multimodal': 'pink-600'
+        };
+        return colors[type] || 'slate-600';
     }
 
     getTypeColor(type) {

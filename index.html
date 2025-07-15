@@ -120,6 +120,9 @@
                     <a href="#projects" class="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="projects">
                         <i data-lucide="rocket" class="w-4 h-4 inline mr-2"></i>Projects
                     </a>
+                    <a href="#models" class="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="models">
+                        <i data-lucide="brain" class="w-4 h-4 inline mr-2"></i>LLM/VLM Models
+                    </a>
                     <a href="#map" class="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="map">
                         <i data-lucide="map" class="w-4 h-4 inline mr-2"></i>Research Map
                     </a>
@@ -145,6 +148,9 @@
                 </a>
                 <a href="#projects" class="block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="projects">
                     <i data-lucide="rocket" class="w-4 h-4 inline mr-2"></i>Projects
+                </a>
+                <a href="#models" class="block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="models">
+                    <i data-lucide="brain" class="w-4 h-4 inline mr-2"></i>LLM/VLM Models
                 </a>
                 <a href="#map" class="block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="map">
                     <i data-lucide="map" class="w-4 h-4 inline mr-2"></i>Research Map
@@ -199,8 +205,8 @@
                         
                         <div class="relative animate-float">
                             <div class="relative z-10">
-                                <img src="https://pixabay.com/get/ge830326d02f441e69b11e100ae5cf407302c461d0fd9cb590b7fb977ddc5f8b4c6dfe68d420f91683d24391be7f8355f_1280.jpg" 
-                                     alt="European Research Institutions" 
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1200px-Flag_of_Europe.svg.png" 
+                                     alt="European Union Flag - European AI Research" 
                                      class="rounded-3xl shadow-2xl w-full h-auto" />
                             </div>
                             <div class="absolute -top-4 -right-4 w-24 h-24 bg-accent-purple rounded-2xl opacity-80 animate-pulse-slow"></div>
@@ -448,6 +454,74 @@
                 </div>
                 
                 <div id="projects-grid" class="grid lg:grid-cols-2 gap-8"></div>
+            </div>
+        </section>
+
+        <!-- LLM/VLM Models Section -->
+        <section id="models" class="section hidden min-h-screen bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-space font-bold text-slate-900 mb-4">European LLM/VLM Models</h2>
+                    <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                        Comprehensive overview of Large Language Models and Vision-Language Models developed across European research initiatives
+                    </p>
+                </div>
+                
+                <div class="bg-slate-50 rounded-3xl shadow-xl p-8 mb-8">
+                    <div class="flex flex-col lg:flex-row gap-4">
+                        <div class="relative flex-1">
+                            <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                            <input type="text" id="models-search" placeholder="Search models, projects, or partners..." 
+                                   class="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent">
+                        </div>
+                        <div class="relative">
+                            <i data-lucide="brain" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                            <select id="models-filter-type" class="pl-10 pr-8 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none min-w-48">
+                                <option value="all">All Model Types</option>
+                                <option value="LLM">Large Language Models</option>
+                                <option value="VLM">Vision-Language Models</option>
+                                <option value="Multimodal">Multimodal Models</option>
+                            </select>
+                        </div>
+                        <div class="relative">
+                            <i data-lucide="activity" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                            <select id="models-filter-status" class="pl-10 pr-8 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none min-w-48">
+                                <option value="all">All Status</option>
+                                <option value="active">Active Development</option>
+                                <option value="released">Released</option>
+                                <option value="research">Research Phase</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gradient-to-r from-eu-blue to-accent-purple text-white">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold">Project Name</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold">Model Type</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold">Models Developed</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold">Key Partners</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold">Funding</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold">Status</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold">Languages</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="models-table-body">
+                                <!-- Model data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <p class="text-sm text-slate-500">
+                        Data based on the International Open-Source LLM Builders Summit held in Geneva during ITU's AI for Good
+                    </p>
+                </div>
             </div>
         </section>
 

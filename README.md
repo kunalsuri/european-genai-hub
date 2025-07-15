@@ -1,5 +1,14 @@
-
-# 🧠 EU GenAI Hub
+---
+title: European Gen AI Hub
+emoji: 🌍 🇪🇺
+colorFrom: blue
+colorTo: green
+sdk: static
+pinned: true
+license: mit
+short_description: A Space for tracking the latest in GenAI in EU and Swiss
+---
+# 🧠 European Gen AI Hub
 
 <div align="center">
 
@@ -16,17 +25,20 @@
 
 ## 🌟 Overview
 
-EU GenAI Hub is a modern, interactive web platform that serves as a one-stop destination for researchers, engineers, and AI enthusiasts to discover European Generative AI research initiatives, institutions, projects, and resources.
+European Gen AI Hub is a modern, interactive web space that serves as a one-stop destination for researchers, engineers, and AI enthusiasts to discover European Generative AI research initiatives, institutions, projects, and resources.
+
 
 ### ✨ Key Features
 
-- 🏛️ **Research Institutions** - Explore leading European AI research centers and universities
-- 🚀 **Active Projects** - Discover ongoing GenAI initiatives across Europe
+- 🚀 **Active Projects** - Discover ongoing GenAI initiatives across Europe & Swiss
 - 🧠 **LLM/VLM Models** - Browse European language and vision models
-- 📚 **Resources** - Access datasets, tools, papers, and benchmarks
-- 🗺️ **Interactive Map** - Geographic visualization of research activities
-- 🔍 **Advanced Search** - Filter and search across all content types
+- 🏛️ **Research Institutions** - Explore leading European AI research centers and universities
+- 📚 **Resources** - Access to datasets, tools, papers, and benchmarks
+- 🔍 **Search** - Filter and search across all content types
 - 📱 **Responsive Design** - Optimized for desktop and mobile devices
+- ⚡  **Fast Performance**: Optimized loading and search performance
+- 🔒 **Secure**: XSS protection and security best practices
+
 
 ## 🚀 Quick Start
 
@@ -37,6 +49,7 @@ EU GenAI Hub is a modern, interactive web platform that serves as a one-stop des
    ```
 3. **Open** `http://localhost:5000` in your browser
 
+
 ## 🛠️ Technology Stack
 
 - **Frontend**: Vanilla JavaScript (ES6+), HTML5, CSS3
@@ -46,42 +59,22 @@ EU GenAI Hub is a modern, interactive web platform that serves as a one-stop des
 - **Charts**: Chart.js for data visualization
 - **Data**: JSON-based content management
 
-## 📁 Project Structure
-
-```
-europe-genai/
-├── 📄 index.html          # Main application entry point
-├── 📁 pages/              # Individual section pages
-│   ├── institutions.html
-│   ├── projects.html
-│   └── resources.html
-├── 📁 css/               # Styling
-│   └── style.css
-├── 📁 js/                # JavaScript modules
-│   ├── main.js           # Core application logic
-│   ├── search-utility.js # Universal search functionality
-│   └── search.js         # Search manager
-├── 📁 data/              # Content data (JSON)
-│   ├── institutions.json
-│   ├── projects.json
-│   ├── models.json
-│   └── resources.json
-└── 📁 assets/            # Static assets
-```
 
 ## 🎯 Core Sections
 
 ### 🏛️ Institutions
-Browse 25+ leading European AI research institutions including:
+Browse leading European AI research institutions including:
 - Universities and research centers
 - Industry labs and startups
 - Government research facilities
 
-### 🚀 Projects
-Explore active GenAI projects such as:
-- CLAIRE (Confederation of Labs for AI Research in Europe)
-- ELLIS (European Laboratory for Learning and Intelligent Systems)
-- AI4EU Platform initiatives
+### 🚀 Featured European AI Initiatives 
+Explore active projects such as:
+- AI On Demand Platform
+- ADRA Association
+- European AI Office
+- ETH & EPFL AI
+- OpenEuroLLM Project
 
 ### 🧠 Models
 Discover European-developed models:
@@ -95,13 +88,6 @@ Access research resources including:
 - Research papers and reports
 - Tools and frameworks
 
-## 🔧 Features
-
-- **🔍 Universal Search**: Advanced search across all content types with filters
-- **📊 Statistics Dashboard**: Real-time metrics and data insights
-- **📱 Mobile Responsive**: Optimized for all device sizes
-- **⚡ Fast Performance**: Optimized loading and search performance
-- **🔒 Secure**: XSS protection and security best practices
 
 ## 👨‍💻 Managed By
 
@@ -109,22 +95,25 @@ Access research resources including:
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/kunalsuri/)
 
+
 ## 🤝 Contributing
 
 We welcome contributions to expand and improve the EU GenAI Hub:
 
-1. **Add Institution**: Submit new research institutions
-2. **Update Projects**: Share ongoing GenAI initiatives
-3. **Resources**: Contribute datasets, tools, or papers
-4. **Improvements**: Enhance functionality or design
+1. **Improvements**: Enhance functionality or design
+2. **Add Institution**: Submit new research institutions
+3. **Update Projects**: Share ongoing GenAI initiatives
+4. **Resources**: Contribute datasets, tools, or important papers
+
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+
 ## 🙏 Acknowledgments
 
-- European Commission for AI research initiatives
+- European Commission for several ongoing AI research initiatives
 - Contributing research institutions and projects
 - Open source community for tools and libraries
 
@@ -132,8 +121,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Supporting European AI Research Excellence** 🇪🇺
+**Supporting European GenAI R&D Excellence** 🇪🇺
 
-*Made with ❤️ for the European AI Research Community*
+*Powered by GitHub + Hugging Face*
+
+*Maintained by [GitHub/@kunalsuri](https://github.com/kunalsuri) with ❤️ from Paris* 
 
 </div>

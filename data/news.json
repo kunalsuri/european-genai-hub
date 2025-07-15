@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "title": "European AI Act Enters Force: New Era of AI Regulation",
+    "date": "2024-08-01",
+    "category": "Policy",
+    "source": "European Commission",
+    "summary": "The comprehensive AI Act establishes the world's first major AI regulation framework, setting safety standards for AI systems across Europe.",
+    "content": "The European Union's Artificial Intelligence Act has officially entered into force, marking a historic milestone in AI governance. This landmark legislation introduces a risk-based approach to AI regulation, with strict requirements for high-risk AI applications while fostering innovation in the sector.",
+    "tags": ["regulation", "policy", "AI Act", "governance"],
+    "url": "https://digital-strategy.ec.europa.eu/en/policies/artificial-intelligence-act"
+  },
+  {
+    "title": "ELLIS Opens New Institute in Prague Focusing on Generative AI",
+    "date": "2024-07-15",
+    "category": "Research",
+    "source": "ELLIS",
+    "summary": "The European Laboratory for Learning and Intelligent Systems expands with a new Prague institute dedicated to advancing generative AI research.",
+    "content": "ELLIS has announced the opening of its newest research institute in Prague, Czech Republic, with a specific focus on generative artificial intelligence. The institute will collaborate with leading European universities and research centers to advance the field of AI-generated content, language models, and creative AI applications.",
+    "tags": ["ELLIS", "research", "generative AI", "Prague"],
+    "url": "https://ellis.eu"
+  },
+  {
+    "title": "DeepMind and University Partners Launch €25M AI Safety Initiative",
+    "date": "2024-06-20",
+    "category": "Funding",
+    "source": "DeepMind",
+    "summary": "Major collaborative effort between DeepMind and European universities to address critical AI safety challenges.",
+    "content": "DeepMind has announced a significant €25 million investment in AI safety research, partnering with universities across Europe including Cambridge, ETH Zurich, and KTH Stockholm. The initiative aims to develop robust methodologies for ensuring AI systems remain safe, interpretable, and aligned with human values.",
+    "tags": ["AI safety", "funding", "DeepMind", "collaboration"],
+    "url": "https://www.deepmind.com"
+  },
+  {
+    "title": "German DFKI Announces Breakthrough in Multilingual AI",
+    "date": "2024-05-30",
+    "category": "Research",
+    "source": "DFKI",
+    "summary": "Researchers at DFKI develop new architecture enabling AI models to understand and generate content in 50+ European languages.",
+    "content": "The German Research Center for Artificial Intelligence (DFKI) has unveiled a significant breakthrough in multilingual AI capabilities. Their new model architecture can effectively process and generate content across more than 50 European languages, including regional dialects and minority languages.",
+    "tags": ["multilingual AI", "DFKI", "language models", "breakthrough"],
+    "url": "https://www.dfki.de"
+  },
+  {
+    "title": "EU Invests €2 Billion in Sovereign AI Infrastructure",
+    "date": "2024-04-10",
+    "category": "Funding",
+    "source": "European Commission",
+    "summary": "Massive investment program to build European AI computing infrastructure and reduce dependence on non-EU providers.",
+    "content": "The European Commission has announced a historic €2 billion investment in developing sovereign AI infrastructure across member states. The program aims to establish European-controlled supercomputing facilities, data centers, and AI development platforms to ensure technological sovereignty in the AI domain.",
+    "tags": ["EU funding", "infrastructure", "sovereignty", "supercomputing"],
+    "url": "https://digital-strategy.ec.europa.eu"
+  },
+  {
+    "title": "INRIA and Partners Demo Real-time AI Video Generation",
+    "date": "2024-03-18",
+    "category": "Technology",
+    "source": "INRIA",
+    "summary": "French research institute showcases groundbreaking technology for generating high-quality video content in real-time using AI.",
+    "content": "INRIA, in collaboration with European media partners, has demonstrated revolutionary real-time AI video generation technology. The system can create photorealistic video content on-demand, opening new possibilities for media production, gaming, and virtual reality applications.",
+    "tags": ["video generation", "INRIA", "real-time AI", "media technology"],
+    "url": "https://www.inria.fr"
+  }
+]

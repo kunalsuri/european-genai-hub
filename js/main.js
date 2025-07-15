@@ -90,12 +90,14 @@ class EUGenAIHub {
         const sections = document.querySelectorAll('.section');
         sections.forEach(section => {
             section.classList.remove('active');
+            section.classList.add('hidden');
         });
 
         // Show target section
         const targetSection = document.getElementById(sectionName);
         if (targetSection) {
             targetSection.classList.add('active');
+            targetSection.classList.remove('hidden');
             this.currentSection = sectionName;
 
             // Update navigation active state
@@ -106,6 +108,12 @@ class EUGenAIHub {
                     link.classList.add('active');
                 }
             });
+
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu) {
+                mobileMenu.classList.add('hidden');
+            }
 
             // Load section content
             this.loadSectionContent(sectionName);
@@ -183,28 +191,61 @@ class EUGenAIHub {
         }
 
         container.innerHTML = this.data.institutions.map(institution => `
-            <div class="content-card fade-in">
-                <h3>${this.escapeHtml(institution.name)}</h3>
-                <div class="meta">
-                    <strong>Country:</strong> ${this.escapeHtml(institution.country)}<br>
-                    <strong>Type:</strong> ${this.escapeHtml(institution.type)}<br>
-                    <strong>Focus:</strong> ${this.escapeHtml(institution.focus)}
-                </div>
-                <p>${this.escapeHtml(institution.description)}</p>
-                <div class="tags">
-                    ${institution.research_areas.map(area => 
-                        `<span class="tag">${this.escapeHtml(area)}</span>`
-                    ).join('')}
-                </div>
-                ${institution.website ? `
-                    <div style="margin-top: 1rem;">
-                        <a href="${this.escapeHtml(institution.website)}" target="_blank" class="btn btn-primary">
-                            Visit Website
-                        </a>
+            <div class="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+                <div class="p-8">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <div class="w-12 h-12 bg-gradient-to-br from-eu-blue to-accent-purple rounded-2xl flex items-center justify-center">
+                                    <i data-lucide="${this.getInstitutionIcon(institution.type)}" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <span class="px-3 py-1 bg-${this.getTypeColor(institution.type)}/10 text-${this.getTypeColor(institution.type)} text-sm font-medium rounded-full">
+                                    ${institution.type}
+                                </span>
+                            </div>
+                            <h3 class="text-xl font-space font-bold text-slate-900 mb-2 group-hover:text-eu-blue transition-colors">
+                                ${this.escapeHtml(institution.name)}
+                            </h3>
+                        </div>
                     </div>
-                ` : ''}
+                    
+                    <div class="flex items-center text-slate-600 mb-4">
+                        <i data-lucide="map-pin" class="w-4 h-4 mr-2"></i>
+                        <span class="text-sm">${this.escapeHtml(institution.city)}, ${this.escapeHtml(institution.country)}</span>
+                    </div>
+                    
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        ${this.escapeHtml(institution.description)}
+                    </p>
+                    
+                    ${institution.research_areas ? `
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            ${institution.research_areas.slice(0, 3).map(area => 
+                                `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
+                                    ${this.escapeHtml(area)}
+                                </span>`
+                            ).join('')}
+                            ${institution.research_areas.length > 3 ? 
+                                `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
+                                    +${institution.research_areas.length - 3} more
+                                </span>` : ''
+                            }
+                        </div>
+                    ` : ''}
+                    
+                    <a href="${institution.website}" target="_blank" 
+                       class="inline-flex items-center justify-center w-full bg-gradient-to-r from-eu-blue to-accent-purple text-white px-6 py-3 rounded-2xl font-semibold hover:scale-105 transition-all duration-300 group">
+                        <span>Visit Website</span>
+                        <i data-lucide="external-link" class="w-4 h-4 ml-2 group-hover:rotate-12 transition-transform"></i>
+                    </a>
+                </div>
             </div>
         `).join('');
+        
+        // Reinitialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
 
         // Populate filter options
         this.populateFilterOptions('institutions-filter-country', 
@@ -221,26 +262,82 @@ class EUGenAIHub {
         }
 
         container.innerHTML = this.data.projects.map(project => `
-            <div class="content-card fade-in">
-                <h3>${this.escapeHtml(project.title)}</h3>
-                <div class="meta">
-                    <strong>Status:</strong> <span class="tag ${project.status}">${this.escapeHtml(project.status)}</span><br>
-                    <strong>Duration:</strong> ${this.escapeHtml(project.start_date)} - ${this.escapeHtml(project.end_date)}<br>
-                    <strong>Funding:</strong> €${this.formatNumber(project.funding)}
-                </div>
-                <p>${this.escapeHtml(project.description)}</p>
-                <div class="tags">
-                    ${project.research_areas.map(area => 
-                        `<span class="tag secondary">${this.escapeHtml(area)}</span>`
-                    ).join('')}
-                </div>
-                <div style="margin-top: 1rem;">
-                    <strong>Partners:</strong> ${project.partners.map(partner => 
-                        this.escapeHtml(partner)
-                    ).join(', ')}
+            <div class="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 overflow-hidden">
+                <div class="p-8">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-accent-cyan to-accent-purple rounded-xl flex items-center justify-center">
+                                    <i data-lucide="rocket" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <span class="px-3 py-1 bg-${this.getStatusColor(project.status)}/10 text-${this.getStatusColor(project.status)} text-sm font-semibold rounded-full">
+                                    ${project.status}
+                                </span>
+                            </div>
+                            <h3 class="text-2xl font-space font-bold text-slate-900 mb-4 leading-tight">
+                                ${this.escapeHtml(project.title)}
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="flex items-center text-slate-600">
+                            <i data-lucide="calendar" class="w-4 h-4 mr-2"></i>
+                            <span class="text-sm">${this.formatDate(project.start_date)} - ${this.formatDate(project.end_date)}</span>
+                        </div>
+                        <div class="flex items-center text-slate-600">
+                            <i data-lucide="euro" class="w-4 h-4 mr-2"></i>
+                            <span class="text-sm font-semibold">${project.funding}</span>
+                        </div>
+                    </div>
+
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        ${this.escapeHtml(project.description)}
+                    </p>
+
+                    ${project.technologies ? `
+                        <div class="mb-6">
+                            <h4 class="text-sm font-semibold text-slate-700 mb-3">Key Technologies</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${project.technologies.slice(0, 3).map(tech => 
+                                    `<span class="px-3 py-1 bg-accent-cyan/10 text-accent-cyan text-xs font-medium rounded-full">
+                                        ${this.escapeHtml(tech)}
+                                    </span>`
+                                ).join('')}
+                                ${project.technologies.length > 3 ? 
+                                    `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
+                                        +${project.technologies.length - 3} more
+                                    </span>` : ''
+                                }
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${project.participants ? `
+                        <div class="pt-6 border-t border-slate-100">
+                            <h4 class="text-sm font-semibold text-slate-700 mb-3">Research Partners</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${project.participants.slice(0, 4).map(partner => 
+                                    `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg">
+                                        ${this.escapeHtml(partner)}
+                                    </span>`
+                                ).join('')}
+                                ${project.participants.length > 4 ? 
+                                    `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg">
+                                        +${project.participants.length - 4} more
+                                    </span>` : ''
+                                }
+                            </div>
+                        </div>
+                    ` : ''}
                 </div>
             </div>
         `).join('');
+        
+        // Reinitialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
 
         // Populate filter options
         this.populateFilterOptions('projects-filter-area', 
@@ -429,6 +526,33 @@ class EUGenAIHub {
         } catch (error) {
             return dateString;
         }
+    }
+
+    getInstitutionIcon(type) {
+        const icons = {
+            'university': 'graduation-cap',
+            'research': 'microscope',
+            'industry': 'building-2'
+        };
+        return icons[type] || 'building-2';
+    }
+
+    getTypeColor(type) {
+        const colors = {
+            'university': 'blue-600',
+            'research': 'green-600',
+            'industry': 'purple-600'
+        };
+        return colors[type] || 'slate-600';
+    }
+
+    getStatusColor(status) {
+        const colors = {
+            'active': 'green-600',
+            'completed': 'blue-600',
+            'planned': 'yellow-600'
+        };
+        return colors[status] || 'slate-600';
     }
 }
 

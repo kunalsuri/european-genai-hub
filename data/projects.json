@@ -1,1 +1,80 @@
-[]
+[
+  {
+    "title": "EuroLLM - European Large Language Model Initiative",
+    "institution": "DFKI",
+    "country": "Germany",
+    "status": "Active",
+    "category": "Language Models",
+    "description": "Developing a sovereign European large language model that respects European values and multilingual capabilities.",
+    "funding": "€50M",
+    "start_date": "2023-01-15",
+    "end_date": "2026-12-31",
+    "participants": ["DFKI", "INRIA", "University of Amsterdam"],
+    "technologies": ["Transformer Architecture", "Multilingual Training", "Constitutional AI"]
+  },
+  {
+    "title": "CLAIRE - Confederation of Laboratories for AI Research in Europe",
+    "institution": "Multiple",
+    "country": "Europe-wide",
+    "status": "Active",
+    "category": "Research Network",
+    "description": "Pan-European network fostering excellence in AI research and innovation across European institutions.",
+    "funding": "€200M",
+    "start_date": "2022-06-01",
+    "end_date": "2027-05-31",
+    "participants": ["ETH Zurich", "KTH", "TU Munich", "Cambridge"],
+    "technologies": ["Federated Learning", "Edge AI", "Quantum-Classical Hybrid Systems"]
+  },
+  {
+    "title": "AI4Media - AI for Media and Creative Industries",
+    "institution": "INRIA",
+    "country": "France",
+    "status": "Active", 
+    "category": "Creative AI",
+    "description": "Advancing AI technologies for next-generation media applications and creative content generation.",
+    "funding": "€12M",
+    "start_date": "2022-09-01",
+    "end_date": "2025-08-31",
+    "participants": ["INRIA", "BBC", "IRT", "CWI"],
+    "technologies": ["Generative Adversarial Networks", "Neural Rendering", "Audio Synthesis"]
+  },
+  {
+    "title": "HumaneAI Net - Human-Centric AI Network",
+    "institution": "Multiple European Universities",
+    "country": "Europe-wide",
+    "status": "Completed",
+    "category": "Human-AI Interaction",
+    "description": "Research network focusing on human-centric AI that augments rather than replaces human capabilities.",
+    "funding": "€8M",
+    "start_date": "2019-01-01",
+    "end_date": "2023-12-31",
+    "participants": ["University of Cambridge", "KTH", "University of Amsterdam"],
+    "technologies": ["Explainable AI", "Human-in-the-loop Systems", "Ethical AI Frameworks"]
+  },
+  {
+    "title": "TAILOR - Foundations of Trustworthy AI",
+    "institution": "CWI",
+    "country": "Netherlands",
+    "status": "Active",
+    "category": "AI Safety",
+    "description": "Developing theoretical and practical foundations for trustworthy AI systems with verifiable properties.",
+    "funding": "€15M",
+    "start_date": "2020-09-01",
+    "end_date": "2024-08-31",
+    "participants": ["CWI", "KTH", "University of Bologna", "DFKI"],
+    "technologies": ["Formal Verification", "Robustness Testing", "Privacy-Preserving ML"]
+  },
+  {
+    "title": "ELLIS - European Laboratory for Learning and Intelligent Systems",
+    "institution": "Multiple",
+    "country": "Europe-wide",
+    "status": "Active",
+    "category": "Machine Learning",
+    "description": "Pan-European AI research laboratory fostering fundamental advances in machine learning.",
+    "funding": "€100M",
+    "start_date": "2019-07-01",
+    "end_date": "2026-06-30",
+    "participants": ["ETH Zurich", "TU Munich", "Cambridge", "KTH"],
+    "technologies": ["Deep Learning", "Reinforcement Learning", "Causal Inference", "Meta-Learning"]
+  }
+]

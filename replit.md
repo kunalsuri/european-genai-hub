@@ -7,6 +7,8 @@ EU GenAI Hub is a comprehensive web portal designed to showcase and explore Gene
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Design preference: Modern, contemporary styling using Tailwind CSS instead of traditional CSS.
+Visual style: Prefers "younger" feeling designs with modern animations and gradients.
 
 ## System Architecture
 
@@ -42,11 +44,14 @@ This is a client-side web application built with vanilla HTML, CSS, and JavaScri
 - **Consistent navigation**: Unified navigation bar across all pages
 - **Search integration**: Each section includes dedicated search and filter controls
 
-### 5. Styling System
-- **CSS custom properties**: Centralized theming using CSS variables
-- **European color scheme**: Blue and yellow color palette reflecting EU branding
-- **Responsive design**: Mobile-first approach with flexible layouts
-- **Component-based styles**: Modular CSS organization
+### 5. Styling System  
+- **Tailwind CSS Framework**: Modern utility-first CSS framework for contemporary design
+- **Custom Tailwind Configuration**: Extended color palette with EU colors and modern accent colors
+- **European color scheme**: Primary EU blue (#003399), EU yellow (#FFCC00), with modern accent colors (purple, cyan, pink)
+- **Modern animations**: Floating elements, gradient backgrounds, hover effects, and micro-interactions
+- **Glass morphism effects**: Backdrop blur and transparency for modern visual depth
+- **Responsive design**: Mobile-first approach with Tailwind's responsive utilities
+- **Typography**: Space Grotesk and Inter fonts for modern, clean aesthetics
 
 ## Data Flow
 

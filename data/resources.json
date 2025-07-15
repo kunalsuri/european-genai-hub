@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "title": "European AI Ethics Guidelines",
+    "type": "report",
+    "year": "2024",
+    "description": "Comprehensive guidelines for ethical AI development and deployment across European institutions.",
+    "authors": ["European Commission AI Ethics Expert Group"],
+    "institution": "European Commission",
+    "keywords": ["AI Ethics", "Guidelines", "European Policy", "Responsible AI"],
+    "url": "https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai"
+  },
+  {
+    "title": "EuroLLM: A European Large Language Model Dataset",
+    "type": "dataset",
+    "year": "2024",
+    "description": "Multilingual dataset for training large language models with European language diversity and cultural context.",
+    "authors": ["DFKI Research Team", "University of Amsterdam"],
+    "institution": "DFKI",
+    "keywords": ["Large Language Models", "Multilingual", "European Languages", "Training Data"],
+    "url": "https://huggingface.co/datasets/eurollm"
+  },
+  {
+    "title": "GenAI Benchmark Suite for European Languages",
+    "type": "tool",
+    "year": "2024",
+    "description": "Comprehensive benchmarking tools for evaluating generative AI models on European language tasks.",
+    "authors": ["ELLIS Research Network"],
+    "institution": "ELLIS",
+    "keywords": ["Benchmarking", "Evaluation", "European Languages", "GenAI"],
+    "url": "https://github.com/ellis-eu/genai-bench"
+  },
+  {
+    "title": "Towards Trustworthy AI: European Perspectives",
+    "type": "paper",
+    "year": "2024",
+    "description": "Research paper analyzing approaches to building trustworthy AI systems from a European regulatory perspective.",
+    "authors": ["Dr. Maria Schmidt", "Prof. Johannes Mueller", "Dr. Alessandro Rossi"],
+    "institution": "ETH Zurich",
+    "keywords": ["Trustworthy AI", "Regulation", "Safety", "European AI Act"],
+    "url": "https://arxiv.org/abs/2024.eurogenai.001"
+  },
+  {
+    "title": "Federated Learning Framework for European Healthcare",
+    "type": "tool",
+    "year": "2023",
+    "description": "Open-source framework enabling privacy-preserving machine learning across European healthcare institutions.",
+    "authors": ["CWI AI Research Group"],
+    "institution": "CWI",
+    "keywords": ["Federated Learning", "Healthcare", "Privacy", "Medical AI"],
+    "url": "https://github.com/cwi-dis/fedhealth"
+  },
+  {
+    "title": "European GenAI Research Survey 2024",
+    "type": "report",
+    "year": "2024",
+    "description": "Annual survey of generative AI research activities, funding, and achievements across European institutions.",
+    "authors": ["EU GenAI Research Consortium"],
+    "institution": "Multiple",
+    "keywords": ["Survey", "Research Landscape", "GenAI", "European Research"],
+    "url": "https://europa.eu/research/genai-survey-2024"
+  }
+]

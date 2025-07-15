@@ -1,1 +1,82 @@
-[]
+[
+  {
+    "name": "DFKI - German Research Center for Artificial Intelligence",
+    "country": "Germany",
+    "city": "Berlin",
+    "type": "research",
+    "focus": "AI Research & Development",
+    "description": "Leading European AI research center focusing on innovative software technologies based on Artificial Intelligence methods.",
+    "research_areas": ["Natural Language Processing", "Computer Vision", "Machine Learning", "Robotics"],
+    "website": "https://www.dfki.de"
+  },
+  {
+    "name": "INRIA - French National Institute for Research in Digital Science",
+    "country": "France",
+    "city": "Paris",
+    "type": "research",
+    "focus": "Digital Sciences",
+    "description": "Premier research institute in computational sciences, pioneering advances in AI and machine learning.",
+    "research_areas": ["Deep Learning", "Computer Graphics", "Distributed Systems", "Data Science"],
+    "website": "https://www.inria.fr"
+  },
+  {
+    "name": "University of Cambridge - AI Lab",
+    "country": "United Kingdom",
+    "city": "Cambridge",
+    "type": "university",
+    "focus": "Academic Research",
+    "description": "World-renowned university pushing the boundaries of artificial intelligence research and education.",
+    "research_areas": ["Generative Models", "Reinforcement Learning", "Ethics in AI", "Quantum Computing"],
+    "website": "https://www.cam.ac.uk"
+  },
+  {
+    "name": "ETH Zurich - Institute for Machine Learning",
+    "country": "Switzerland",
+    "city": "Zurich",
+    "type": "university",
+    "focus": "Machine Learning Research",
+    "description": "Leading technical university with cutting-edge research in machine learning and AI systems.",
+    "research_areas": ["Neural Networks", "Optimization", "Probabilistic Models", "AI Safety"],
+    "website": "https://www.ethz.ch"
+  },
+  {
+    "name": "DeepMind London",
+    "country": "United Kingdom",
+    "city": "London",
+    "type": "industry",
+    "focus": "General AI Research",
+    "description": "World leader in artificial intelligence research, developing general-purpose learning algorithms.",
+    "research_areas": ["Deep Reinforcement Learning", "Protein Folding", "Game AI", "Multimodal AI"],
+    "website": "https://www.deepmind.com"
+  },
+  {
+    "name": "Technical University of Munich - AI Lab",
+    "country": "Germany",
+    "city": "Munich",
+    "type": "university",
+    "focus": "Applied AI Research",
+    "description": "Top technical university advancing practical applications of artificial intelligence.",
+    "research_areas": ["Autonomous Systems", "Medical AI", "Industrial AI", "Human-AI Interaction"],
+    "website": "https://www.tum.de"
+  },
+  {
+    "name": "CWI - Centrum Wiskunde & Informatica",
+    "country": "Netherlands",
+    "city": "Amsterdam",
+    "type": "research",
+    "focus": "Mathematics & Computer Science",
+    "description": "National research institute for mathematics and computer science in the Netherlands.",
+    "research_areas": ["Machine Learning", "Cryptography", "Algorithms", "Data Analytics"],
+    "website": "https://www.cwi.nl"
+  },
+  {
+    "name": "KTH Royal Institute of Technology",
+    "country": "Sweden",
+    "city": "Stockholm",
+    "type": "university",
+    "focus": "Technology Research",
+    "description": "Leading technical university in Northern Europe with strong AI and robotics programs.",
+    "research_areas": ["Robotics", "Speech Recognition", "Computer Vision", "Digital Twins"],
+    "website": "https://www.kth.se"
+  }
+]

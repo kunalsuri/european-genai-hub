@@ -1448,17 +1448,17 @@ p { margin-bottom: 1rem; }
 }
 
 /* Featured cards cursor and hover effects */
-.featured-card[data-research-area] {
+.project-card[data-research-area] {
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.featured-card[data-research-area]:hover {
+.project-card[data-research-area]:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
-.featured-card[data-research-area]:focus {
+.project-card[data-research-area]:focus {
     outline: 2px solid var(--primary-color);
     outline-offset: 2px;
 }

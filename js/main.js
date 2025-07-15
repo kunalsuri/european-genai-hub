@@ -172,7 +172,7 @@ class EUGenAIHub {
         });
 
         // Featured research area cards
-        const featuredCards = document.querySelectorAll('.featured-card[data-research-area]');
+        const featuredCards = document.querySelectorAll('.project-card[data-research-area]');
         featuredCards.forEach(card => {
             const listener = (e) => {
                 e.preventDefault();

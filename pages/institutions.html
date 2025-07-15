@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Institutions - EU GenAI Hub</title>
     <meta name="description" content="Leading European institutions advancing Generative AI research across the continent.">
-    
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -25,8 +25,7 @@
                 <a href="../index.html#map" class="nav-link">Research Map</a>
                 <a href="#" class="nav-link active">Institutions</a>
                 <a href="projects.html" class="nav-link">Projects</a>
-                <a href="resources.html" class="nav-link">Resources</a>
-                <a href="news.html" class="nav-link">News</a>
+                <a href="resources.html" class="nav-link">News</a>
             </div>
         </div>
     </nav>
@@ -165,13 +164,11 @@
                     });
                 }
 
-                if (countryFilter) {
-                    countryFilter.addEventListener('change', () => this.applyFilters());
-                }
-
-                if (typeFilter) {
-                    typeFilter.addEventListener('change', () => this.applyFilters());
-                }
+                [countryFilter, typeFilter].forEach(filter => {
+                    if (filter) {
+                        filter.addEventListener('change', () => this.applyFilters());
+                    }
+                });
             }
 
             populateFilters() {

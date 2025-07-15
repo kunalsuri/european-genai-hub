@@ -142,11 +142,23 @@ class SearchManager {
         if (item.project_name) fields.push(item.project_name);
         if (item.description) fields.push(item.description);
         if (item.country) fields.push(item.country);
+        if (item.city) fields.push(item.city);
         if (item.type) fields.push(item.type);
         if (item.area) fields.push(item.area);
         if (item.status) fields.push(item.status);
-        if (item.key_partners) fields.push(...item.key_partners);
-        if (item.models_developed) fields.push(...item.models_developed);
+        if (item.institution) fields.push(item.institution);
+        if (item.funding) fields.push(item.funding);
+        if (item.category) fields.push(item.category);
+        
+        // Handle arrays
+        if (Array.isArray(item.key_partners)) fields.push(...item.key_partners);
+        if (Array.isArray(item.models_developed)) fields.push(...item.models_developed);
+        if (Array.isArray(item.technologies)) fields.push(...item.technologies);
+        if (Array.isArray(item.participants)) fields.push(...item.participants);
+        if (Array.isArray(item.keywords)) fields.push(...item.keywords);
+        if (Array.isArray(item.research_areas)) fields.push(...item.research_areas);
+        if (Array.isArray(item.authors)) fields.push(...item.authors);
+        if (Array.isArray(item.languages)) fields.push(...item.languages);
         
         return fields.filter(field => typeof field === 'string');
     }
@@ -166,24 +178,18 @@ class SearchManager {
         if (window.euGenAIHub) {
             // For models, we need to update the table directly
             if (sectionType === 'models') {
-                this.updateModelsTable(results);
+                window.euGenAIHub.updateModelsTable(results);
             } else {
-                const filteredData = { ...window.euGenAIHub.data };
-                filteredData[sectionType] = results;
-                
                 // Re-render the section with filtered data
                 switch(sectionType) {
                     case 'institutions':
-                        window.euGenAIHub.renderInstitutions(results);
+                        window.euGenAIHub.renderInstitutionsGrid(results);
                         break;
                     case 'projects':
-                        window.euGenAIHub.renderProjects(results);
+                        window.euGenAIHub.renderProjectsGrid(results);
                         break;
                     case 'resources':
-                        window.euGenAIHub.renderResources(results);
-                        break;
-                    case 'news':
-                        window.euGenAIHub.renderNews(results);
+                        window.euGenAIHub.renderResourcesGrid(results);
                         break;
                 }
             }

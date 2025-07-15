@@ -1368,21 +1368,6 @@ class EUGenAIHub {
         }
     }
 
-    sanitizeUrl(url) {
-        if (typeof url !== 'string') return '#';
-
-        // Allow only http/https protocols
-        try {
-            const parsed = new URL(url);
-            if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
-                return url;
-            }
-        } catch (e) {
-            // Invalid URL
-        }
-        return '#';
-    }
-
     truncateText(text, maxLength) {
         if (typeof text !== 'string') return '';
         if (text.length <= maxLength) return text;
@@ -1427,10 +1412,12 @@ class EUGenAIHub {
         const icons = {
             'report': 'file-text',
             'dataset': 'database',
-            'tool': 'settings',
+            'tool': 'wrench',
             'paper': 'scroll',
             'framework': 'layers',
-            'platform': 'globe'
+            'platform': 'globe',
+            'benchmark': 'target',
+            'model': 'brain'
         };
         return icons[type] || 'file-text';
     }

@@ -1477,6 +1477,7 @@ class EUGenAIHub {
 // Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.app = new EUGenAIHub();
+    window.euGenAIHub = window.app; // Expose for command palette
 });
 
 // Handle window beforeunload for cleanup

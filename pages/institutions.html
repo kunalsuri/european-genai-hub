@@ -144,6 +144,7 @@
                 
                 // Populate filter options
                 populateCountryFilter(institutionsData);
+                populateTypeFilter(institutionsData);
                 
                 // Render initial data
                 renderInstitutions(institutionsData);
@@ -227,6 +228,25 @@
                 option.value = country;
                 option.textContent = country;
                 countryFilter.appendChild(option);
+            });
+        }
+
+        function populateTypeFilter(institutions) {
+            const typeFilter = document.getElementById('institutions-filter-type');
+            if (!typeFilter) return;
+
+            // Get unique types
+            const types = [...new Set(institutions.map(inst => inst.type).filter(Boolean))].sort();
+            
+            // Clear existing options except "All Types"
+            typeFilter.innerHTML = '<option value="all">All Types</option>';
+            
+            // Add type options
+            types.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = type;
+                typeFilter.appendChild(option);
             });
         }
     </script>

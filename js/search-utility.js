@@ -262,7 +262,13 @@ class UniversalSearchManager {
     matchesFilter(item, filterType, filterValue) {
         switch (filterType) {
             case 'type':
-                return (item.type || '').toLowerCase() === filterValue.toLowerCase();
+                const itemType = (item.type || '').toLowerCase();
+                const filterType = filterValue.toLowerCase();
+                // Handle both exact matches and partial matches for type
+                return itemType === filterType || 
+                       (filterType === 'university' && itemType.includes('university')) ||
+                       (filterType === 'research' && (itemType.includes('research') || itemType.includes('center'))) ||
+                       (filterType === 'industry' && (itemType.includes('industry') || itemType.includes('company')));
             case 'country':
                 return (item.country || '').toLowerCase() === filterValue.toLowerCase();
             case 'year':
@@ -272,7 +278,6 @@ class UniversalSearchManager {
             case 'access':
                 return (item.access || '').toLowerCase() === filterValue.toLowerCase();
             default:
-                // Log for debugging
                 console.log(`Unknown filter type: ${filterType}, value: ${filterValue}`);
                 return true;
         }

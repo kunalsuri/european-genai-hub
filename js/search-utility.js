@@ -84,6 +84,7 @@ class UniversalSearchManager {
         if (value !== e.target.value) {
             e.target.value = value;
         }
+        console.log(`Search input: "${value}" for page: ${this.pageType}`);
         this.performSearch();
     }
 
@@ -119,6 +120,9 @@ class UniversalSearchManager {
         }
         this.activeFilters[this.pageType][filterType] = selectedValue;
         
+        console.log(`Filter changed: ${filterType} = ${selectedValue} for page: ${this.pageType}`);
+        console.log('Active filters:', this.activeFilters[this.pageType]);
+        
         this.performSearch();
     }
 
@@ -142,7 +146,10 @@ class UniversalSearchManager {
             
             // Perform search and filtering
             let results = this.filterData(this.dataSource, query);
+            console.log(`After text search: ${results.length} results`);
+            
             results = this.applyFilters(results);
+            console.log(`After filters: ${results.length} results`);
             
             // Cache results
             this.cacheResults(cacheKey, results);
@@ -255,6 +262,8 @@ class UniversalSearchManager {
             case 'access':
                 return (item.access || '').toLowerCase() === filterValue.toLowerCase();
             default:
+                // Log for debugging
+                console.log(`Unknown filter type: ${filterType}, value: ${filterValue}`);
                 return true;
         }
     }

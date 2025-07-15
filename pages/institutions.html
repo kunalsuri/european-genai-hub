@@ -136,13 +136,14 @@
                 const response = await fetch('../data/institutions.json');
                 const institutions = await response.json();
                 
+                // Populate filter options first
+                populateCountryFilter(institutions);
+                
                 // Initialize search with universal search utility
                 if (window.universalSearch) {
+                    console.log('Initializing search for institutions with', institutions.length, 'items');
                     window.universalSearch.init('institutions', institutions, renderInstitutions);
                 }
-                
-                // Populate filter options
-                populateCountryFilter(institutions);
                 
                 // Render initial data
                 renderInstitutions(institutions);
@@ -208,6 +209,7 @@
             if (!countryFilter) return;
 
             const countries = [...new Set(institutions.map(inst => inst.country).filter(Boolean))].sort();
+            console.log('Available countries:', countries);
             
             countries.forEach(country => {
                 const option = document.createElement('option');
@@ -215,6 +217,11 @@
                 option.textContent = country;
                 countryFilter.appendChild(option);
             });
+            
+            // Also populate the search utility with the filter options
+            if (window.universalSearch) {
+                window.universalSearch.populateFilterOptions('institutions-filter-country', countries);
+            }
         }
     </script>
 </body>

@@ -1,556 +1,885 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EU GenAI Hub - European Generative AI Research Portal | Dr. Kunal Suri</title>
-    <meta name="description" content="Comprehensive space supporting researchers and engineers with latest information on European Generative AI research. Managed by Dr. Kunal Suri - discover institutions, projects, models, and cutting-edge developments.">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            EU GenAI Hub - European Generative AI Research Portal | Dr. Kunal
+            Suri
+        </title>
+        <meta
+            name="description"
+            content="A hub to support AI enthusiasts with latest information on European Gen AI R & D. Managed by Dr. Kunal Suri - discover institutions, projects, models, and cutting-edge developments."
+        />
 
-    <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://upload.wikimedia.org https://tile.openstreetmap.org; connect-src 'self' https://tile.openstreetmap.org; frame-src 'none';">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=()">
+        <!-- Security Headers -->
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://upload.wikimedia.org https://tile.openstreetmap.org; connect-src 'self' https://tile.openstreetmap.org; frame-src 'none';"
+        />
+        <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+        <meta http-equiv="X-Frame-Options" content="DENY" />
+        <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+        <meta
+            http-equiv="Referrer-Policy"
+            content="strict-origin-when-cross-origin"
+        />
+        <meta
+            http-equiv="Permissions-Policy"
+            content="geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+        />
 
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://unpkg.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+        <!-- Preconnect for performance -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://unpkg.com" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <!-- Fonts -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
 
-    <!-- Local CSS -->
-    <link rel="stylesheet" href="css/style.css">
+        <!-- Local CSS -->
+        <link rel="stylesheet" href="css/style.css" />
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js" integrity="sha256-7lWo7cjrrponRJcS6bc8isfsPDwSKoaYyGIV5tEHOjE=" crossorigin="anonymous"></script>
+        <!-- Chart.js -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"
+            integrity="sha256-7lWo7cjrrponRJcS6bc8isfsPDwSKoaYyGIV5tEHOjE="
+            crossorigin="anonymous"
+        ></script>
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@0.294.0/dist/umd/lucide.js" crossorigin="anonymous"></script>
-</head>
-<body class="font-inter bg-slate-50 text-slate-900" style="font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a;">
-    <!-- Navigation -->
-    <nav class="nav-container">
-        <div class="nav-wrapper">
-            <div class="nav-brand">
-                <div class="nav-logo">
-                    <i data-lucide="brain-circuit" class="nav-icon"></i>
-                </div>
-                <div>
-                    <h1 class="nav-title">EU GenAI Hub</h1>
-                    <p class="nav-subtitle">European Gen AI Research Space</p>
-                </div>
-            </div>
-
-            <div class="nav-menu" id="nav-menu">
-                <a href="#home" class="nav-link active" data-section="home">
-                    <i data-lucide="home" class="nav-link-icon"></i>Home
-                </a>
-                <a href="#projects" class="nav-link" data-section="projects">
-                    <i data-lucide="rocket" class="nav-link-icon"></i>Projects
-                </a>
-                <a href="#models" class="nav-link" data-section="models">
-                    <i data-lucide="brain" class="nav-link-icon"></i>LLM/VLM Models
-                </a>
-                <a href="#institutions" class="nav-link" data-section="institutions">
-                    <i data-lucide="building-2" class="nav-link-icon"></i>Institutions
-                </a>
-                <a href="#resources" class="nav-link" data-section="resources">
-                    <i data-lucide="library" class="nav-link-icon"></i>Resources
-                </a>
-            </div>
-
-            <button class="nav-toggle" id="mobile-menu-btn" aria-label="Toggle mobile menu">
-                <i data-lucide="menu"></i>
-            </button>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div class="mobile-menu hidden" id="mobile-menu">
-            <div class="mobile-menu-content">
-                <a href="#home" class="mobile-nav-link" data-section="home">
-                    <i data-lucide="home" class="mobile-nav-icon"></i>Home
-                </a>
-                <a href="#projects" class="mobile-nav-link" data-section="projects">
-                    <i data-lucide="rocket" class="mobile-nav-icon"></i>Projects
-                </a>
-                <a href="#models" class="mobile-nav-link" data-section="models">
-                    <i data-lucide="brain" class="mobile-nav-icon"></i>LLM/VLM Models
-                </a>
-                <a href="#institutions" class="mobile-nav-link" data-section="institutions">
-                    <i data-lucide="building-2" class="mobile-nav-icon"></i>Institutions
-                </a>
-                <a href="#resources" class="mobile-nav-link" data-section="resources">
-                    <i data-lucide="library" class="mobile-nav-icon"></i>Resources
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Home Section -->
-        <section id="home" class="section active">
-            <!-- Hero Section -->
-            <div class="hero-section">
-                <div class="hero-background"></div>
-                <div class="hero-container">
-                    <div class="hero-grid">
-                        <div class="hero-content">
-                            <div class="hero-badge">
-                                <div class="status-indicator"></div>
-                                <span>Active Research Portal</span>
-                            </div>
-
-                            <h1 class="hero-title">
-                                GenAI beyond theory,
-                                <span class="hero-highlight">
-                                    into practice
-                                </span>
-                            </h1>
-
-                            <p class="hero-description">
-                                A one-stop hub to explore and access latest knowledge on Generative AI research and innovation across the EU.
-                            </p>
-
-                            <div class="hero-actions">
-                                <button class="btn btn-primary" data-section="institutions" aria-label="Browse Institutions">
-                                    <i data-lucide="building-2" class="btn-icon"></i>
-                                    Browse Institutions
-                                </button>
-                                <button class="btn btn-secondary" data-section="projects" aria-label="Explore Projects">
-                                    <i data-lucide="rocket" class="btn-icon"></i>
-                                    Explore Projects
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="hero-image">
-                            <div class="hero-image-container">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1200px-Flag_of_Europe.svg.png" 
-                                     alt="European Union Flag - European AI Research" 
-                                     class="hero-flag" 
-                                     loading="eager" />
-                            </div>
-                            <div class="floating-element element-1"></div>
-                            <div class="floating-element element-2"></div>
-                        </div>
+        <!-- Lucide Icons -->
+        <script
+            src="https://unpkg.com/lucide@0.294.0/dist/umd/lucide.js"
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body
+        class="font-inter bg-slate-50 text-slate-900"
+        style="
+            font-family: &quot;Inter&quot;, sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        "
+    >
+        <!-- Navigation -->
+        <nav class="nav-container">
+            <div class="nav-wrapper">
+                <div class="nav-brand">
+                    <div class="nav-logo">
+                        <i data-lucide="brain-circuit" class="nav-icon"></i>
                     </div>
-                </div>
-
-                <!-- Floating Elements -->
-                <div class="bg-decorations">
-                    <div class="bg-element bg-element-1"></div>
-                    <div class="bg-element bg-element-2"></div>
-                    <div class="bg-element bg-element-3"></div>
-                </div>
-            </div>
-
-            <!-- Stats Section -->
-            <div class="stats-section">
-                <div class="stats-container">
-                    <div class="stats-header">
-                        <h2 class="stats-title">
-                            <span class="stats-plus">+</span>
-                            <span id="total-resources-count" class="stats-number">20</span> 
-                            GenAI resources...
-                            <span class="stats-subtitle">and counting!</span>
-                        </h2>
-                    </div>
-
-                    <div class="stats-grid">
-                        <div class="stat-card stat-card-1">
-                            <div class="stat-bg-element"></div>
-                            <div class="stat-content">
-                                <i data-lucide="building-2" class="stat-icon"></i>
-                                <div class="stat-number" id="institutions-count">0</div>
-                                <div class="stat-label">Research Institutions</div>
-                            </div>
-                        </div>
-
-                        <div class="stat-card stat-card-2">
-                            <div class="stat-bg-element"></div>
-                            <div class="stat-content">
-                                <i data-lucide="rocket" class="stat-icon"></i>
-                                <div class="stat-number" id="projects-count">0</div>
-                                <div class="stat-label">Active Projects</div>
-                            </div>
-                        </div>
-
-                        <div class="stat-card stat-card-3">
-                            <div class="stat-bg-element"></div>
-                            <div class="stat-content">
-                                <i data-lucide="library" class="stat-icon"></i>
-                                <div class="stat-number" id="resources-count">0</div>
-                                <div class="stat-label">Research Resources</div>
-                            </div>
-                        </div>
-
-                        <div class="stat-card stat-card-4">
-                            <div class="stat-bg-element"></div>
-                            <div class="stat-content">
-                                <i data-lucide="globe" class="stat-icon"></i>
-                                <div class="stat-number" id="countries-count">0</div>
-                                <div class="stat-label">EU Countries</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="stats-cta">
-                        <button class="btn btn-gradient" data-section="resources" aria-label="Search Catalogue">
-                            <i data-lucide="search" class="btn-icon"></i>
-                            Search Catalogue
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Featured Projects Section -->
-            <div class="featured-projects-section">
-                <div class="featured-container">
-                    <div class="featured-header">
-                        <h2 class="featured-title">Featured European AI Projects</h2>
-                        <p class="featured-description">Pioneering initiatives shaping Europe's AI landscape and ecosystem</p>
-                    </div>
-
-                    <div class="featured-projects-grid">
-                        <div class="project-card" data-project="ai-on-demand">
-                            <div class="project-icon">
-                                <i data-lucide="zap"></i>
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">AI On Demand Platform</h3>
-                                <p class="project-description">EU's flagship platform centralizing trustworthy AI resources, tools, datasets, and solutions. Supports adoption across sectors with European Commission strategy alignment.</p>
-                                <div class="project-meta">
-                                    <span class="project-tag">🇪🇺 EU Initiative</span>
-                                    <span class="project-tag">Platform</span>
-                                </div>
-                                <div class="project-link">
-                                    <span>Explore Platform</span>
-                                    <i data-lucide="external-link"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-card" data-project="insait">
-                            <div class="project-icon">
-                                <i data-lucide="brain"></i>
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">INSAIT - Sofia AI Hub</h3>
-                                <p class="project-description">Eastern Europe's premier AI institute at Sofia University with ETH Zurich & EPFL. Features €90M BRAIN++ AI factory and Bulgarian LLMs (2.6/9/27B parameters).</p>
-                                <div class="project-meta">
-                                    <span class="project-tag">🇧🇬 Bulgaria</span>
-                                    <span class="project-tag">Research Institute</span>
-                                </div>
-                                <div class="project-link">
-                                    <span>Visit INSAIT</span>
-                                    <i data-lucide="external-link"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-card" data-project="swissgpt">
-                            <div class="project-icon">
-                                <i data-lucide="mountain"></i>
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">SwissGPT</h3>
-                                <p class="project-description">Falcon-based multilingual LLM by AlpineAI, EPFL, and Swiss institutions. Focuses on high-trust environments, sovereignty, and Swiss language support.</p>
-                                <div class="project-meta">
-                                    <span class="project-tag">🇨🇭 Switzerland</span>
-                                    <span class="project-tag">Language Model</span>
-                                </div>
-                                <div class="project-link">
-                                    <span>Explore SwissGPT</span>
-                                    <i data-lucide="external-link"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-card" data-project="matharena">
-                            <div class="project-icon">
-                                <i data-lucide="calculator"></i>
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">MathArena</h3>
-                                <p class="project-description">Live LLM evaluation platform testing models on fresh math competitions (AIME, HMMT, USAMO). Human judges score reasoning chains with open-source code.</p>
-                                <div class="project-meta">
-                                    <span class="project-tag">🧮 Evaluation</span>
-                                    <span class="project-tag">Open Source</span>
-                                </div>
-                                <div class="project-link">
-                                    <span>Visit MathArena</span>
-                                    <i data-lucide="external-link"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-card" data-project="adra">
-                            <div class="project-icon">
-                                <i data-lucide="users"></i>
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">ADRA Association</h3>
-                                <p class="project-description">AI, Data & Robotics Association uniting 180+ members under EU's public-private partnership. Defines strategic roadmap for responsible and sovereign AI.</p>
-                                <div class="project-meta">
-                                    <span class="project-tag">🤖 Partnership</span>
-                                    <span class="project-tag">Policy</span>
-                                </div>
-                                <div class="project-link">
-                                    <span>Learn About ADRA</span>
-                                    <i data-lucide="external-link"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-card" data-project="eu-ai-office">
-                            <div class="project-icon">
-                                <i data-lucide="shield-check"></i>
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">European AI Office</h3>
-                                <p class="project-description">European Commission office responsible for EU AI Act enforcement and guidance. Promotes responsible AI, coordinates practices, and supports AI sandboxes.</p>
-                                <div class="project-meta">
-                                    <span class="project-tag">🏛️ EU Governance</span>
-                                    <span class="project-tag">Regulation</span>
-                                </div>
-                                <div class="project-link">
-                                    <span>Visit AI Office</span>
-                                    <i data-lucide="external-link"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Featured Section -->
-            <div class="featured-section">
-                <div class="featured-container">
-                    <div class="featured-header">
-                        <h2 class="featured-title">Featured Research Areas</h2>
-                        <p class="featured-description">Explore the cutting-edge domains driving European AI innovation</p>
-                    </div>
-
-                    <div class="featured-projects-grid">
-                        <div class="project-card" data-research-area="nlp" role="button" tabindex="0">
-                            <div class="project-icon">
-                                <i data-lucide="message-square"></i>
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">Natural Language Processing</h3>
-                                <p class="project-description">Advanced multilingual language models, conversational AI, and text analysis systems from European research institutions and industry labs.</p>
-                                <div class="project-meta">
-                                    <span class="project-tag">🗣️ Language Models</span>
-                                    <span class="project-tag">Research Area</span>
-                                </div>
-                                <div class="project-link">
-                                    <span>Explore NLP Resources</span>
-                                    <i data-lucide="external-link"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-card" data-research-area="computer-vision" role="button" tabindex="0">
-                            <div class="project-icon">
-                                <i data-lucide="eye"></i>
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">Computer Vision & Multimodal AI</h3>
-                                <p class="project-description">Cutting-edge visual AI, image generation, medical imaging, and vision-language models developed across European research centers.</p>
-                                <div class="project-meta">
-                                    <span class="project-tag">👁️ Vision AI</span>
-                                    <span class="project-tag">Research Area</span>
-                                </div>
-                                <div class="project-link">
-                                    <span>Explore Vision Research</span>
-                                    <i data-lucide="external-link"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-card" data-research-area="robotics" role="button" tabindex="0">
-                            <div class="project-icon">
-                                <i data-lucide="cpu"></i>
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">Robotics & Autonomous Systems</h3>
-                                <p class="project-description">Advanced robotics research in healthcare, manufacturing, autonomous navigation, and human-robot collaboration from leading EU institutions.</p>
-                                <div class="project-meta">
-                                    <span class="project-tag">🤖 Robotics</span>
-                                    <span class="project-tag">Research Area</span>
-                                </div>
-                                <div class="project-link">
-                                    <span>Explore Robotics Research</span>
-                                    <i data-lucide="external-link"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-card" data-research-area="ethics" role="button" tabindex="0">
-                            <div class="project-icon">
-                                <i data-lucide="shield-check"></i>
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">AI Ethics & Trustworthy AI</h3>
-                                <p class="project-description">Leading European research on responsible AI development, governance frameworks, and ethical AI guidelines compliant with EU AI Act.</p>
-                                <div class="project-meta">
-                                    <span class="project-tag">🛡️ Ethics & Safety</span>
-                                    <span class="project-tag">Research Area</span>
-                                </div>
-                                <div class="project-link">
-                                    <span>Explore Ethics Research</span>
-                                    <i data-lucide="external-link"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Other sections will be loaded dynamically -->
-        <section id="institutions" class="section hidden">
-            <div class="loading-state">
-                <div class="loading-spinner"></div>
-                <p>Loading institutions...</p>
-            </div>
-        </section>
-
-        <section id="projects" class="section hidden">
-            <div class="loading-state">
-                <div class="loading-spinner"></div>
-                <p>Loading projects...</p>
-            </div>
-        </section>
-
-        <section id="models" class="section hidden">
-            <div class="loading-state">
-                <div class="loading-spinner"></div>
-                <p>Loading models...</p>
-            </div>
-        </section>
-
-        <section id="resources" class="section hidden">
-            <div class="loading-state">
-                <div class="loading-spinner"></div>
-                <p>Loading resources...</p>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <div class="footer-logo-icon">
-                            <i data-lucide="brain-circuit"></i>
-                        </div>
-                        <h3 class="footer-title">EU GenAI Hub</h3>
-                    </div>
-                    <p class="footer-description">
-                        A comprehensive space created to support researchers and engineers with the latest information on European Generative AI research, institutions, and developments.
-                    </p>
-                    <div class="footer-manager">
-                        <p class="footer-manager-text">
-                            <strong>Managed by:</strong> Dr. Kunal Suri
+                    <div>
+                        <h1 class="nav-title">EU GenAI Hub</h1>
+                        <p class="nav-subtitle">
+                            European Gen AI Research Space
                         </p>
                     </div>
-                    <div class="footer-social">
-                        <a href="https://www.linkedin.com/in/kunalsuri/" target="_blank" rel="noopener noreferrer" class="social-link social-link-primary" aria-label="Dr. Kunal Suri LinkedIn">
-                            <i data-lucide="linkedin"></i>
-                            <span>Connect with Dr. Kunal Suri</span>
-                        </a>
-                    </div>
                 </div>
 
-                <div class="footer-links">
-                    <h4 class="footer-section-title">Quick Links</h4>
-                    <ul class="footer-link-list">
-                        <li><a href="#institutions" class="footer-link" data-section="institutions">
-                            <i data-lucide="chevron-right" class="footer-link-icon"></i>
-                            Institutions
-                        </a></li>
-                        <li><a href="#projects" class="footer-link" data-section="projects">
-                            <i data-lucide="chevron-right" class="footer-link-icon"></i>
-                            Projects
-                        </a></li>
-                        <li><a href="#resources" class="footer-link" data-section="resources">
-                            <i data-lucide="chevron-right" class="footer-link-icon"></i>
-                            Resources
-                        </a></li>
-                    </ul>
+                <div class="nav-menu" id="nav-menu">
+                    <a href="#home" class="nav-link active" data-section="home">
+                        <i data-lucide="home" class="nav-link-icon"></i>Home
+                    </a>
+                    <a
+                        href="#projects"
+                        class="nav-link"
+                        data-section="projects"
+                    >
+                        <i data-lucide="rocket" class="nav-link-icon"></i
+                        >Projects
+                    </a>
+                    <a href="#models" class="nav-link" data-section="models">
+                        <i data-lucide="brain" class="nav-link-icon"></i>LLM/VLM
+                        Models
+                    </a>
+                    <a
+                        href="#institutions"
+                        class="nav-link"
+                        data-section="institutions"
+                    >
+                        <i data-lucide="building-2" class="nav-link-icon"></i
+                        >Institutions
+                    </a>
+                    <a
+                        href="#resources"
+                        class="nav-link"
+                        data-section="resources"
+                    >
+                        <i data-lucide="library" class="nav-link-icon"></i
+                        >Resources
+                    </a>
                 </div>
 
-                <div class="footer-eu">
-                    <h4 class="footer-section-title">European Union</h4>
-                    <div class="eu-flag">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1200px-Flag_of_Europe.svg.png" 
-                             alt="European Union Flag" 
-                             class="eu-flag-img"
-                             loading="lazy"
-                             referrerpolicy="no-referrer" />
-                    </div>
-                    <p class="eu-description">
-                        Supporting European AI research excellence and fostering innovation across member states.
-                    </p>
-                </div>
+                <button
+                    class="nav-toggle"
+                    id="mobile-menu-btn"
+                    aria-label="Toggle mobile menu"
+                >
+                    <i data-lucide="menu"></i>
+                </button>
             </div>
 
-            <div class="footer-bottom">
-                <div class="footer-bottom-content">
-                    <p class="footer-copyright">
-                        &copy; 2025 EU GenAI Hub. Managed by Dr. Kunal Suri. Supporting European AI research excellence.
-                    </p>
-                    <div class="footer-legal">
-                        <a href="#privacy" class="legal-link">Privacy Policy</a>
-                        <a href="#terms" class="legal-link">Terms of Use</a>
-                        <a href="#contact" class="legal-link">Contact</a>
+            <!-- Mobile Menu -->
+            <div class="mobile-menu hidden" id="mobile-menu">
+                <div class="mobile-menu-content">
+                    <a href="#home" class="mobile-nav-link" data-section="home">
+                        <i data-lucide="home" class="mobile-nav-icon"></i>Home
+                    </a>
+                    <a
+                        href="#projects"
+                        class="mobile-nav-link"
+                        data-section="projects"
+                    >
+                        <i data-lucide="rocket" class="mobile-nav-icon"></i
+                        >Projects
+                    </a>
+                    <a
+                        href="#models"
+                        class="mobile-nav-link"
+                        data-section="models"
+                    >
+                        <i data-lucide="brain" class="mobile-nav-icon"></i
+                        >LLM/VLM Models
+                    </a>
+                    <a
+                        href="#institutions"
+                        class="mobile-nav-link"
+                        data-section="institutions"
+                    >
+                        <i data-lucide="building-2" class="mobile-nav-icon"></i
+                        >Institutions
+                    </a>
+                    <a
+                        href="#resources"
+                        class="mobile-nav-link"
+                        data-section="resources"
+                    >
+                        <i data-lucide="library" class="mobile-nav-icon"></i
+                        >Resources
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Section -->
+            <section id="home" class="section active">
+                <!-- Hero Section -->
+                <div class="hero-section">
+                    <div class="hero-background"></div>
+                    <div class="hero-container">
+                        <div class="hero-grid">
+                            <div class="hero-content">
+                                <div class="hero-badge">
+                                    <div class="status-indicator"></div>
+                                    <span>Active Research Portal</span>
+                                </div>
+
+                                <h1 class="hero-title">
+                                    GenAI beyond theory,
+                                    <span class="hero-highlight">
+                                        into practice
+                                    </span>
+                                </h1>
+
+                                <p class="hero-description">
+                                    A one-stop hub to explore and access latest
+                                    knowledge on Generative AI research and
+                                    innovation across the EU.
+                                </p>
+
+                                <div class="hero-actions">
+                                    <button
+                                        class="btn btn-primary"
+                                        data-section="institutions"
+                                        aria-label="Browse Institutions"
+                                    >
+                                        <i
+                                            data-lucide="building-2"
+                                            class="btn-icon"
+                                        ></i>
+                                        Browse Institutions
+                                    </button>
+                                    <button
+                                        class="btn btn-secondary"
+                                        data-section="projects"
+                                        aria-label="Explore Projects"
+                                    >
+                                        <i
+                                            data-lucide="rocket"
+                                            class="btn-icon"
+                                        ></i>
+                                        Explore Projects
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="hero-image">
+                                <div class="hero-image-container">
+                                    <img
+                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1200px-Flag_of_Europe.svg.png"
+                                        alt="European Union Flag - European AI Research"
+                                        class="hero-flag"
+                                        loading="eager"
+                                    />
+                                </div>
+                                <div class="floating-element element-1"></div>
+                                <div class="floating-element element-2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating Elements -->
+                    <div class="bg-decorations">
+                        <div class="bg-element bg-element-1"></div>
+                        <div class="bg-element bg-element-2"></div>
+                        <div class="bg-element bg-element-3"></div>
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="stats-section">
+                    <div class="stats-container">
+                        <div class="stats-header">
+                            <h2 class="stats-title">
+                                <span class="stats-plus">+</span>
+                                <span
+                                    id="total-resources-count"
+                                    class="stats-number"
+                                    >20</span
+                                >
+                                GenAI resources...
+                                <span class="stats-subtitle"
+                                    >and counting!</span
+                                >
+                            </h2>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-card stat-card-1">
+                                <div class="stat-bg-element"></div>
+                                <div class="stat-content">
+                                    <i
+                                        data-lucide="building-2"
+                                        class="stat-icon"
+                                    ></i>
+                                    <div
+                                        class="stat-number"
+                                        id="institutions-count"
+                                    >
+                                        0
+                                    </div>
+                                    <div class="stat-label">
+                                        Research Institutions
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card stat-card-2">
+                                <div class="stat-bg-element"></div>
+                                <div class="stat-content">
+                                    <i
+                                        data-lucide="rocket"
+                                        class="stat-icon"
+                                    ></i>
+                                    <div
+                                        class="stat-number"
+                                        id="projects-count"
+                                    >
+                                        0
+                                    </div>
+                                    <div class="stat-label">
+                                        Active Projects
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card stat-card-3">
+                                <div class="stat-bg-element"></div>
+                                <div class="stat-content">
+                                    <i
+                                        data-lucide="library"
+                                        class="stat-icon"
+                                    ></i>
+                                    <div
+                                        class="stat-number"
+                                        id="resources-count"
+                                    >
+                                        0
+                                    </div>
+                                    <div class="stat-label">
+                                        Research Resources
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card stat-card-4">
+                                <div class="stat-bg-element"></div>
+                                <div class="stat-content">
+                                    <i
+                                        data-lucide="globe"
+                                        class="stat-icon"
+                                    ></i>
+                                    <div
+                                        class="stat-number"
+                                        id="countries-count"
+                                    >
+                                        0
+                                    </div>
+                                    <div class="stat-label">EU Countries</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-cta">
+                            <button
+                                class="btn btn-gradient"
+                                data-section="resources"
+                                aria-label="Search Catalogue"
+                            >
+                                <i data-lucide="search" class="btn-icon"></i>
+                                Search Catalogue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Projects Section -->
+                <div class="featured-projects-section">
+                    <div class="featured-container">
+                        <div class="featured-header">
+                            <h2 class="featured-title">
+                                Featured European AI Projects
+                            </h2>
+                            <p class="featured-description">
+                                Pioneering initiatives shaping Europe's AI
+                                landscape and ecosystem
+                            </p>
+                        </div>
+
+                        <div class="featured-projects-grid">
+                            <div
+                                class="project-card"
+                                data-project="ai-on-demand"
+                            >
+                                <div class="project-icon">
+                                    <i data-lucide="zap"></i>
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">
+                                        AI On Demand Platform
+                                    </h3>
+                                    <p class="project-description">
+                                        EU's flagship platform centralizing
+                                        trustworthy AI resources, tools,
+                                        datasets, and solutions. Supports
+                                        adoption across sectors with European
+                                        Commission strategy alignment.
+                                    </p>
+                                    <div class="project-meta">
+                                        <span class="project-tag"
+                                            >🇪🇺 EU Initiative</span
+                                        >
+                                        <span class="project-tag"
+                                            >Platform</span
+                                        >
+                                    </div>
+                                    <div class="project-link">
+                                        <span>Explore Platform</span>
+                                        <i data-lucide="external-link"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="project-card" data-project="insait">
+                                <div class="project-icon">
+                                    <i data-lucide="brain"></i>
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">
+                                        INSAIT - Sofia AI Hub
+                                    </h3>
+                                    <p class="project-description">
+                                        Eastern Europe's premier AI institute at
+                                        Sofia University with ETH Zurich & EPFL.
+                                        Features €90M BRAIN++ AI factory and
+                                        Bulgarian LLMs (2.6/9/27B parameters).
+                                    </p>
+                                    <div class="project-meta">
+                                        <span class="project-tag"
+                                            >🇧🇬 Bulgaria</span
+                                        >
+                                        <span class="project-tag"
+                                            >Research Institute</span
+                                        >
+                                    </div>
+                                    <div class="project-link">
+                                        <span>Visit INSAIT</span>
+                                        <i data-lucide="external-link"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="project-card" data-project="swissgpt">
+                                <div class="project-icon">
+                                    <i data-lucide="mountain"></i>
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">SwissGPT</h3>
+                                    <p class="project-description">
+                                        Falcon-based multilingual LLM by
+                                        AlpineAI, EPFL, and Swiss institutions.
+                                        Focuses on high-trust environments,
+                                        sovereignty, and Swiss language support.
+                                    </p>
+                                    <div class="project-meta">
+                                        <span class="project-tag"
+                                            >🇨🇭 Switzerland</span
+                                        >
+                                        <span class="project-tag"
+                                            >Language Model</span
+                                        >
+                                    </div>
+                                    <div class="project-link">
+                                        <span>Explore SwissGPT</span>
+                                        <i data-lucide="external-link"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="project-card" data-project="matharena">
+                                <div class="project-icon">
+                                    <i data-lucide="calculator"></i>
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">MathArena</h3>
+                                    <p class="project-description">
+                                        Live LLM evaluation platform testing
+                                        models on fresh math competitions (AIME,
+                                        HMMT, USAMO). Human judges score
+                                        reasoning chains with open-source code.
+                                    </p>
+                                    <div class="project-meta">
+                                        <span class="project-tag"
+                                            >🧮 Evaluation</span
+                                        >
+                                        <span class="project-tag"
+                                            >Open Source</span
+                                        >
+                                    </div>
+                                    <div class="project-link">
+                                        <span>Visit MathArena</span>
+                                        <i data-lucide="external-link"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="project-card" data-project="adra">
+                                <div class="project-icon">
+                                    <i data-lucide="users"></i>
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">
+                                        ADRA Association
+                                    </h3>
+                                    <p class="project-description">
+                                        AI, Data & Robotics Association uniting
+                                        180+ members under EU's public-private
+                                        partnership. Defines strategic roadmap
+                                        for responsible and sovereign AI.
+                                    </p>
+                                    <div class="project-meta">
+                                        <span class="project-tag"
+                                            >🤖 Partnership</span
+                                        >
+                                        <span class="project-tag">Policy</span>
+                                    </div>
+                                    <div class="project-link">
+                                        <span>Learn About ADRA</span>
+                                        <i data-lucide="external-link"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="project-card"
+                                data-project="eu-ai-office"
+                            >
+                                <div class="project-icon">
+                                    <i data-lucide="shield-check"></i>
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">
+                                        European AI Office
+                                    </h3>
+                                    <p class="project-description">
+                                        European Commission office responsible
+                                        for EU AI Act enforcement and guidance.
+                                        Promotes responsible AI, coordinates
+                                        practices, and supports AI sandboxes.
+                                    </p>
+                                    <div class="project-meta">
+                                        <span class="project-tag"
+                                            >🏛️ EU Governance</span
+                                        >
+                                        <span class="project-tag"
+                                            >Regulation</span
+                                        >
+                                    </div>
+                                    <div class="project-link">
+                                        <span>Visit AI Office</span>
+                                        <i data-lucide="external-link"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Section -->
+                <div class="featured-section">
+                    <div class="featured-container">
+                        <div class="featured-header">
+                            <h2 class="featured-title">
+                                Featured Research Areas
+                            </h2>
+                            <p class="featured-description">
+                                Explore the cutting-edge domains driving
+                                European AI innovation
+                            </p>
+                        </div>
+
+                        <div class="featured-projects-grid">
+                            <div
+                                class="project-card"
+                                data-research-area="nlp"
+                                role="button"
+                                tabindex="0"
+                            >
+                                <div class="project-icon">
+                                    <i data-lucide="message-square"></i>
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">
+                                        Natural Language Processing
+                                    </h3>
+                                    <p class="project-description">
+                                        Advanced multilingual language models,
+                                        conversational AI, and text analysis
+                                        systems from European research
+                                        institutions and industry labs.
+                                    </p>
+                                    <div class="project-meta">
+                                        <span class="project-tag"
+                                            >🗣️ Language Models</span
+                                        >
+                                        <span class="project-tag"
+                                            >Research Area</span
+                                        >
+                                    </div>
+                                    <div class="project-link">
+                                        <span>Explore NLP Resources</span>
+                                        <i data-lucide="external-link"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="project-card"
+                                data-research-area="computer-vision"
+                                role="button"
+                                tabindex="0"
+                            >
+                                <div class="project-icon">
+                                    <i data-lucide="eye"></i>
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">
+                                        Computer Vision & Multimodal AI
+                                    </h3>
+                                    <p class="project-description">
+                                        Cutting-edge visual AI, image
+                                        generation, medical imaging, and
+                                        vision-language models developed across
+                                        European research centers.
+                                    </p>
+                                    <div class="project-meta">
+                                        <span class="project-tag"
+                                            >👁️ Vision AI</span
+                                        >
+                                        <span class="project-tag"
+                                            >Research Area</span
+                                        >
+                                    </div>
+                                    <div class="project-link">
+                                        <span>Explore Vision Research</span>
+                                        <i data-lucide="external-link"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="project-card"
+                                data-research-area="robotics"
+                                role="button"
+                                tabindex="0"
+                            >
+                                <div class="project-icon">
+                                    <i data-lucide="cpu"></i>
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">
+                                        Robotics & Autonomous Systems
+                                    </h3>
+                                    <p class="project-description">
+                                        Advanced robotics research in
+                                        healthcare, manufacturing, autonomous
+                                        navigation, and human-robot
+                                        collaboration from leading EU
+                                        institutions.
+                                    </p>
+                                    <div class="project-meta">
+                                        <span class="project-tag"
+                                            >🤖 Robotics</span
+                                        >
+                                        <span class="project-tag"
+                                            >Research Area</span
+                                        >
+                                    </div>
+                                    <div class="project-link">
+                                        <span>Explore Robotics Research</span>
+                                        <i data-lucide="external-link"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="project-card"
+                                data-research-area="ethics"
+                                role="button"
+                                tabindex="0"
+                            >
+                                <div class="project-icon">
+                                    <i data-lucide="shield-check"></i>
+                                </div>
+                                <div class="project-content">
+                                    <h3 class="project-title">
+                                        AI Ethics & Trustworthy AI
+                                    </h3>
+                                    <p class="project-description">
+                                        Leading European research on responsible
+                                        AI development, governance frameworks,
+                                        and ethical AI guidelines compliant with
+                                        EU AI Act.
+                                    </p>
+                                    <div class="project-meta">
+                                        <span class="project-tag"
+                                            >🛡️ Ethics & Safety</span
+                                        >
+                                        <span class="project-tag"
+                                            >Research Area</span
+                                        >
+                                    </div>
+                                    <div class="project-link">
+                                        <span>Explore Ethics Research</span>
+                                        <i data-lucide="external-link"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Other sections will be loaded dynamically -->
+            <section id="institutions" class="section hidden">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading institutions...</p>
+                </div>
+            </section>
+
+            <section id="projects" class="section hidden">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading projects...</p>
+                </div>
+            </section>
+
+            <section id="models" class="section hidden">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading models...</p>
+                </div>
+            </section>
+
+            <section id="resources" class="section hidden">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading resources...</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-grid">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <div class="footer-logo-icon">
+                                <i data-lucide="brain-circuit"></i>
+                            </div>
+                            <h3 class="footer-title">EU GenAI Hub</h3>
+                        </div>
+                        <p class="footer-description">
+                            A comprehensive space created to support researchers
+                            and engineers with the latest information on
+                            European Generative AI research, institutions, and
+                            developments.
+                        </p>
+                        <div class="footer-manager">
+                            <p class="footer-manager-text">
+                                <strong>Managed by:</strong> Dr. Kunal Suri
+                            </p>
+                        </div>
+                        <div class="footer-social">
+                            <a
+                                href="https://www.linkedin.com/in/kunalsuri/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="social-link social-link-primary"
+                                aria-label="Dr. Kunal Suri LinkedIn"
+                            >
+                                <i data-lucide="linkedin"></i>
+                                <span>Connect with Dr. Kunal Suri</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="footer-links">
+                        <h4 class="footer-section-title">Quick Links</h4>
+                        <ul class="footer-link-list">
+                            <li>
+                                <a
+                                    href="#institutions"
+                                    class="footer-link"
+                                    data-section="institutions"
+                                >
+                                    <i
+                                        data-lucide="chevron-right"
+                                        class="footer-link-icon"
+                                    ></i>
+                                    Institutions
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="#projects"
+                                    class="footer-link"
+                                    data-section="projects"
+                                >
+                                    <i
+                                        data-lucide="chevron-right"
+                                        class="footer-link-icon"
+                                    ></i>
+                                    Projects
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="#resources"
+                                    class="footer-link"
+                                    data-section="resources"
+                                >
+                                    <i
+                                        data-lucide="chevron-right"
+                                        class="footer-link-icon"
+                                    ></i>
+                                    Resources
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-eu">
+                        <h4 class="footer-section-title">European Union</h4>
+                        <div class="eu-flag">
+                            <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1200px-Flag_of_Europe.svg.png"
+                                alt="European Union Flag"
+                                class="eu-flag-img"
+                                loading="lazy"
+                                referrerpolicy="no-referrer"
+                            />
+                        </div>
+                        <p class="eu-description">
+                            Supporting European AI research excellence and
+                            fostering innovation across member states.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <div class="footer-bottom-content">
+                        <p class="footer-copyright">
+                            &copy; 2025 EU GenAI Hub. Managed by Dr. Kunal Suri.
+                            Supporting European AI research excellence.
+                        </p>
+                        <div class="footer-legal">
+                            <a href="#privacy" class="legal-link"
+                                >Privacy Policy</a
+                            >
+                            <a href="#terms" class="legal-link">Terms of Use</a>
+                            <a href="#contact" class="legal-link">Contact</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
 
-    <!-- Scripts -->
-    <script>
-        // Initialize Lucide icons and basic functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-
-            // Mobile menu toggle
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            if (mobileMenuBtn && mobileMenu) {
-                mobileMenuBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
-
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', (e) => {
-                if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                    mobileMenu.classList.add('hidden');
+        <!-- Scripts -->
+        <script>
+            // Initialize Lucide icons and basic functionality
+            document.addEventListener("DOMContentLoaded", function () {
+                if (typeof lucide !== "undefined") {
+                    lucide.createIcons();
                 }
+
+                // Mobile menu toggle
+                const mobileMenuBtn =
+                    document.getElementById("mobile-menu-btn");
+                const mobileMenu = document.getElementById("mobile-menu");
+
+                if (mobileMenuBtn && mobileMenu) {
+                    mobileMenuBtn.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        mobileMenu.classList.toggle("hidden");
+                    });
+                }
+
+                // Close mobile menu when clicking outside
+                document.addEventListener("click", (e) => {
+                    if (
+                        mobileMenu &&
+                        !mobileMenu.contains(e.target) &&
+                        !mobileMenuBtn.contains(e.target)
+                    ) {
+                        mobileMenu.classList.add("hidden");
+                    }
+                });
             });
-        });
-    </script>
-    <script src="js/main.js"></script>
-    <script src="js/search.js"></script>
-    <script>
-        // Initialize search manager
-        window.searchManager = new SearchManager();
-    </script>
-</body>
+        </script>
+        <script src="js/main.js"></script>
+        <script src="js/search.js"></script>
+        <script>
+            // Initialize search manager
+            window.searchManager = new SearchManager();
+        </script>
+    </body>
 </html>

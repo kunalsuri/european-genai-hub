@@ -879,28 +879,6 @@ p { margin-bottom: 1rem; }
     box-shadow: var(--shadow-medium);
 }
 
-/* Map Styles */
-.map-wrapper {
-    background: white;
-    border-radius: 1.5rem;
-    box-shadow: var(--shadow-light);
-    padding: 2rem;
-}
-
-.map-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.map-display {
-    height: 600px;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: var(--shadow-medium);
-}
-
 /* Table Styles */
 .table-wrapper {
     background: white;

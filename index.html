@@ -26,9 +26,6 @@
     <!-- Local CSS -->
     <link rel="stylesheet" href="css/style.css">
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
-
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js" integrity="sha256-7lWo7cjrrponRJcS6bc8isfsPDwSKoaYyGIV5tEHOjE=" crossorigin="anonymous"></script>
 
@@ -59,9 +56,6 @@
                 <a href="#models" class="nav-link" data-section="models">
                     <i data-lucide="brain" class="nav-link-icon"></i>LLM/VLM Models
                 </a>
-                <a href="#map" class="nav-link" data-section="map">
-                    <i data-lucide="map" class="nav-link-icon"></i>Research Map
-                </a>
                 <a href="#institutions" class="nav-link" data-section="institutions">
                     <i data-lucide="building-2" class="nav-link-icon"></i>Institutions
                 </a>
@@ -86,9 +80,6 @@
                 </a>
                 <a href="#models" class="mobile-nav-link" data-section="models">
                     <i data-lucide="brain" class="mobile-nav-icon"></i>LLM/VLM Models
-                </a>
-                <a href="#map" class="mobile-nav-link" data-section="map">
-                    <i data-lucide="map" class="mobile-nav-icon"></i>Research Map
                 </a>
                 <a href="#institutions" class="mobile-nav-link" data-section="institutions">
                     <i data-lucide="building-2" class="mobile-nav-icon"></i>Institutions
@@ -127,13 +118,13 @@
                             </p>
 
                             <div class="hero-actions">
-                                <button class="btn btn-primary" data-section="map" aria-label="Explore Research Map">
-                                    <i data-lucide="map-pin" class="btn-icon"></i>
-                                    Explore Research Map
-                                </button>
-                                <button class="btn btn-secondary" data-section="institutions" aria-label="Browse Institutions">
+                                <button class="btn btn-primary" data-section="institutions" aria-label="Browse Institutions">
                                     <i data-lucide="building-2" class="btn-icon"></i>
                                     Browse Institutions
+                                </button>
+                                <button class="btn btn-secondary" data-section="projects" aria-label="Explore Projects">
+                                    <i data-lucide="rocket" class="btn-icon"></i>
+                                    Explore Projects
                                 </button>
                             </div>
                         </div>
@@ -436,38 +427,6 @@
         </section>
 
         <!-- Other sections will be loaded dynamically -->
-        <section id="map" class="section hidden">
-            <div class="section-container">
-                <div class="section-header">
-                    <h2 class="section-title">European GenAI Research Map</h2>
-                    <p class="section-description">Interactive map showcasing research institutions and projects across Europe's AI landscape</p>
-                </div>
-
-                <div class="map-wrapper">
-                    <div class="map-filters">
-                        <div class="filter-group">
-                            <i data-lucide="filter" class="filter-icon"></i>
-                            <select id="map-filter-type" class="filter-select" aria-label="Filter by institution type">
-                                <option value="all">All Institutions</option>
-                                <option value="university">Universities</option>
-                                <option value="research">Research Centers</option>
-                                <option value="industry">Industry Labs</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <i data-lucide="globe" class="filter-icon"></i>
-                            <select id="map-filter-country" class="filter-select" aria-label="Filter by country">
-                                <option value="all">All Countries</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div id="research-map" class="map-display" role="application" aria-label="Interactive research map"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Placeholder sections for other content -->
         <section id="institutions" class="section hidden">
             <div class="loading-state">
                 <div class="loading-spinner"></div>
@@ -573,7 +532,6 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
     <script>
         // Initialize Lucide icons and basic functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -601,7 +559,6 @@
         });
     </script>
     <script src="js/main.js"></script>
-    <script src="js/map.js"></script>
     <script src="js/search.js"></script>
     <script>
         // Initialize search manager

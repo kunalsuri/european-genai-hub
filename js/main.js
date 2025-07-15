@@ -339,7 +339,7 @@ class EUGenAIHub {
         if (this.isDestroyed) return;
         
         // Validate section name to prevent XSS
-        const allowedSections = ['home', 'map', 'institutions', 'projects', 'models', 'resources'];
+        const allowedSections = ['home', 'institutions', 'projects', 'models', 'resources'];
         if (!allowedSections.includes(sectionName)) {
             console.warn('Invalid section name:', sectionName);
             return;
@@ -384,11 +384,6 @@ class EUGenAIHub {
         
         try {
             switch (sectionName) {
-                case 'map':
-                    if (window.ResearchMap) {
-                        window.ResearchMap.init(this.data.institutions);
-                    }
-                    break;
                 case 'institutions':
                     this.renderInstitutions();
                     break;
@@ -1252,9 +1247,6 @@ let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-        // Reinitialize map if it exists and is visible
-        if (window.ResearchMap && document.getElementById('map').classList.contains('active')) {
-            window.ResearchMap.resizeMap();
-        }
+        // Handle responsive behavior
     }, 250);
 });

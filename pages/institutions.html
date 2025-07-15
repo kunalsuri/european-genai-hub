@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Institutions - EU GenAI Hub</title>
+    <meta name="description" content="Leading European institutions advancing Generative AI research across the continent.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1><a href="../index.html" style="text-decoration: none; color: inherit;">EU GenAI Hub</a></h1>
+                <span class="nav-subtitle">European Generative AI Research Portal</span>
+            </div>
+            <div class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#map" class="nav-link">Research Map</a>
+                <a href="#" class="nav-link active">Institutions</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="news.html" class="nav-link">News</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="section-header">
+            <h1>European GenAI Research Institutions</h1>
+            <p>Discover the leading universities, research centers, and laboratories driving Generative AI innovation across Europe.</p>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-filters">
+            <input type="text" id="institutions-search" placeholder="Search institutions by name, country, or research area...">
+            <select id="institutions-filter-country">
+                <option value="all">All Countries</option>
+            </select>
+            <select id="institutions-filter-type">
+                <option value="all">All Types</option>
+                <option value="university">Universities</option>
+                <option value="research">Research Centers</option>
+                <option value="industry">Industry Labs</option>
+            </select>
+        </div>
+
+        <!-- Results Grid -->
+        <div id="institutions-grid" class="content-grid">
+            <div class="loading">Loading research institutions...</div>
+        </div>
+
+        <!-- Additional Information -->
+        <section class="info-section" style="margin-top: 3rem; padding: 2rem 0; background: var(--neutral-color);">
+            <div class="container">
+                <h2>About European GenAI Research</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <div>
+                        <h3>Research Excellence</h3>
+                        <p>European institutions are at the forefront of responsible AI development, combining cutting-edge research with ethical considerations and regulatory compliance.</p>
+                    </div>
+                    <div>
+                        <h3>Collaboration Network</h3>
+                        <p>Strong partnerships between universities, research centers, and industry create a vibrant ecosystem for GenAI innovation across Europe.</p>
+                    </div>
+                    <div>
+                        <h3>Funding Support</h3>
+                        <p>Significant investment from EU programs like Horizon Europe supports groundbreaking research in artificial intelligence and machine learning.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>EU GenAI Hub</h3>
+                    <p>A comprehensive portal for European Generative AI research, fostering collaboration and knowledge sharing across the continent.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../index.html#map">Research Map</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="news.html">News</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Submit Institution</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                        <li><a href="#">Data Export</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>European Union</h4>
+                    <div class="eu-flag">
+                        <img src="https://pixabay.com/get/g39e4d9f6454414e33a3ea4488065467e7d1dd9267bcb7bc034169630570fdb248b78d202618d1fcdb7b38f2c36dd92ed4c40a0bea8863f72b0a70c1fa3c558d4_1280.jpg" alt="European Union Flag" />
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EU GenAI Hub. Supporting European AI research excellence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Standalone institutions page functionality
+        class InstitutionsPage {
+            constructor() {
+                this.data = [];
+                this.init();
+            }
+
+            async init() {
+                try {
+                    await this.loadData();
+                    this.setupSearch();
+                    this.renderInstitutions();
+                    this.populateFilters();
+                } catch (error) {
+                    console.error('Error initializing institutions page:', error);
+                    this.showError();
+                }
+            }
+
+            async loadData() {
+                try {
+                    const response = await fetch('../data/institutions.json');
+                    this.data = await response.json();
+                } catch (error) {
+                    console.error('Error loading institutions data:', error);
+                    this.data = [];
+                }
+            }
+
+            setupSearch() {
+                const searchInput = document.getElementById('institutions-search');
+                const countryFilter = document.getElementById('institutions-filter-country');
+                const typeFilter = document.getElementById('institutions-filter-type');
+
+                if (searchInput) {
+                    let searchTimeout;
+                    searchInput.addEventListener('input', (e) => {
+                        clearTimeout(searchTimeout);
+                        searchTimeout = setTimeout(() => {
+                            this.applyFilters();
+                        }, 300);
+                    });
+                }
+
+                if (countryFilter) {
+                    countryFilter.addEventListener('change', () => this.applyFilters());
+                }
+
+                if (typeFilter) {
+                    typeFilter.addEventListener('change', () => this.applyFilters());
+                }
+            }
+
+            populateFilters() {
+                const countryFilter = document.getElementById('institutions-filter-country');
+                if (countryFilter && this.data.length > 0) {
+                    const countries = [...new Set(this.data.map(inst => inst.country))].sort();
+                    countries.forEach(country => {
+                        const option = document.createElement('option');
+                        option.value = country;
+                        option.textContent = country;
+                        countryFilter.appendChild(option);
+                    });
+                }
+            }
+
+            applyFilters() {
+                const searchInput = document.getElementById('institutions-search');
+                const countryFilter = document.getElementById('institutions-filter-country');
+                const typeFilter = document.getElementById('institutions-filter-type');
+
+                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                const selectedCountry = countryFilter ? countryFilter.value : 'all';
+                const selectedType = typeFilter ? typeFilter.value : 'all';
+
+                const filteredData = this.data.filter(institution => {
+                    const matchesSearch = !searchTerm || 
+                        institution.name.toLowerCase().includes(searchTerm) ||
+                        institution.country.toLowerCase().includes(searchTerm) ||
+                        institution.description.toLowerCase().includes(searchTerm) ||
+                        institution.research_areas.some(area => area.toLowerCase().includes(searchTerm));
+
+                    const matchesCountry = selectedCountry === 'all' || institution.country === selectedCountry;
+                    const matchesType = selectedType === 'all' || institution.type === selectedType;
+
+                    return matchesSearch && matchesCountry && matchesType;
+                });
+
+                this.renderInstitutions(filteredData);
+            }
+
+            renderInstitutions(dataToRender = null) {
+                const container = document.getElementById('institutions-grid');
+                if (!container) return;
+
+                const data = dataToRender || this.data;
+
+                if (data.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>No Institutions Found</h3>
+                            <p>No research institutions match your current search and filters.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = data.map(institution => `
+                    <div class="content-card fade-in">
+                        <h3>${this.escapeHtml(institution.name)}</h3>
+                        <div class="meta">
+                            <strong>Country:</strong> ${this.escapeHtml(institution.country)}<br>
+                            <strong>Type:</strong> ${this.escapeHtml(institution.type)}<br>
+                            <strong>Focus:</strong> ${this.escapeHtml(institution.focus || 'General AI Research')}
+                        </div>
+                        <p>${this.escapeHtml(institution.description || 'Leading research institution in the field of Generative AI.')}</p>
+                        ${institution.research_areas && institution.research_areas.length > 0 ? `
+                            <div class="tags">
+                                ${institution.research_areas.map(area => 
+                                    `<span class="tag">${this.escapeHtml(area)}</span>`
+                                ).join('')}
+                            </div>
+                        ` : ''}
+                        ${institution.website ? `
+                            <div style="margin-top: 1rem;">
+                                <a href="${this.escapeHtml(institution.website)}" target="_blank" class="btn btn-primary">
+                                    Visit Website
+                                </a>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+
+            showError() {
+                const container = document.getElementById('institutions-grid');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>Loading Error</h3>
+                            <p>Unable to load research institutions data. Please refresh the page to try again.</p>
+                            <button onclick="location.reload()" class="btn btn-primary" style="margin-top: 1rem;">
+                                Refresh Page
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+
+            escapeHtml(text) {
+                if (typeof text !== 'string') return text || '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        }
+
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new InstitutionsPage();
+        });
+    </script>
+</body>
+</html>

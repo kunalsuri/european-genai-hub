@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest News - EU GenAI Hub</title>
+    <meta name="description" content="Stay updated with the latest developments, breakthroughs, and announcements in European Generative AI research.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1><a href="../index.html" style="text-decoration: none; color: inherit;">EU GenAI Hub</a></h1>
+                <span class="nav-subtitle">European Generative AI Research Portal</span>
+            </div>
+            <div class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#map" class="nav-link">Research Map</a>
+                <a href="institutions.html" class="nav-link">Institutions</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="#" class="nav-link active">News</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="section-header">
+            <h1>Latest GenAI News & Updates</h1>
+            <p>Stay informed about the latest developments, breakthroughs, and announcements in European Generative AI research and policy.</p>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-filters">
+            <input type="text" id="news-search" placeholder="Search news by title, content, or tags...">
+            <select id="news-filter-category">
+                <option value="all">All Categories</option>
+                <option value="research">Research Breakthrough</option>
+                <option value="funding">Funding & Grants</option>
+                <option value="collaboration">International Collaboration</option>
+                <option value="policy">Policy & Regulation</option>
+                <option value="innovation">Innovation & Technology</option>
+                <option value="education">Education & Training</option>
+                <option value="industry">Industry Partnership</option>
+            </select>
+            <select id="news-filter-timeframe">
+                <option value="all">All Time</option>
+                <option value="week">Past Week</option>
+                <option value="month">Past Month</option>
+                <option value="quarter">Past Quarter</option>
+                <option value="year">Past Year</option>
+            </select>
+            <select id="news-filter-source">
+                <option value="all">All Sources</option>
+                <option value="institution">Research Institutions</option>
+                <option value="eu">EU Commission</option>
+                <option value="media">Media Coverage</option>
+                <option value="conference">Conference Updates</option>
+            </select>
+        </div>
+
+        <!-- Results Grid -->
+        <div id="news-grid" class="content-grid">
+            <div class="loading">Loading latest news...</div>
+        </div>
+
+        <!-- Featured News Section -->
+        <section class="featured-news" style="margin-top: 3rem; padding: 2rem 0; background: var(--neutral-color);">
+            <div class="container">
+                <h2>Key Focus Areas in European AI</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <div class="focus-card" style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <img src="https://pixabay.com/get/gcc0d11b91c88d76fc738ac765c5857f3b58a289f278115ee5a874f166007d69e12cbe2b38382fbeb9950cb59bb499b5e916e183d71aa90cff0ba89e0b47a8d92_1280.jpg" alt="AI Regulation" style="width: 100%; height: 150px; object-fit: cover; border-radius: var(--border-radius); margin-bottom: 1rem;" />
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">AI Act Implementation</h3>
+                        <p>European Union's comprehensive AI regulation framework is shaping the global landscape for responsible AI development and deployment.</p>
+                    </div>
+                    <div class="focus-card" style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <img src="https://pixabay.com/get/gb87d30bec91c5b7e6131a006082abeb4ce9fb90320f9eca83136cb28ac71d0ec8ba8d1155c6c1f749f32f1d72458b395c8ad5c562ff1cb4941a209950e5e945b_1280.jpg" alt="Digital Europe" style="width: 100%; height: 150px; object-fit: cover; border-radius: var(--border-radius); margin-bottom: 1rem;" />
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">Digital Europe Programme</h3>
+                        <p>€7.5 billion investment in digital transformation, with significant funding allocated to AI research and innovation across member states.</p>
+                    </div>
+                    <div class="focus-card" style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <img src="https://pixabay.com/get/g7b443c9ea7dd1dc417a67981c41a17eef8693a06ab0cbee1b274fb736d5eb570fd1191b3ea4d829ee73dc5ab14c1f20291f69bbf086d8d144641ed975c4dd612_1280.jpg" alt="European Excellence" style="width: 100%; height: 150px; object-fit: cover; border-radius: var(--border-radius); margin-bottom: 1rem;" />
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">Research Excellence</h3>
+                        <p>European research institutions continue to lead in ethical AI development, multilingual models, and privacy-preserving technologies.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Signup -->
+        <section class="newsletter" style="margin-top: 2rem; padding: 2rem 0; background: var(--primary-color); color: white;">
+            <div class="container" style="text-align: center;">
+                <h2 style="color: var(--secondary-color); margin-bottom: 1rem;">Stay Updated</h2>
+                <p style="margin-bottom: 2rem; opacity: 0.9;">Subscribe to our newsletter for weekly updates on European GenAI research developments.</p>
+                <div style="max-width: 400px; margin: 0 auto; display: flex; gap: 0.5rem;">
+                    <input type="email" placeholder="Enter your email address" style="flex: 1; padding: 0.75rem; border: none; border-radius: var(--border-radius); font-family: inherit;">
+                    <button type="button" style="background: var(--secondary-color); color: var(--text-color); border: none; padding: 0.75rem 1.5rem; border-radius: var(--border-radius); font-weight: 500; cursor: pointer;">Subscribe</button>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.7;">By subscribing, you agree to our privacy policy and terms of service.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>EU GenAI Hub</h3>
+                    <p>A comprehensive portal for European Generative AI research, fostering collaboration and knowledge sharing across the continent.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../index.html#map">Research Map</a></li>
+                        <li><a href="institutions.html">Institutions</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>News & Media</h4>
+                    <ul>
+                        <li><a href="#">Submit News</a></li>
+                        <li><a href="#">Press Releases</a></li>
+                        <li><a href="#">Media Kit</a></li>
+                        <li><a href="#">RSS Feed</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>European Union</h4>
+                    <div class="eu-flag">
+                        <img src="https://pixabay.com/get/g39e4d9f6454414e33a3ea4488065467e7d1dd9267bcb7bc034169630570fdb248b78d202618d1fcdb7b38f2c36dd92ed4c40a0bea8863f72b0a70c1fa3c558d4_1280.jpg" alt="European Union Flag" />
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EU GenAI Hub. Supporting European AI research excellence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Standalone news page functionality
+        class NewsPage {
+            constructor() {
+                this.data = [];
+                this.init();
+            }
+
+            async init() {
+                try {
+                    await this.loadData();
+                    this.setupSearch();
+                    this.renderNews();
+                    this.setupNewsletter();
+                } catch (error) {
+                    console.error('Error initializing news page:', error);
+                    this.showError();
+                }
+            }
+
+            async loadData() {
+                try {
+                    const response = await fetch('../data/news.json');
+                    this.data = await response.json();
+                } catch (error) {
+                    console.error('Error loading news data:', error);
+                    this.data = [];
+                }
+            }
+
+            setupSearch() {
+                const searchInput = document.getElementById('news-search');
+                const categoryFilter = document.getElementById('news-filter-category');
+                const timeframeFilter = document.getElementById('news-filter-timeframe');
+                const sourceFilter = document.getElementById('news-filter-source');
+
+                if (searchInput) {
+                    let searchTimeout;
+                    searchInput.addEventListener('input', (e) => {
+                        clearTimeout(searchTimeout);
+                        searchTimeout = setTimeout(() => {
+                            this.applyFilters();
+                        }, 300);
+                    });
+                }
+
+                [categoryFilter, timeframeFilter, sourceFilter].forEach(filter => {
+                    if (filter) {
+                        filter.addEventListener('change', () => this.applyFilters());
+                    }
+                });
+            }
+
+            setupNewsletter() {
+                const subscribeButton = document.querySelector('button[type="button"]');
+                const emailInput = document.querySelector('input[type="email"]');
+                
+                if (subscribeButton && emailInput) {
+                    subscribeButton.addEventListener('click', () => {
+                        const email = emailInput.value.trim();
+                        if (email && this.validateEmail(email)) {
+                            this.showMessage('Thank you for subscribing! You will receive our next newsletter.');
+                            emailInput.value = '';
+                        } else {
+                            this.showMessage('Please enter a valid email address.', 'error');
+                        }
+                    });
+
+                    emailInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            subscribeButton.click();
+                        }
+                    });
+                }
+            }
+
+            validateEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            applyFilters() {
+                const searchInput = document.getElementById('news-search');
+                const categoryFilter = document.getElementById('news-filter-category');
+                const timeframeFilter = document.getElementById('news-filter-timeframe');
+                const sourceFilter = document.getElementById('news-filter-source');
+
+                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
+                const selectedTimeframe = timeframeFilter ? timeframeFilter.value : 'all';
+                const selectedSource = sourceFilter ? sourceFilter.value : 'all';
+
+                const filteredData = this.data.filter(article => {
+                    const matchesSearch = !searchTerm || 
+                        article.title.toLowerCase().includes(searchTerm) ||
+                        (article.summary && article.summary.toLowerCase().includes(searchTerm)) ||
+                        (article.tags && article.tags.some(tag => tag.toLowerCase().includes(searchTerm)));
+
+                    const matchesCategory = selectedCategory === 'all' || article.category === selectedCategory;
+                    const matchesSource = selectedSource === 'all' || article.source === selectedSource;
+                    const matchesTimeframe = this.matchesTimeframe(article.date, selectedTimeframe);
+
+                    return matchesSearch && matchesCategory && matchesSource && matchesTimeframe;
+                });
+
+                this.renderNews(filteredData);
+            }
+
+            matchesTimeframe(dateString, timeframe) {
+                if (timeframe === 'all' || !dateString) return true;
+
+                const articleDate = new Date(dateString);
+                const now = new Date();
+                const daysDiff = (now - articleDate) / (1000 * 60 * 60 * 24);
+
+                switch (timeframe) {
+                    case 'week': return daysDiff <= 7;
+                    case 'month': return daysDiff <= 30;
+                    case 'quarter': return daysDiff <= 90;
+                    case 'year': return daysDiff <= 365;
+                    default: return true;
+                }
+            }
+
+            renderNews(dataToRender = null) {
+                const container = document.getElementById('news-grid');
+                if (!container) return;
+
+                const data = dataToRender || this.data;
+
+                if (data.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>No News Found</h3>
+                            <p>No news articles match your current search and filters.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Sort by date (newest first)
+                const sortedData = data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                container.innerHTML = sortedData.map(article => `
+                    <div class="content-card fade-in">
+                        <h3>${this.escapeHtml(article.title)}</h3>
+                        <div class="meta">
+                            <strong>Date:</strong> ${this.formatDate(article.date)}<br>
+                            <strong>Category:</strong> <span class="tag ${article.category || 'research'}">${this.escapeHtml(article.category || 'Research')}</span><br>
+                            ${article.source ? `<strong>Source:</strong> ${this.escapeHtml(article.source)}<br>` : ''}
+                            ${article.author ? `<strong>Author:</strong> ${this.escapeHtml(article.author)}` : ''}
+                        </div>
+                        <p>${this.escapeHtml(article.summary || 'Latest development in European GenAI research.')}</p>
+                        ${article.tags && article.tags.length > 0 ? `
+                            <div class="tags">
+                                ${article.tags.slice(0, 5).map(tag => 
+                                    `<span class="tag">${this.escapeHtml(tag)}</span>`
+                                ).join('')}
+                            </div>
+                        ` : ''}
+                        ${article.related_institutions && article.related_institutions.length > 0 ? `
+                            <div style="margin-top: 0.5rem;">
+                                <strong>Related Institutions:</strong> ${article.related_institutions.slice(0, 2).map(inst => 
+                                    this.escapeHtml(inst)
+                                ).join(', ')}${article.related_institutions.length > 2 ? ' and others' : ''}
+                            </div>
+                        ` : ''}
+                        <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            ${article.url ? `
+                                <a href="${this.escapeHtml(article.url)}" target="_blank" class="btn btn-primary">
+                                    Read Full Article
+                                </a>
+                            ` : ''}
+                            ${article.press_release ? `
+                                <a href="${this.escapeHtml(article.press_release)}" target="_blank" class="btn btn-secondary">
+                                    Press Release
+                                </a>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            showError() {
+                const container = document.getElementById('news-grid');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>Loading Error</h3>
+                            <p>Unable to load news data. Please refresh the page to try again.</p>
+                            <button onclick="location.reload()" class="btn btn-primary" style="margin-top: 1rem;">
+                                Refresh Page
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+
+            showMessage(message, type = 'success') {
+                const messageDiv = document.createElement('div');
+                messageDiv.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: ${type === 'error' ? 'var(--accent-color)' : 'var(--primary-color)'};
+                    color: white;
+                    padding: 1rem 2rem;
+                    border-radius: var(--border-radius);
+                    box-shadow: var(--shadow-medium);
+                    z-index: 1001;
+                    max-width: 400px;
+                    text-align: center;
+                `;
+                messageDiv.textContent = message;
+                
+                document.body.appendChild(messageDiv);
+                
+                setTimeout(() => {
+                    if (messageDiv.parentNode) {
+                        messageDiv.parentNode.removeChild(messageDiv);
+                    }
+                }, 4000);
+            }
+
+            escapeHtml(text) {
+                if (typeof text !== 'string') return text || '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            formatDate(dateString) {
+                if (!dateString) return 'Unknown';
+                try {
+                    const date = new Date(dateString);
+                    return date.toLocaleDateString('en-EU', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                } catch (error) {
+                    return dateString;
+                }
+            }
+        }
+
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new NewsPage();
+        });
+    </script>
+</body>
+</html>

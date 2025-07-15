@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Resources - EU GenAI Hub</title>
+    <meta name="description" content="Access research papers, datasets, tools, and other resources from European GenAI research initiatives.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1><a href="../index.html" style="text-decoration: none; color: inherit;">EU GenAI Hub</a></h1>
+                <span class="nav-subtitle">European Generative AI Research Portal</span>
+            </div>
+            <div class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#map" class="nav-link">Research Map</a>
+                <a href="institutions.html" class="nav-link">Institutions</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="#" class="nav-link active">Resources</a>
+                <a href="news.html" class="nav-link">News</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="section-header">
+            <h1>European GenAI Research Resources</h1>
+            <p>Discover research papers, datasets, tools, and other valuable resources from European Generative AI research initiatives.</p>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-filters">
+            <input type="text" id="resources-search" placeholder="Search resources by title, authors, or keywords...">
+            <select id="resources-filter-type">
+                <option value="all">All Types</option>
+                <option value="paper">Research Papers</option>
+                <option value="dataset">Datasets</option>
+                <option value="tool">Tools & Software</option>
+                <option value="report">Reports</option>
+                <option value="benchmark">Benchmarks</option>
+                <option value="model">Pre-trained Models</option>
+            </select>
+            <select id="resources-filter-year">
+                <option value="all">All Years</option>
+            </select>
+            <select id="resources-filter-access">
+                <option value="all">All Access Types</option>
+                <option value="open">Open Access</option>
+                <option value="restricted">Restricted Access</option>
+                <option value="commercial">Commercial License</option>
+            </select>
+        </div>
+
+        <!-- Results Grid -->
+        <div id="resources-grid" class="content-grid">
+            <div class="loading">Loading research resources...</div>
+        </div>
+
+        <!-- Resource Categories Section -->
+        <section class="resource-categories" style="margin-top: 3rem; padding: 2rem 0; background: var(--neutral-color);">
+            <div class="container">
+                <h2>Resource Categories</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">📄 Research Papers</h3>
+                        <p>Peer-reviewed publications from top-tier conferences and journals in AI and machine learning.</p>
+                    </div>
+                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🗂️ Datasets</h3>
+                        <p>High-quality training and evaluation datasets for various GenAI applications and research areas.</p>
+                    </div>
+                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🛠️ Tools & Software</h3>
+                        <p>Open-source libraries, frameworks, and tools developed by European research institutions.</p>
+                    </div>
+                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🤖 Pre-trained Models</h3>
+                        <p>State-of-the-art generative models trained on European data and optimized for EU languages.</p>
+                    </div>
+                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">📊 Benchmarks</h3>
+                        <p>Standardized evaluation benchmarks for comparing GenAI model performance and capabilities.</p>
+                    </div>
+                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">📋 Technical Reports</h3>
+                        <p>In-depth technical documentation, white papers, and research reports from ongoing projects.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Open Science Section -->
+        <section class="open-science" style="margin-top: 2rem; padding: 2rem 0;">
+            <div class="container">
+                <h2>European Open Science Initiative</h2>
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: center;">
+                    <div>
+                        <img src="https://pixabay.com/get/gb8f30e128347b35d956fdbb5b8d9057aad4bbd22d66d675192901b408d46c34aebe375ca9b1bf7dcba1ed63c7a3e5b1dafbb9c45b4046293af88a0c74a0d9d42_1280.jpg" alt="Open Science" style="width: 100%; border-radius: var(--border-radius);" />
+                    </div>
+                    <div>
+                        <h3>Commitment to Open Access</h3>
+                        <p>European research institutions are leading the way in open science practices, making research outputs freely available to the global community. This commitment accelerates innovation and ensures that AI development benefits society as a whole.</p>
+                        <ul style="margin-top: 1rem;">
+                            <li>FAIR data principles (Findable, Accessible, Interoperable, Reusable)</li>
+                            <li>Creative Commons and open source licensing</li>
+                            <li>Reproducible research methodologies</li>
+                            <li>Transparent peer review processes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>EU GenAI Hub</h3>
+                    <p>A comprehensive portal for European Generative AI research, fostering collaboration and knowledge sharing across the continent.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../index.html#map">Research Map</a></li>
+                        <li><a href="institutions.html">Institutions</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="news.html">News</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Submit Resource</a></li>
+                        <li><a href="#">Usage Guidelines</a></li>
+                        <li><a href="#">Citation Standards</a></li>
+                        <li><a href="#">License Information</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>European Union</h4>
+                    <div class="eu-flag">
+                        <img src="https://pixabay.com/get/g39e4d9f6454414e33a3ea4488065467e7d1dd9267bcb7bc034169630570fdb248b78d202618d1fcdb7b38f2c36dd92ed4c40a0bea8863f72b0a70c1fa3c558d4_1280.jpg" alt="European Union Flag" />
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EU GenAI Hub. Supporting European AI research excellence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Standalone resources page functionality
+        class ResourcesPage {
+            constructor() {
+                this.data = [];
+                this.init();
+            }
+
+            async init() {
+                try {
+                    await this.loadData();
+                    this.setupSearch();
+                    this.renderResources();
+                    this.populateFilters();
+                } catch (error) {
+                    console.error('Error initializing resources page:', error);
+                    this.showError();
+                }
+            }
+
+            async loadData() {
+                try {
+                    const response = await fetch('../data/resources.json');
+                    this.data = await response.json();
+                } catch (error) {
+                    console.error('Error loading resources data:', error);
+                    this.data = [];
+                }
+            }
+
+            setupSearch() {
+                const searchInput = document.getElementById('resources-search');
+                const typeFilter = document.getElementById('resources-filter-type');
+                const yearFilter = document.getElementById('resources-filter-year');
+                const accessFilter = document.getElementById('resources-filter-access');
+
+                if (searchInput) {
+                    let searchTimeout;
+                    searchInput.addEventListener('input', (e) => {
+                        clearTimeout(searchTimeout);
+                        searchTimeout = setTimeout(() => {
+                            this.applyFilters();
+                        }, 300);
+                    });
+                }
+
+                [typeFilter, yearFilter, accessFilter].forEach(filter => {
+                    if (filter) {
+                        filter.addEventListener('change', () => this.applyFilters());
+                    }
+                });
+            }
+
+            populateFilters() {
+                if (this.data.length === 0) return;
+
+                // Populate years
+                const yearFilter = document.getElementById('resources-filter-year');
+                if (yearFilter) {
+                    const years = [...new Set(this.data.map(res => res.year).filter(Boolean))].sort().reverse();
+                    years.forEach(year => {
+                        const option = document.createElement('option');
+                        option.value = year;
+                        option.textContent = year;
+                        yearFilter.appendChild(option);
+                    });
+                }
+            }
+
+            applyFilters() {
+                const searchInput = document.getElementById('resources-search');
+                const typeFilter = document.getElementById('resources-filter-type');
+                const yearFilter = document.getElementById('resources-filter-year');
+                const accessFilter = document.getElementById('resources-filter-access');
+
+                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                const selectedType = typeFilter ? typeFilter.value : 'all';
+                const selectedYear = yearFilter ? yearFilter.value : 'all';
+                const selectedAccess = accessFilter ? accessFilter.value : 'all';
+
+                const filteredData = this.data.filter(resource => {
+                    const matchesSearch = !searchTerm || 
+                        resource.title.toLowerCase().includes(searchTerm) ||
+                        (resource.description && resource.description.toLowerCase().includes(searchTerm)) ||
+                        (resource.authors && resource.authors.some(author => author.toLowerCase().includes(searchTerm))) ||
+                        (resource.keywords && resource.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm)));
+
+                    const matchesType = selectedType === 'all' || resource.type === selectedType;
+                    const matchesYear = selectedYear === 'all' || resource.year === selectedYear;
+                    const matchesAccess = selectedAccess === 'all' || resource.access_type === selectedAccess;
+
+                    return matchesSearch && matchesType && matchesYear && matchesAccess;
+                });
+
+                this.renderResources(filteredData);
+            }
+
+            renderResources(dataToRender = null) {
+                const container = document.getElementById('resources-grid');
+                if (!container) return;
+
+                const data = dataToRender || this.data;
+
+                if (data.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>No Resources Found</h3>
+                            <p>No research resources match your current search and filters.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = data.map(resource => `
+                    <div class="content-card fade-in">
+                        <h3>${this.escapeHtml(resource.title)}</h3>
+                        <div class="meta">
+                            <strong>Type:</strong> <span class="tag primary">${this.escapeHtml(resource.type || 'Resource')}</span><br>
+                            ${resource.year ? `<strong>Year:</strong> ${this.escapeHtml(resource.year)}<br>` : ''}
+                            ${resource.authors && resource.authors.length > 0 ? `
+                                <strong>Authors:</strong> ${resource.authors.slice(0, 3).map(author => 
+                                    this.escapeHtml(author)
+                                ).join(', ')}${resource.authors.length > 3 ? ' et al.' : ''}<br>
+                            ` : ''}
+                            ${resource.access_type ? `<strong>Access:</strong> <span class="tag ${resource.access_type}">${this.escapeHtml(resource.access_type)}</span>` : ''}
+                        </div>
+                        <p>${this.escapeHtml(resource.description || 'Valuable research resource for the GenAI community.')}</p>
+                        ${resource.keywords && resource.keywords.length > 0 ? `
+                            <div class="tags">
+                                ${resource.keywords.slice(0, 6).map(keyword => 
+                                    `<span class="tag">${this.escapeHtml(keyword)}</span>`
+                                ).join('')}
+                            </div>
+                        ` : ''}
+                        ${resource.institution ? `
+                            <div style="margin-top: 0.5rem;">
+                                <strong>Institution:</strong> ${this.escapeHtml(resource.institution)}
+                            </div>
+                        ` : ''}
+                        ${resource.license ? `
+                            <div style="margin-top: 0.5rem;">
+                                <strong>License:</strong> ${this.escapeHtml(resource.license)}
+                            </div>
+                        ` : ''}
+                        <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            ${resource.url ? `
+                                <a href="${this.escapeHtml(resource.url)}" target="_blank" class="btn btn-primary">
+                                    Access Resource
+                                </a>
+                            ` : ''}
+                            ${resource.doi ? `
+                                <a href="https://doi.org/${this.escapeHtml(resource.doi)}" target="_blank" class="btn btn-secondary">
+                                    DOI
+                                </a>
+                            ` : ''}
+                            ${resource.github ? `
+                                <a href="${this.escapeHtml(resource.github)}" target="_blank" class="btn btn-secondary">
+                                    GitHub
+                                </a>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            showError() {
+                const container = document.getElementById('resources-grid');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>Loading Error</h3>
+                            <p>Unable to load research resources data. Please refresh the page to try again.</p>
+                            <button onclick="location.reload()" class="btn btn-primary" style="margin-top: 1rem;">
+                                Refresh Page
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+
+            escapeHtml(text) {
+                if (typeof text !== 'string') return text || '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            formatNumber(num) {
+                if (typeof num !== 'number') return num;
+                return num.toLocaleString();
+            }
+        }
+
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ResourcesPage();
+        });
+    </script>
+</body>
+</html>

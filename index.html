@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EU GenAI Hub - European Generative AI Research Portal</title>
+    <meta name="description" content="Explore ongoing Generative AI research across Europe. Discover institutions, projects, resources, and latest developments in European GenAI.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>EU GenAI Hub</h1>
+                <span class="nav-subtitle">European Generative AI Research Portal</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active" data-section="home">Home</a>
+                <a href="#map" class="nav-link" data-section="map">Research Map</a>
+                <a href="#institutions" class="nav-link" data-section="institutions">Institutions</a>
+                <a href="#projects" class="nav-link" data-section="projects">Projects</a>
+                <a href="#resources" class="nav-link" data-section="resources">Resources</a>
+                <a href="#news" class="nav-link" data-section="news">News</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <!-- Hero Section -->
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">European Generative AI Research Hub</h1>
+                    <p class="hero-subtitle">Discover cutting-edge GenAI research, institutions, and innovations across Europe</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" data-section="map">Explore Research Map</button>
+                        <button class="btn btn-secondary" data-section="institutions">Browse Institutions</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://pixabay.com/get/ge830326d02f441e69b11e100ae5cf407302c461d0fd9cb590b7fb977ddc5f8b4c6dfe68d420f91683d24391be7f8355f_1280.jpg" alt="European Research Institutions" />
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-section">
+                <div class="container">
+                    <h2>European GenAI at a Glance</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="institutions-count">0</div>
+                            <div class="stat-label">Research Institutions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="projects-count">0</div>
+                            <div class="stat-label">Active Projects</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="resources-count">0</div>
+                            <div class="stat-label">Research Resources</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="countries-count">0</div>
+                            <div class="stat-label">EU Countries</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Section -->
+            <div class="featured-section">
+                <div class="container">
+                    <h2>Featured Research Areas</h2>
+                    <div class="featured-grid">
+                        <div class="featured-card">
+                            <img src="https://pixabay.com/get/gf8864b7d47a3367d62bf233df36f07b7b5a2ca89cf7e4bb87e7ed6484f51f2139a8de19859609c79f86280e6c85e0764862f7755400eb5add397c8cc514f2260_1280.jpg" alt="Natural Language Processing" />
+                            <div class="featured-content">
+                                <h3>Natural Language Processing</h3>
+                                <p>Advanced language models and multilingual AI systems developed across European research centers.</p>
+                            </div>
+                        </div>
+                        <div class="featured-card">
+                            <img src="https://pixabay.com/get/g621ae5e870b18b361b3bf7517e8235428dd63b9c979c7f36869c02bad8a40c3a8953b46e498ab538f256de0c53a3bbc621bb5019b39ab1da0e8ace1288a8ffda_1280.jpg" alt="Computer Vision" />
+                            <div class="featured-content">
+                                <h3>Computer Vision & Generative Art</h3>
+                                <p>Innovative image generation, video synthesis, and visual AI technologies from European labs.</p>
+                            </div>
+                        </div>
+                        <div class="featured-card">
+                            <img src="https://pixabay.com/get/g47182228458e276215c44ffbf21c76e9f5a3bc6bea7c7c590e8b81c754d458e777107e4907a4ad34d2d8260de36597fed632a37f77068cf02e2ba9540756e204_1280.jpg" alt="Ethics & AI Safety" />
+                            <div class="featured-content">
+                                <h3>AI Ethics & Safety</h3>
+                                <p>Leading research on responsible AI development and European AI governance frameworks.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section id="map" class="section">
+            <div class="section-header">
+                <h2>European GenAI Research Map</h2>
+                <p>Interactive map showing research institutions and projects across Europe</p>
+            </div>
+            <div class="map-container">
+                <div class="map-filters">
+                    <select id="map-filter-type">
+                        <option value="all">All Institutions</option>
+                        <option value="university">Universities</option>
+                        <option value="research">Research Centers</option>
+                        <option value="industry">Industry Labs</option>
+                    </select>
+                    <select id="map-filter-country">
+                        <option value="all">All Countries</option>
+                    </select>
+                </div>
+                <div id="research-map" class="map-display"></div>
+            </div>
+        </section>
+
+        <!-- Institutions Section -->
+        <section id="institutions" class="section">
+            <div class="section-header">
+                <h2>Research Institutions</h2>
+                <p>Leading European institutions advancing Generative AI research</p>
+            </div>
+            <div class="search-filters">
+                <input type="text" id="institutions-search" placeholder="Search institutions...">
+                <select id="institutions-filter-country">
+                    <option value="all">All Countries</option>
+                </select>
+                <select id="institutions-filter-type">
+                    <option value="all">All Types</option>
+                    <option value="university">Universities</option>
+                    <option value="research">Research Centers</option>
+                    <option value="industry">Industry Labs</option>
+                </select>
+            </div>
+            <div id="institutions-grid" class="content-grid"></div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="section-header">
+                <h2>Research Projects</h2>
+                <p>Current and ongoing GenAI research initiatives across Europe</p>
+            </div>
+            <div class="search-filters">
+                <input type="text" id="projects-search" placeholder="Search projects...">
+                <select id="projects-filter-status">
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="completed">Completed</option>
+                    <option value="planned">Planned</option>
+                </select>
+                <select id="projects-filter-area">
+                    <option value="all">All Research Areas</option>
+                </select>
+            </div>
+            <div id="projects-grid" class="content-grid"></div>
+        </section>
+
+        <!-- Resources Section -->
+        <section id="resources" class="section">
+            <div class="section-header">
+                <h2>Research Resources</h2>
+                <p>Papers, datasets, tools, and other resources from European GenAI research</p>
+            </div>
+            <div class="search-filters">
+                <input type="text" id="resources-search" placeholder="Search resources...">
+                <select id="resources-filter-type">
+                    <option value="all">All Types</option>
+                    <option value="paper">Research Papers</option>
+                    <option value="dataset">Datasets</option>
+                    <option value="tool">Tools & Software</option>
+                    <option value="report">Reports</option>
+                </select>
+                <select id="resources-filter-year">
+                    <option value="all">All Years</option>
+                </select>
+            </div>
+            <div id="resources-grid" class="content-grid"></div>
+        </section>
+
+        <!-- News Section -->
+        <section id="news" class="section">
+            <div class="section-header">
+                <h2>Latest News & Updates</h2>
+                <p>Recent developments in European Generative AI research</p>
+            </div>
+            <div class="search-filters">
+                <input type="text" id="news-search" placeholder="Search news...">
+                <select id="news-filter-category">
+                    <option value="all">All Categories</option>
+                    <option value="research">Research</option>
+                    <option value="funding">Funding</option>
+                    <option value="collaboration">Collaboration</option>
+                    <option value="policy">Policy</option>
+                </select>
+            </div>
+            <div id="news-grid" class="content-grid"></div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>EU GenAI Hub</h3>
+                    <p>A comprehensive portal for European Generative AI research, fostering collaboration and knowledge sharing across the continent.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#institutions">Institutions</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#resources">Resources</a></li>
+                        <li><a href="#news">News</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="#about">About the Hub</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#contribute">Contribute</a></li>
+                        <li><a href="#api">API Access</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>European Union</h4>
+                    <div class="eu-flag">
+                        <img src="https://pixabay.com/get/g39e4d9f6454414e33a3ea4488065467e7d1dd9267bcb7bc034169630570fdb248b78d202618d1fcdb7b38f2c36dd92ed4c40a0bea8863f72b0a70c1fa3c558d4_1280.jpg" alt="European Union Flag" />
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EU GenAI Hub. Supporting European AI research excellence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/search.js"></script>
+</body>
+</html>

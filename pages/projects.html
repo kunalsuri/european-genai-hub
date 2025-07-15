@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Projects - EU GenAI Hub</title>
+    <meta name="description" content="Current and ongoing GenAI research initiatives across Europe, funded by EU programs and national agencies.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1><a href="../index.html" style="text-decoration: none; color: inherit;">EU GenAI Hub</a></h1>
+                <span class="nav-subtitle">European Generative AI Research Portal</span>
+            </div>
+            <div class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#map" class="nav-link">Research Map</a>
+                <a href="institutions.html" class="nav-link">Institutions</a>
+                <a href="#" class="nav-link active">Projects</a>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="news.html" class="nav-link">News</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="section-header">
+            <h1>European GenAI Research Projects</h1>
+            <p>Explore current and ongoing research initiatives advancing Generative AI technology across European institutions and collaborations.</p>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-filters">
+            <input type="text" id="projects-search" placeholder="Search projects by title, description, or research area...">
+            <select id="projects-filter-status">
+                <option value="all">All Status</option>
+                <option value="active">Active</option>
+                <option value="completed">Completed</option>
+                <option value="planned">Planned</option>
+            </select>
+            <select id="projects-filter-area">
+                <option value="all">All Research Areas</option>
+            </select>
+            <select id="projects-filter-funding">
+                <option value="all">All Funding Sources</option>
+                <option value="EU">EU Funding</option>
+                <option value="National">National Funding</option>
+                <option value="Industry">Industry Funding</option>
+            </select>
+        </div>
+
+        <!-- Results Grid -->
+        <div id="projects-grid" class="content-grid">
+            <div class="loading">Loading research projects...</div>
+        </div>
+
+        <!-- Featured Projects Section -->
+        <section class="featured-projects" style="margin-top: 3rem; padding: 2rem 0; background: var(--neutral-color);">
+            <div class="container">
+                <h2>Highlighted Research Areas</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <div class="featured-card">
+                        <img src="https://pixabay.com/get/g9bfaf858e46bc1742428d206a40aa452659ea3f1cd3a32983ba578f8c7a6ebaadfa689cfcab77788f9da7fcdac7bc4cc868fe52bfb13cf57b35a2b1edf50a1fa_1280.jpg" alt="Large Language Models" />
+                        <div class="featured-content">
+                            <h3>Large Language Models</h3>
+                            <p>Development of multilingual language models optimized for European languages and cultural contexts.</p>
+                        </div>
+                    </div>
+                    <div class="featured-card">
+                        <img src="https://pixabay.com/get/gd8ad530c5b976611372d2097374078a2467121720312de4c97fc0b1426b75f5ae7cd10d352f92903bfa2e60a1d6e1ee51508abddc06050edb38ff68e89836981_1280.jpg" alt="AI Ethics & Governance" />
+                        <div class="featured-content">
+                            <h3>AI Ethics & Governance</h3>
+                            <p>Research on responsible AI development, bias mitigation, and compliance with European AI regulations.</p>
+                        </div>
+                    </div>
+                    <div class="featured-card">
+                        <img src="https://pixabay.com/get/g880f741acc737bc2cfd170be9a31b6fb56ac4a71cf0c49c249b7026d25e346fca5775781ff7d53933daee986c20cf3e0408342800d7809425869723c41e90a01_1280.jpg" alt="Federated Learning" />
+                        <div class="featured-content">
+                            <h3>Federated Learning</h3>
+                            <p>Privacy-preserving machine learning techniques that align with European data protection standards.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>EU GenAI Hub</h3>
+                    <p>A comprehensive portal for European Generative AI research, fostering collaboration and knowledge sharing across the continent.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../index.html#map">Research Map</a></li>
+                        <li><a href="institutions.html">Institutions</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="news.html">News</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Research</h4>
+                    <ul>
+                        <li><a href="#">Submit Project</a></li>
+                        <li><a href="#">Collaboration Portal</a></li>
+                        <li><a href="#">Funding Opportunities</a></li>
+                        <li><a href="#">Research Guidelines</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>European Union</h4>
+                    <div class="eu-flag">
+                        <img src="https://pixabay.com/get/g39e4d9f6454414e33a3ea4488065467e7d1dd9267bcb7bc034169630570fdb248b78d202618d1fcdb7b38f2c36dd92ed4c40a0bea8863f72b0a70c1fa3c558d4_1280.jpg" alt="European Union Flag" />
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EU GenAI Hub. Supporting European AI research excellence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Standalone projects page functionality
+        class ProjectsPage {
+            constructor() {
+                this.data = [];
+                this.init();
+            }
+
+            async init() {
+                try {
+                    await this.loadData();
+                    this.setupSearch();
+                    this.renderProjects();
+                    this.populateFilters();
+                } catch (error) {
+                    console.error('Error initializing projects page:', error);
+                    this.showError();
+                }
+            }
+
+            async loadData() {
+                try {
+                    const response = await fetch('../data/projects.json');
+                    this.data = await response.json();
+                } catch (error) {
+                    console.error('Error loading projects data:', error);
+                    this.data = [];
+                }
+            }
+
+            setupSearch() {
+                const searchInput = document.getElementById('projects-search');
+                const statusFilter = document.getElementById('projects-filter-status');
+                const areaFilter = document.getElementById('projects-filter-area');
+                const fundingFilter = document.getElementById('projects-filter-funding');
+
+                if (searchInput) {
+                    let searchTimeout;
+                    searchInput.addEventListener('input', (e) => {
+                        clearTimeout(searchTimeout);
+                        searchTimeout = setTimeout(() => {
+                            this.applyFilters();
+                        }, 300);
+                    });
+                }
+
+                [statusFilter, areaFilter, fundingFilter].forEach(filter => {
+                    if (filter) {
+                        filter.addEventListener('change', () => this.applyFilters());
+                    }
+                });
+            }
+
+            populateFilters() {
+                if (this.data.length === 0) return;
+
+                // Populate research areas
+                const areaFilter = document.getElementById('projects-filter-area');
+                if (areaFilter) {
+                    const areas = [...new Set(this.data.flatMap(proj => proj.research_areas || []))].sort();
+                    areas.forEach(area => {
+                        const option = document.createElement('option');
+                        option.value = area;
+                        option.textContent = area;
+                        areaFilter.appendChild(option);
+                    });
+                }
+            }
+
+            applyFilters() {
+                const searchInput = document.getElementById('projects-search');
+                const statusFilter = document.getElementById('projects-filter-status');
+                const areaFilter = document.getElementById('projects-filter-area');
+                const fundingFilter = document.getElementById('projects-filter-funding');
+
+                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                const selectedStatus = statusFilter ? statusFilter.value : 'all';
+                const selectedArea = areaFilter ? areaFilter.value : 'all';
+                const selectedFunding = fundingFilter ? fundingFilter.value : 'all';
+
+                const filteredData = this.data.filter(project => {
+                    const matchesSearch = !searchTerm || 
+                        project.title.toLowerCase().includes(searchTerm) ||
+                        (project.description && project.description.toLowerCase().includes(searchTerm)) ||
+                        (project.research_areas && project.research_areas.some(area => area.toLowerCase().includes(searchTerm))) ||
+                        (project.partners && project.partners.some(partner => partner.toLowerCase().includes(searchTerm)));
+
+                    const matchesStatus = selectedStatus === 'all' || project.status === selectedStatus;
+                    const matchesArea = selectedArea === 'all' || (project.research_areas && project.research_areas.includes(selectedArea));
+                    const matchesFunding = selectedFunding === 'all' || (project.funding_source && project.funding_source === selectedFunding);
+
+                    return matchesSearch && matchesStatus && matchesArea && matchesFunding;
+                });
+
+                this.renderProjects(filteredData);
+            }
+
+            renderProjects(dataToRender = null) {
+                const container = document.getElementById('projects-grid');
+                if (!container) return;
+
+                const data = dataToRender || this.data;
+
+                if (data.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>No Projects Found</h3>
+                            <p>No research projects match your current search and filters.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = data.map(project => `
+                    <div class="content-card fade-in">
+                        <h3>${this.escapeHtml(project.title)}</h3>
+                        <div class="meta">
+                            <strong>Status:</strong> <span class="tag ${project.status || 'active'}">${this.escapeHtml(project.status || 'Active')}</span><br>
+                            <strong>Duration:</strong> ${this.escapeHtml(project.start_date || '2024')} - ${this.escapeHtml(project.end_date || '2027')}<br>
+                            ${project.funding ? `<strong>Funding:</strong> €${this.formatNumber(project.funding)}<br>` : ''}
+                            ${project.funding_source ? `<strong>Source:</strong> ${this.escapeHtml(project.funding_source)}` : ''}
+                        </div>
+                        <p>${this.escapeHtml(project.description || 'Cutting-edge research project advancing the field of Generative AI.')}</p>
+                        ${project.research_areas && project.research_areas.length > 0 ? `
+                            <div class="tags">
+                                ${project.research_areas.map(area => 
+                                    `<span class="tag secondary">${this.escapeHtml(area)}</span>`
+                                ).join('')}
+                            </div>
+                        ` : ''}
+                        ${project.partners && project.partners.length > 0 ? `
+                            <div style="margin-top: 1rem;">
+                                <strong>Partners:</strong> ${project.partners.map(partner => 
+                                    this.escapeHtml(partner)
+                                ).join(', ')}
+                            </div>
+                        ` : ''}
+                        ${project.website ? `
+                            <div style="margin-top: 1rem;">
+                                <a href="${this.escapeHtml(project.website)}" target="_blank" class="btn btn-primary">
+                                    Project Details
+                                </a>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+
+            showError() {
+                const container = document.getElementById('projects-grid');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>Loading Error</h3>
+                            <p>Unable to load research projects data. Please refresh the page to try again.</p>
+                            <button onclick="location.reload()" class="btn btn-primary" style="margin-top: 1rem;">
+                                Refresh Page
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+
+            escapeHtml(text) {
+                if (typeof text !== 'string') return text || '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            formatNumber(num) {
+                if (typeof num !== 'number') return num;
+                return num.toLocaleString();
+            }
+        }
+
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ProjectsPage();
+        });
+    </script>
+</body>
+</html>

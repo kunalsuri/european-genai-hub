@@ -5,273 +5,211 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EU GenAI Hub - European Generative AI Research Portal</title>
     <meta name="description" content="Explore ongoing Generative AI research across Europe. Discover institutions, projects, resources, and latest developments in European GenAI.">
-    
+
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Tailwind Config -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'eu-blue': '#003399',
-                        'eu-yellow': '#FFCC00',
-                        'eu-dark': '#1a1a2e',
-                        'eu-light': '#f8fafc',
-                        'accent-purple': '#6366f1',
-                        'accent-cyan': '#06b6d4',
-                        'accent-pink': '#ec4899'
-                    },
-                    fontFamily: {
-                        'inter': ['Inter', 'sans-serif'],
-                        'space': ['Space Grotesk', 'sans-serif']
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.5s ease-in-out',
-                        'slide-up': 'slideUp 0.6s ease-out',
-                        'float': 'float 3s ease-in-out infinite',
-                        'gradient': 'gradient 8s ease infinite',
-                        'pulse-slow': 'pulse 3s ease-in-out infinite'
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' }
-                        },
-                        slideUp: {
-                            '0%': { opacity: '0', transform: 'translateY(40px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' }
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-10px)' }
-                        },
-                        gradient: {
-                            '0%, 100%': { backgroundPosition: '0% 50%' },
-                            '50%': { backgroundPosition: '100% 50%' }
-                        }
-                    },
-                    backdropBlur: {
-                        xs: '2px'
-                    }
-                }
-            }
-        }
-    </script>
-    
+
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js" integrity="sha256-7lWo7cjrrponRJcS6bc8isfsPDwSKoaYyGIV5tEHOjE=" crossorigin="anonymous"></script>
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    
-    <!-- Custom CSS for additional effects -->
-    <style>
-        .bg-gradient-mesh {
-            background: linear-gradient(-45deg, #003399, #6366f1, #06b6d4, #ec4899);
-            background-size: 400% 400%;
-            animation: gradient 8s ease infinite;
-        }
-        .glass-effect {
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .text-gradient {
-            background: linear-gradient(135deg, #003399, #6366f1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hover-scale {
-            transition: transform 0.3s ease;
-        }
-        .hover-scale:hover {
-            transform: scale(1.05);
-        }
-    </style>
 </head>
-<body class="font-inter bg-slate-50 text-slate-900">
+<body class="font-inter bg-slate-50 text-slate-900" style="font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a;">
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass-effect border-b border-white/20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-eu-blue to-accent-purple rounded-xl flex items-center justify-center">
-                        <i data-lucide="brain-circuit" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-space font-bold text-gradient">EU GenAI Hub</h1>
-                        <p class="text-xs text-slate-600 hidden sm:block">European AI Research Portal</p>
-                    </div>
+    <nav class="nav-container">
+        <div class="nav-wrapper">
+            <div class="nav-brand">
+                <div class="nav-logo">
+                    <i data-lucide="brain-circuit" class="nav-icon"></i>
                 </div>
-                
-                <div class="hidden md:flex items-center space-x-1">
-                    <a href="#home" class="nav-link active px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="home">
-                        <i data-lucide="home" class="w-4 h-4 inline mr-2"></i>Home
-                    </a>
-                    <a href="#projects" class="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="projects">
-                        <i data-lucide="rocket" class="w-4 h-4 inline mr-2"></i>Projects
-                    </a>
-                    <a href="#models" class="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="models">
-                        <i data-lucide="brain" class="w-4 h-4 inline mr-2"></i>LLM/VLM Models
-                    </a>
-                    <a href="#map" class="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="map">
-                        <i data-lucide="map" class="w-4 h-4 inline mr-2"></i>Research Map
-                    </a>
-                    <a href="#institutions" class="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="institutions">
-                        <i data-lucide="building-2" class="w-4 h-4 inline mr-2"></i>Institutions
-                    </a>
-                    <a href="#resources" class="nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="resources">
-                        <i data-lucide="library" class="w-4 h-4 inline mr-2"></i>Resources
-                    </a>
+                <div>
+                    <h1 class="nav-title">EU GenAI Hub</h1>
+                    <p class="nav-subtitle">European AI Research Portal</p>
                 </div>
-
-                <button class="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors" id="mobile-menu-btn">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
             </div>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link active" data-section="home">
+                    <i data-lucide="home" class="nav-link-icon"></i>Home
+                </a>
+                <a href="#projects" class="nav-link" data-section="projects">
+                    <i data-lucide="rocket" class="nav-link-icon"></i>Projects
+                </a>
+                <a href="#models" class="nav-link" data-section="models">
+                    <i data-lucide="brain" class="nav-link-icon"></i>LLM/VLM Models
+                </a>
+                <a href="#map" class="nav-link" data-section="map">
+                    <i data-lucide="map" class="nav-link-icon"></i>Research Map
+                </a>
+                <a href="#institutions" class="nav-link" data-section="institutions">
+                    <i data-lucide="building-2" class="nav-link-icon"></i>Institutions
+                </a>
+                <a href="#resources" class="nav-link" data-section="resources">
+                    <i data-lucide="library" class="nav-link-icon"></i>Resources
+                </a>
+            </div>
+
+            <button class="nav-toggle" id="mobile-menu-btn" aria-label="Toggle mobile menu">
+                <i data-lucide="menu"></i>
+            </button>
         </div>
-        
+
         <!-- Mobile Menu -->
-        <div class="md:hidden hidden" id="mobile-menu">
-            <div class="px-4 py-3 space-y-2 border-t border-white/20">
-                <a href="#home" class="block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="home">
-                    <i data-lucide="home" class="w-4 h-4 inline mr-2"></i>Home
+        <div class="mobile-menu hidden" id="mobile-menu">
+            <div class="mobile-menu-content">
+                <a href="#home" class="mobile-nav-link" data-section="home">
+                    <i data-lucide="home" class="mobile-nav-icon"></i>Home
                 </a>
-                <a href="#projects" class="block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="projects">
-                    <i data-lucide="rocket" class="w-4 h-4 inline mr-2"></i>Projects
+                <a href="#projects" class="mobile-nav-link" data-section="projects">
+                    <i data-lucide="rocket" class="mobile-nav-icon"></i>Projects
                 </a>
-                <a href="#models" class="block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="models">
-                    <i data-lucide="brain" class="w-4 h-4 inline mr-2"></i>LLM/VLM Models
+                <a href="#models" class="mobile-nav-link" data-section="models">
+                    <i data-lucide="brain" class="mobile-nav-icon"></i>LLM/VLM Models
                 </a>
-                <a href="#map" class="block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="map">
-                    <i data-lucide="map" class="w-4 h-4 inline mr-2"></i>Research Map
+                <a href="#map" class="mobile-nav-link" data-section="map">
+                    <i data-lucide="map" class="mobile-nav-icon"></i>Research Map
                 </a>
-                <a href="#institutions" class="block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="institutions">
-                    <i data-lucide="building-2" class="w-4 h-4 inline mr-2"></i>Institutions
+                <a href="#institutions" class="mobile-nav-link" data-section="institutions">
+                    <i data-lucide="building-2" class="mobile-nav-icon"></i>Institutions
                 </a>
-                <a href="#resources" class="block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10" data-section="resources">
-                    <i data-lucide="library" class="w-4 h-4 inline mr-2"></i>Resources
+                <a href="#resources" class="mobile-nav-link" data-section="resources">
+                    <i data-lucide="library" class="mobile-nav-icon"></i>Resources
                 </a>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="pt-16">
+    <main class="main-content">
         <!-- Home Section -->
         <section id="home" class="section active">
             <!-- Hero Section -->
-            <div class="relative min-h-screen flex items-center bg-gradient-mesh overflow-hidden">
-                <div class="absolute inset-0 bg-black/20"></div>
-                <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                    <div class="grid lg:grid-cols-2 gap-12 items-center">
-                        <div class="text-white animate-slide-up">
-                            <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-                                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                                <span class="text-sm font-medium">Active Research Portal</span>
+            <div class="hero-section">
+                <div class="hero-background"></div>
+                <div class="hero-container">
+                    <div class="hero-grid">
+                        <div class="hero-content">
+                            <div class="hero-badge">
+                                <div class="status-indicator"></div>
+                                <span>Active Research Portal</span>
                             </div>
-                            
-                            <h1 class="text-5xl lg:text-7xl font-space font-black mb-6 leading-tight">
+
+                            <h1 class="hero-title">
                                 GenAI beyond theory,
-                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-eu-yellow to-accent-cyan">
+                                <span class="hero-highlight">
                                     into practice
                                 </span>
                             </h1>
-                            
-                            <p class="text-xl lg:text-2xl text-white/90 mb-8 leading-relaxed">
+
+                            <p class="hero-description">
                                 Collaborate, innovate, and share knowledge about Generative AI research across Europe
                             </p>
-                            
-                            <div class="flex flex-col sm:flex-row gap-4">
-                                <button class="group bg-white text-slate-900 px-8 py-4 rounded-2xl font-semibold text-lg hover:scale-105 transition-all duration-300 flex items-center justify-center" data-section="map">
-                                    <i data-lucide="map-pin" class="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform"></i>
+
+                            <div class="hero-actions">
+                                <button class="btn btn-primary" data-section="map" aria-label="Explore Research Map">
+                                    <i data-lucide="map-pin" class="btn-icon"></i>
                                     Explore Research Map
                                 </button>
-                                <button class="group glass-effect text-white px-8 py-4 rounded-2xl font-semibold text-lg hover:scale-105 transition-all duration-300 flex items-center justify-center" data-section="institutions">
-                                    <i data-lucide="building-2" class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform"></i>
+                                <button class="btn btn-secondary" data-section="institutions" aria-label="Browse Institutions">
+                                    <i data-lucide="building-2" class="btn-icon"></i>
                                     Browse Institutions
                                 </button>
                             </div>
                         </div>
-                        
-                        <div class="relative animate-float">
-                            <div class="relative z-10">
+
+                        <div class="hero-image">
+                            <div class="hero-image-container">
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1200px-Flag_of_Europe.svg.png" 
                                      alt="European Union Flag - European AI Research" 
-                                     class="rounded-3xl shadow-2xl w-full h-auto" />
+                                     class="hero-flag" 
+                                     loading="eager" />
                             </div>
-                            <div class="absolute -top-4 -right-4 w-24 h-24 bg-accent-purple rounded-2xl opacity-80 animate-pulse-slow"></div>
-                            <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-accent-cyan rounded-2xl opacity-60 animate-pulse-slow" style="animation-delay: 1s;"></div>
+                            <div class="floating-element element-1"></div>
+                            <div class="floating-element element-2"></div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Floating Elements -->
-                <div class="absolute top-20 left-10 w-4 h-4 bg-eu-yellow rounded-full animate-float opacity-70"></div>
-                <div class="absolute top-40 right-20 w-6 h-6 bg-accent-pink rounded-full animate-float opacity-50" style="animation-delay: 2s;"></div>
-                <div class="absolute bottom-32 left-1/4 w-3 h-3 bg-accent-cyan rounded-full animate-float opacity-60" style="animation-delay: 3s;"></div>
+                <div class="bg-decorations">
+                    <div class="bg-element bg-element-1"></div>
+                    <div class="bg-element bg-element-2"></div>
+                    <div class="bg-element bg-element-3"></div>
+                </div>
             </div>
 
             <!-- Stats Section -->
-            <div class="py-20 bg-white">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-center mb-16">
-                        <h2 class="text-4xl lg:text-5xl font-space font-bold text-slate-900 mb-4">
-                            <span class="text-6xl font-black">+</span><span id="total-resources-count" class="text-6xl font-black">20</span> GenAI resources...
-                            <span class="block text-2xl font-normal text-slate-600 mt-2">and counting!</span>
+            <div class="stats-section">
+                <div class="stats-container">
+                    <div class="stats-header">
+                        <h2 class="stats-title">
+                            <span class="stats-plus">+</span>
+                            <span id="total-resources-count" class="stats-number">20</span> 
+                            GenAI resources...
+                            <span class="stats-subtitle">and counting!</span>
                         </h2>
                     </div>
-                    
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div class="group relative bg-gradient-to-br from-eu-blue to-accent-purple p-8 rounded-3xl text-white hover-scale overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -translate-y-8 translate-x-8"></div>
-                            <div class="relative z-10">
-                                <i data-lucide="building-2" class="w-8 h-8 mb-4 opacity-80"></i>
-                                <div class="text-4xl font-bold mb-2" id="institutions-count">0</div>
-                                <div class="text-sm opacity-90">Research Institutions</div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card stat-card-1">
+                            <div class="stat-bg-element"></div>
+                            <div class="stat-content">
+                                <i data-lucide="building-2" class="stat-icon"></i>
+                                <div class="stat-number" id="institutions-count">0</div>
+                                <div class="stat-label">Research Institutions</div>
                             </div>
                         </div>
-                        
-                        <div class="group relative bg-gradient-to-br from-accent-cyan to-accent-purple p-8 rounded-3xl text-white hover-scale overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -translate-y-8 translate-x-8"></div>
-                            <div class="relative z-10">
-                                <i data-lucide="rocket" class="w-8 h-8 mb-4 opacity-80"></i>
-                                <div class="text-4xl font-bold mb-2" id="projects-count">0</div>
-                                <div class="text-sm opacity-90">Active Projects</div>
+
+                        <div class="stat-card stat-card-2">
+                            <div class="stat-bg-element"></div>
+                            <div class="stat-content">
+                                <i data-lucide="rocket" class="stat-icon"></i>
+                                <div class="stat-number" id="projects-count">0</div>
+                                <div class="stat-label">Active Projects</div>
                             </div>
                         </div>
-                        
-                        <div class="group relative bg-gradient-to-br from-accent-pink to-accent-purple p-8 rounded-3xl text-white hover-scale overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -translate-y-8 translate-x-8"></div>
-                            <div class="relative z-10">
-                                <i data-lucide="library" class="w-8 h-8 mb-4 opacity-80"></i>
-                                <div class="text-4xl font-bold mb-2" id="resources-count">0</div>
-                                <div class="text-sm opacity-90">Research Resources</div>
+
+                        <div class="stat-card stat-card-3">
+                            <div class="stat-bg-element"></div>
+                            <div class="stat-content">
+                                <i data-lucide="library" class="stat-icon"></i>
+                                <div class="stat-number" id="resources-count">0</div>
+                                <div class="stat-label">Research Resources</div>
                             </div>
                         </div>
-                        
-                        <div class="group relative bg-gradient-to-br from-eu-yellow to-accent-cyan p-8 rounded-3xl text-slate-900 hover-scale overflow-hidden">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-black/10 rounded-full -translate-y-8 translate-x-8"></div>
-                            <div class="relative z-10">
-                                <i data-lucide="globe" class="w-8 h-8 mb-4 opacity-80"></i>
-                                <div class="text-4xl font-bold mb-2" id="countries-count">0</div>
-                                <div class="text-sm opacity-90">EU Countries</div>
+
+                        <div class="stat-card stat-card-4">
+                            <div class="stat-bg-element"></div>
+                            <div class="stat-content">
+                                <i data-lucide="globe" class="stat-icon"></i>
+                                <div class="stat-number" id="countries-count">0</div>
+                                <div class="stat-label">EU Countries</div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="mt-16 text-center">
-                        <button class="bg-gradient-to-r from-eu-blue to-accent-purple text-white px-10 py-4 rounded-xl font-semibold text-lg hover:shadow-lg hover:scale-105 transition-all duration-300 border border-white/20" data-section="resources">
-                            <i data-lucide="search" class="w-5 h-5 inline mr-2"></i>
+
+                    <div class="stats-cta">
+                        <button class="btn btn-gradient" data-section="resources" aria-label="Search Catalogue">
+                            <i data-lucide="search" class="btn-icon"></i>
                             Search Catalogue
                         </button>
                     </div>
@@ -279,70 +217,73 @@
             </div>
 
             <!-- Featured Section -->
-            <div class="py-20 bg-slate-50">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-center mb-16">
-                        <h2 class="text-4xl font-space font-bold text-slate-900 mb-4">Featured Research Areas</h2>
-                        <p class="text-lg text-slate-600 max-w-2xl mx-auto">Explore the cutting-edge domains driving European AI innovation</p>
+            <div class="featured-section">
+                <div class="featured-container">
+                    <div class="featured-header">
+                        <h2 class="featured-title">Featured Research Areas</h2>
+                        <p class="featured-description">Explore the cutting-edge domains driving European AI innovation</p>
                     </div>
-                    
-                    <div class="grid md:grid-cols-3 gap-8">
-                        <div class="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                            <div class="relative h-64 overflow-hidden">
+
+                    <div class="featured-grid">
+                        <div class="featured-card">
+                            <div class="featured-image">
                                 <img src="https://pixabay.com/get/gf8864b7d47a3367d62bf233df36f07b7b5a2ca89cf7e4bb87e7ed6484f51f2139a8de19859609c79f86280e6c85e0764862f7755400eb5add397c8cc514f2260_1280.jpg" 
                                      alt="Natural Language Processing" 
-                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                                <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-3">
-                                    <i data-lucide="message-square" class="w-6 h-6 text-white"></i>
+                                     class="featured-img"
+                                     loading="lazy" />
+                                <div class="featured-overlay"></div>
+                                <div class="featured-icon">
+                                    <i data-lucide="message-square"></i>
                                 </div>
                             </div>
-                            <div class="p-8">
-                                <h3 class="text-2xl font-space font-bold text-slate-900 mb-3">Natural Language Processing</h3>
-                                <p class="text-slate-600 leading-relaxed">Advanced language models and multilingual AI systems developed across European research centers.</p>
-                                <div class="flex items-center mt-6 text-eu-blue font-medium">
+                            <div class="featured-content">
+                                <h3 class="featured-card-title">Natural Language Processing</h3>
+                                <p class="featured-card-description">Advanced language models and multilingual AI systems developed across European research centers.</p>
+                                <div class="featured-link">
                                     <span>Explore Research</span>
-                                    <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
+                                    <i data-lucide="arrow-right" class="featured-arrow"></i>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                            <div class="relative h-64 overflow-hidden">
+
+                        <div class="featured-card">
+                            <div class="featured-image">
                                 <img src="https://pixabay.com/get/g621ae5e870b18b361b3bf7517e8235428dd63b9c979c7f36869c02bad8a40c3a8953b46e498ab538f256de0c53a3bbc621bb5019b39ab1da0e8ace1288a8ffda_1280.jpg" 
                                      alt="Computer Vision" 
-                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                                <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-3">
-                                    <i data-lucide="eye" class="w-6 h-6 text-white"></i>
+                                     class="featured-img"
+                                     loading="lazy" />
+                                <div class="featured-overlay"></div>
+                                <div class="featured-icon">
+                                    <i data-lucide="eye"></i>
                                 </div>
                             </div>
-                            <div class="p-8">
-                                <h3 class="text-2xl font-space font-bold text-slate-900 mb-3">Computer Vision & Generative Art</h3>
-                                <p class="text-slate-600 leading-relaxed">Innovative image generation, video synthesis, and visual AI technologies from European labs.</p>
-                                <div class="flex items-center mt-6 text-eu-blue font-medium">
+                            <div class="featured-content">
+                                <h3 class="featured-card-title">Computer Vision & Generative Art</h3>
+                                <p class="featured-card-description">Innovative image generation, video synthesis, and visual AI technologies from European labs.</p>
+                                <div class="featured-link">
                                     <span>Explore Research</span>
-                                    <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
+                                    <i data-lucide="arrow-right" class="featured-arrow"></i>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                            <div class="relative h-64 overflow-hidden">
+
+                        <div class="featured-card">
+                            <div class="featured-image">
                                 <img src="https://pixabay.com/get/g47182228458e276215c44ffbf21c76e9f5a3bc6bea7c7c590e8b81c754d458e777107e4907a4ad34d2d8260de36597fed632a37f77068cf02e2ba9540756e204_1280.jpg" 
                                      alt="Ethics & AI Safety" 
-                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                                <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-3">
-                                    <i data-lucide="shield-check" class="w-6 h-6 text-white"></i>
+                                     class="featured-img"
+                                     loading="lazy" />
+                                <div class="featured-overlay"></div>
+                                <div class="featured-icon">
+                                    <i data-lucide="shield-check"></i>
                                 </div>
                             </div>
-                            <div class="p-8">
-                                <h3 class="text-2xl font-space font-bold text-slate-900 mb-3">AI Ethics & Safety</h3>
-                                <p class="text-slate-600 leading-relaxed">Leading research on responsible AI development and European AI governance frameworks.</p>
-                                <div class="flex items-center mt-6 text-eu-blue font-medium">
+                            <div class="featured-content">
+                                <h3 class="featured-card-title">AI Ethics & Safety</h3>
+                                <p class="featured-card-description">Leading research on responsible AI development and European AI governance frameworks.</p>
+                                <div class="featured-link">
                                     <span>Explore Research</span>
-                                    <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
+                                    <i data-lucide="arrow-right" class="featured-arrow"></i>
                                 </div>
                             </div>
                         </div>
@@ -351,322 +292,136 @@
             </div>
         </section>
 
-        <!-- Map Section -->
-        <section id="map" class="section hidden min-h-screen bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-space font-bold text-slate-900 mb-4">European GenAI Research Map</h2>
-                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">Interactive map showcasing research institutions and projects across Europe's AI landscape</p>
+        <!-- Other sections will be loaded dynamically -->
+        <section id="map" class="section hidden">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">European GenAI Research Map</h2>
+                    <p class="section-description">Interactive map showcasing research institutions and projects across Europe's AI landscape</p>
                 </div>
-                
-                <div class="bg-white rounded-3xl shadow-2xl p-8">
-                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
-                        <div class="relative flex-1">
-                            <i data-lucide="filter" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <select id="map-filter-type" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none">
+
+                <div class="map-wrapper">
+                    <div class="map-filters">
+                        <div class="filter-group">
+                            <i data-lucide="filter" class="filter-icon"></i>
+                            <select id="map-filter-type" class="filter-select" aria-label="Filter by institution type">
                                 <option value="all">All Institutions</option>
                                 <option value="university">Universities</option>
                                 <option value="research">Research Centers</option>
                                 <option value="industry">Industry Labs</option>
                             </select>
                         </div>
-                        <div class="relative flex-1">
-                            <i data-lucide="globe" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <select id="map-filter-country" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none">
+                        <div class="filter-group">
+                            <i data-lucide="globe" class="filter-icon"></i>
+                            <select id="map-filter-country" class="filter-select" aria-label="Filter by country">
                                 <option value="all">All Countries</option>
                             </select>
                         </div>
                     </div>
-                    
-                    <div id="research-map" class="h-[600px] rounded-2xl overflow-hidden shadow-lg"></div>
+
+                    <div id="research-map" class="map-display" role="application" aria-label="Interactive research map"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Institutions Section -->
-        <section id="institutions" class="section hidden min-h-screen bg-slate-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-space font-bold text-slate-900 mb-4">Research Institutions</h2>
-                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">Leading European institutions advancing Generative AI research and innovation</p>
-                </div>
-                
-                <div class="bg-white rounded-3xl shadow-xl p-8 mb-8">
-                    <div class="flex flex-col lg:flex-row gap-4">
-                        <div class="relative flex-1">
-                            <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <input type="text" id="institutions-search" placeholder="Search institutions..." 
-                                   class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent">
-                        </div>
-                        <div class="relative">
-                            <i data-lucide="globe" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <select id="institutions-filter-country" class="pl-10 pr-8 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none min-w-48">
-                                <option value="all">All Countries</option>
-                            </select>
-                        </div>
-                        <div class="relative">
-                            <i data-lucide="building-2" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <select id="institutions-filter-type" class="pl-10 pr-8 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none min-w-48">
-                                <option value="all">All Types</option>
-                                <option value="university">Universities</option>
-                                <option value="research">Research Centers</option>
-                                <option value="industry">Industry Labs</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="institutions-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        <!-- Placeholder sections for other content -->
+        <section id="institutions" class="section hidden">
+            <div class="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Loading institutions...</p>
             </div>
         </section>
 
-        <!-- Projects Section -->
-        <section id="projects" class="section hidden min-h-screen bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-space font-bold text-slate-900 mb-4">Research Projects</h2>
-                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">Current and ongoing GenAI research initiatives across Europe</p>
-                </div>
-                
-                <div class="bg-slate-50 rounded-3xl shadow-xl p-8 mb-8">
-                    <div class="flex flex-col lg:flex-row gap-4">
-                        <div class="relative flex-1">
-                            <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <input type="text" id="projects-search" placeholder="Search projects..." 
-                                   class="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent">
-                        </div>
-                        <div class="relative">
-                            <i data-lucide="activity" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <select id="projects-filter-status" class="pl-10 pr-8 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none min-w-48">
-                                <option value="all">All Status</option>
-                                <option value="active">Active</option>
-                                <option value="completed">Completed</option>
-                                <option value="planned">Planned</option>
-                            </select>
-                        </div>
-                        <div class="relative">
-                            <i data-lucide="layers" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <select id="projects-filter-area" class="pl-10 pr-8 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none min-w-48">
-                                <option value="all">All Research Areas</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="projects-grid" class="grid lg:grid-cols-2 gap-8"></div>
+        <section id="projects" class="section hidden">
+            <div class="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Loading projects...</p>
             </div>
         </section>
 
-        <!-- LLM/VLM Models Section -->
-        <section id="models" class="section hidden min-h-screen bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-space font-bold text-slate-900 mb-4">European LLM/VLM Models</h2>
-                    <p class="text-lg text-slate-600 max-w-3xl mx-auto">
-                        Comprehensive overview of Large Language Models and Vision-Language Models developed across European research initiatives
-                    </p>
-                </div>
-                
-                <div class="bg-slate-50 rounded-3xl shadow-xl p-8 mb-8">
-                    <div class="flex flex-col lg:flex-row gap-4">
-                        <div class="relative flex-1">
-                            <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <input type="text" id="models-search" placeholder="Search models, projects, or partners..." 
-                                   class="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent">
-                        </div>
-                        <div class="relative">
-                            <i data-lucide="brain" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <select id="models-filter-type" class="pl-10 pr-8 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none min-w-48">
-                                <option value="all">All Model Types</option>
-                                <option value="LLM">Large Language Models</option>
-                                <option value="VLM">Vision-Language Models</option>
-                                <option value="Multimodal">Multimodal Models</option>
-                            </select>
-                        </div>
-                        <div class="relative">
-                            <i data-lucide="activity" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <select id="models-filter-status" class="pl-10 pr-8 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none min-w-48">
-                                <option value="all">All Status</option>
-                                <option value="active">Active Development</option>
-                                <option value="released">Released</option>
-                                <option value="research">Research Phase</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full">
-                            <thead class="bg-gradient-to-r from-eu-blue to-accent-purple text-white">
-                                <tr>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold">Project Name</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold">Model Type</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold">Models Developed</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold">Key Partners</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold">Funding</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold">Status</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold">Languages</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold">Details</th>
-                                </tr>
-                            </thead>
-                            <tbody id="models-table-body">
-                                <!-- Model data will be populated by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="mt-8 text-center">
-                    <p class="text-sm text-slate-500">
-                        Data based on the International Open-Source LLM Builders Summit held in Geneva during ITU's AI for Good
-                    </p>
-                </div>
+        <section id="models" class="section hidden">
+            <div class="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Loading models...</p>
             </div>
         </section>
 
-        <!-- Resources Section -->
-        <section id="resources" class="section hidden min-h-screen bg-slate-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-space font-bold text-slate-900 mb-4">Research Resources</h2>
-                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">Papers, datasets, tools, and other resources from European GenAI research</p>
-                </div>
-                
-                <div class="bg-white rounded-3xl shadow-xl p-8 mb-8">
-                    <div class="flex flex-col lg:flex-row gap-4">
-                        <div class="relative flex-1">
-                            <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <input type="text" id="resources-search" placeholder="Search resources..." 
-                                   class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent">
-                        </div>
-                        <div class="relative">
-                            <i data-lucide="file-text" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <select id="resources-filter-type" class="pl-10 pr-8 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none min-w-48">
-                                <option value="all">All Types</option>
-                                <option value="paper">Research Papers</option>
-                                <option value="dataset">Datasets</option>
-                                <option value="tool">Tools & Software</option>
-                                <option value="report">Reports</option>
-                            </select>
-                        </div>
-                        <div class="relative">
-                            <i data-lucide="calendar" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <select id="resources-filter-year" class="pl-10 pr-8 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none min-w-48">
-                                <option value="all">All Years</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="resources-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-            </div>
-        </section>
-
-        <!-- News Section -->
-        <section id="news" class="section hidden min-h-screen bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-space font-bold text-slate-900 mb-4">Latest News & Updates</h2>
-                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">Recent developments in European Generative AI research</p>
-                </div>
-                
-                <div class="bg-slate-50 rounded-3xl shadow-xl p-8 mb-8">
-                    <div class="flex flex-col lg:flex-row gap-4">
-                        <div class="relative flex-1">
-                            <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <input type="text" id="news-search" placeholder="Search news..." 
-                                   class="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent">
-                        </div>
-                        <div class="relative">
-                            <i data-lucide="tag" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                            <select id="news-filter-category" class="pl-10 pr-8 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-eu-blue focus:border-transparent appearance-none min-w-48">
-                                <option value="all">All Categories</option>
-                                <option value="research">Research</option>
-                                <option value="funding">Funding</option>
-                                <option value="collaboration">Collaboration</option>
-                                <option value="policy">Policy</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="news-grid" class="grid lg:grid-cols-2 gap-8"></div>
+        <section id="resources" class="section hidden">
+            <div class="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Loading resources...</p>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-                <div class="lg:col-span-2">
-                    <div class="flex items-center space-x-3 mb-6">
-                        <div class="w-10 h-10 bg-gradient-to-br from-eu-blue to-accent-purple rounded-xl flex items-center justify-center">
-                            <i data-lucide="brain-circuit" class="w-6 h-6 text-white"></i>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <i data-lucide="brain-circuit"></i>
                         </div>
-                        <h3 class="text-2xl font-space font-bold text-gradient">EU GenAI Hub</h3>
+                        <h3 class="footer-title">EU GenAI Hub</h3>
                     </div>
-                    <p class="text-slate-300 text-lg leading-relaxed mb-6 max-w-md">
+                    <p class="footer-description">
                         A comprehensive portal for European Generative AI research, fostering collaboration and knowledge sharing across the continent.
                     </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-xl">
-                            <i data-lucide="github" class="w-5 h-5"></i>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="GitHub">
+                            <i data-lucide="github"></i>
                         </a>
-                        <a href="#" class="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-xl">
-                            <i data-lucide="twitter" class="w-5 h-5"></i>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i data-lucide="twitter"></i>
                         </a>
-                        <a href="#" class="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-xl">
-                            <i data-lucide="linkedin" class="w-5 h-5"></i>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <i data-lucide="linkedin"></i>
                         </a>
                     </div>
                 </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold mb-6">Quick Links</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#institutions" class="text-slate-300 hover:text-white transition-colors flex items-center group">
-                            <i data-lucide="chevron-right" class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform"></i>
+
+                <div class="footer-links">
+                    <h4 class="footer-section-title">Quick Links</h4>
+                    <ul class="footer-link-list">
+                        <li><a href="#institutions" class="footer-link" data-section="institutions">
+                            <i data-lucide="chevron-right" class="footer-link-icon"></i>
                             Institutions
                         </a></li>
-                        <li><a href="#projects" class="text-slate-300 hover:text-white transition-colors flex items-center group">
-                            <i data-lucide="chevron-right" class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform"></i>
+                        <li><a href="#projects" class="footer-link" data-section="projects">
+                            <i data-lucide="chevron-right" class="footer-link-icon"></i>
                             Projects
                         </a></li>
-                        <li><a href="#resources" class="text-slate-300 hover:text-white transition-colors flex items-center group">
-                            <i data-lucide="chevron-right" class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform"></i>
+                        <li><a href="#resources" class="footer-link" data-section="resources">
+                            <i data-lucide="chevron-right" class="footer-link-icon"></i>
                             Resources
-                        </a></li>
-                        <li><a href="#news" class="text-slate-300 hover:text-white transition-colors flex items-center group">
-                            <i data-lucide="chevron-right" class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform"></i>
-                            News
                         </a></li>
                     </ul>
                 </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold mb-6">European Union</h4>
-                    <div class="mb-4">
+
+                <div class="footer-eu">
+                    <h4 class="footer-section-title">European Union</h4>
+                    <div class="eu-flag">
                         <img src="https://pixabay.com/get/g39e4d9f6454414e33a3ea4488065467e7d1dd9267bcb7bc034169630570fdb248b78d202618d1fcdb7b38f2c36dd92ed4c40a0bea8863f72b0a70c1fa3c558d4_1280.jpg" 
                              alt="European Union Flag" 
-                             class="w-16 h-12 object-cover rounded-lg shadow-lg" />
+                             class="eu-flag-img"
+                             loading="lazy" />
                     </div>
-                    <p class="text-slate-300 text-sm leading-relaxed">
+                    <p class="eu-description">
                         Supporting European AI research excellence and fostering innovation across member states.
                     </p>
                 </div>
             </div>
-            
-            <div class="border-t border-slate-700 pt-8">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <p class="text-slate-400 text-sm">
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="footer-copyright">
                         &copy; 2025 EU GenAI Hub. Supporting European AI research excellence.
                     </p>
-                    <div class="flex items-center space-x-6 mt-4 md:mt-0">
-                        <a href="#privacy" class="text-slate-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
-                        <a href="#terms" class="text-slate-400 hover:text-white text-sm transition-colors">Terms of Use</a>
-                        <a href="#contact" class="text-slate-400 hover:text-white text-sm transition-colors">Contact</a>
+                    <div class="footer-legal">
+                        <a href="#privacy" class="legal-link">Privacy Policy</a>
+                        <a href="#terms" class="legal-link">Terms of Use</a>
+                        <a href="#contact" class="legal-link">Contact</a>
                     </div>
                 </div>
             </div>
@@ -674,21 +429,31 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
-        // Initialize Lucide icons
+        // Initialize Lucide icons and basic functionality
         document.addEventListener('DOMContentLoaded', function() {
-            lucide.createIcons();
-            
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+
             // Mobile menu toggle
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
-            
+
             if (mobileMenuBtn && mobileMenu) {
-                mobileMenuBtn.addEventListener('click', () => {
+                mobileMenuBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
                     mobileMenu.classList.toggle('hidden');
                 });
             }
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
         });
     </script>
     <script src="js/main.js"></script>

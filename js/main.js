@@ -1,4 +1,5 @@
-// Main application JavaScript
+
+// Main application JavaScript with security and performance improvements
 class EUGenAIHub {
     constructor() {
         this.currentSection = 'home';
@@ -9,86 +10,165 @@ class EUGenAIHub {
             news: [],
             models: []
         };
+        this.eventListeners = new Map(); // Track event listeners for cleanup
+        this.loadedSections = new Set(); // Track which sections have been loaded
+        this.abortController = new AbortController(); // For cancelling requests
+        this.isDestroyed = false;
         this.init();
     }
 
     async init() {
+        if (this.isDestroyed) return;
+        
         try {
-            // Load all data
-            await this.loadData();
+            // Load minimal data first - only what's needed for the home page
+            await this.loadHomeData();
             
             // Initialize components
             this.initNavigation();
             this.initStats();
-            this.initSearch();
             
-            // Initialize sections
+            // Show home section
             this.showSection('home');
             
             console.log('EU GenAI Hub initialized successfully');
+            
+            // Load other data in background
+            this.loadRemainingDataInBackground();
         } catch (error) {
             console.error('Error initializing application:', error);
             this.showError('Failed to load application data. Please refresh the page.');
         }
     }
 
-    async loadData() {
+    async loadHomeData() {
         try {
-            const [institutions, projects, resources, news, models] = await Promise.all([
-                fetch('data/institutions.json').then(r => r.json()).catch(() => []),
-                fetch('data/projects.json').then(r => r.json()).catch(() => []),
-                fetch('data/resources.json').then(r => r.json()).catch(() => []),
-                fetch('data/news.json').then(r => r.json()).catch(() => []),
-                fetch('data/models.json').then(r => r.json()).catch(() => [])
+            // Only load institutions for initial stats - other data loaded on demand
+            const institutions = await this.fetchWithTimeout('data/institutions.json', 5000)
+                .then(r => r.json())
+                .catch(() => []);
+            
+            this.data.institutions = this.sanitizeData(institutions);
+        } catch (error) {
+            console.error('Error loading home data:', error);
+            this.data.institutions = [];
+        }
+    }
+
+    async loadRemainingDataInBackground() {
+        try {
+            // Load non-critical data in background
+            const [projects, resources, news, models] = await Promise.allSettled([
+                this.fetchWithTimeout('data/projects.json', 5000).then(r => r.json()).catch(() => []),
+                this.fetchWithTimeout('data/resources.json', 5000).then(r => r.json()).catch(() => []),
+                this.fetchWithTimeout('data/news.json', 5000).then(r => r.json()).catch(() => []),
+                this.fetchWithTimeout('data/models.json', 5000).then(r => r.json()).catch(() => [])
             ]);
 
-            this.data = { institutions, projects, resources, news, models };
+            this.data.projects = this.sanitizeData(projects.status === 'fulfilled' ? projects.value : []);
+            this.data.resources = this.sanitizeData(resources.status === 'fulfilled' ? resources.value : []);
+            this.data.news = this.sanitizeData(news.status === 'fulfilled' ? news.value : []);
+            this.data.models = this.sanitizeData(models.status === 'fulfilled' ? models.value : []);
+            
+            // Update stats after all data is loaded
+            this.initStats();
         } catch (error) {
-            console.error('Error loading data:', error);
-            // Initialize with empty arrays to prevent errors
-            this.data = {
-                institutions: [],
-                projects: [],
-                resources: [],
-                news: [],
-                models: []
-            };
+            console.error('Error loading background data:', error);
         }
+    }
+
+    fetchWithTimeout(url, timeout = 5000) {
+        return Promise.race([
+            fetch(url, { signal: this.abortController.signal }),
+            new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Request timeout')), timeout)
+            )
+        ]);
+    }
+
+    sanitizeData(data) {
+        if (!Array.isArray(data)) return [];
+        
+        return data.map(item => {
+            const sanitized = {};
+            for (const [key, value] of Object.entries(item)) {
+                if (typeof value === 'string') {
+                    // Sanitize strings to prevent XSS
+                    sanitized[key] = this.sanitizeString(value);
+                } else if (Array.isArray(value)) {
+                    // Sanitize arrays of strings
+                    sanitized[key] = value.map(v => 
+                        typeof v === 'string' ? this.sanitizeString(v) : v
+                    );
+                } else {
+                    sanitized[key] = value;
+                }
+            }
+            return sanitized;
+        });
+    }
+
+    sanitizeString(str) {
+        if (typeof str !== 'string') return str;
+        
+        // Remove potential XSS vectors
+        return str
+            .replace(/[<>]/g, '') // Remove angle brackets
+            .replace(/javascript:/gi, '') // Remove javascript: protocol
+            .replace(/on\w+\s*=/gi, '') // Remove event handlers
+            .trim();
     }
 
     initNavigation() {
         // Navigation links
-        const navLinks = document.querySelectorAll('.nav-link');
+        const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link, .footer-link');
         navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
+            const listener = (e) => {
                 e.preventDefault();
                 const section = link.dataset.section;
-                this.showSection(section);
-            });
+                if (section) {
+                    this.showSection(section);
+                }
+            };
+            
+            this.addEventListener(link, 'click', listener);
         });
 
         // Hero buttons
         const heroButtons = document.querySelectorAll('[data-section]');
         heroButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
+            const listener = (e) => {
                 e.preventDefault();
                 const section = button.dataset.section;
-                this.showSection(section);
-            });
+                if (section) {
+                    this.showSection(section);
+                }
+            };
+            
+            this.addEventListener(button, 'click', listener);
         });
+    }
 
-        // Mobile navigation toggle
-        const navToggle = document.querySelector('.nav-toggle');
-        const navMenu = document.querySelector('.nav-menu');
+    addEventListener(element, event, handler) {
+        element.addEventListener(event, handler);
         
-        if (navToggle && navMenu) {
-            navToggle.addEventListener('click', () => {
-                navMenu.classList.toggle('active');
-            });
+        // Store for cleanup
+        if (!this.eventListeners.has(element)) {
+            this.eventListeners.set(element, []);
         }
+        this.eventListeners.get(element).push({ event, handler });
     }
 
     showSection(sectionName) {
+        if (this.isDestroyed) return;
+        
+        // Validate section name to prevent XSS
+        const allowedSections = ['home', 'map', 'institutions', 'projects', 'models', 'resources'];
+        if (!allowedSections.includes(sectionName)) {
+            console.warn('Invalid section name:', sectionName);
+            return;
+        }
+
         // Hide all sections
         const sections = document.querySelectorAll('.section');
         sections.forEach(section => {
@@ -104,7 +184,7 @@ class EUGenAIHub {
             this.currentSection = sectionName;
 
             // Update navigation active state
-            const navLinks = document.querySelectorAll('.nav-link');
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.dataset.section === sectionName) {
@@ -118,12 +198,14 @@ class EUGenAIHub {
                 mobileMenu.classList.add('hidden');
             }
 
-            // Load section content
+            // Load section content only when needed
             this.loadSectionContent(sectionName);
         }
     }
 
     async loadSectionContent(sectionName) {
+        if (this.isDestroyed || this.loadedSections.has(sectionName)) return;
+        
         try {
             switch (sectionName) {
                 case 'map':
@@ -144,108 +226,180 @@ class EUGenAIHub {
                     this.renderModels();
                     break;
             }
+            
+            this.loadedSections.add(sectionName);
         } catch (error) {
             console.error(`Error loading ${sectionName} content:`, error);
+            this.showSectionError(sectionName);
+        }
+    }
+
+    showSectionError(sectionName) {
+        const container = document.getElementById(sectionName);
+        if (container) {
+            container.innerHTML = `
+                <div class="error-state">
+                    <h3>Error Loading Content</h3>
+                    <p>Failed to load ${sectionName} data. Please try refreshing the page.</p>
+                    <button onclick="location.reload()" class="btn btn-primary">Refresh Page</button>
+                </div>
+            `;
         }
     }
 
     initStats() {
-        if (!this.data) return;
+        if (!this.data || this.isDestroyed) return;
 
-        // Calculate statistics
+        // Calculate statistics safely
         const stats = {
-            institutions: this.data.institutions.length,
-            projects: this.data.projects.length,
-            resources: this.data.resources.length,
-            countries: new Set(this.data.institutions.map(inst => inst.country)).size
+            institutions: Array.isArray(this.data.institutions) ? this.data.institutions.length : 0,
+            projects: Array.isArray(this.data.projects) ? this.data.projects.length : 0,
+            resources: Array.isArray(this.data.resources) ? this.data.resources.length : 0,
+            countries: Array.isArray(this.data.institutions) ? 
+                new Set(this.data.institutions.map(inst => inst.country).filter(Boolean)).size : 0
         };
 
-        // Calculate total resources for AIOD-style display
+        // Calculate total resources for display
         const totalResources = stats.institutions + stats.projects + stats.resources;
 
-        // Animate counters
-        this.animateCounter('total-resources-count', totalResources);
-        this.animateCounter('institutions-count', stats.institutions);
-        this.animateCounter('projects-count', stats.projects);
-        this.animateCounter('resources-count', stats.resources);
-        this.animateCounter('countries-count', stats.countries);
+        // Animate counters with bounds checking
+        this.animateCounter('total-resources-count', Math.min(totalResources, 9999));
+        this.animateCounter('institutions-count', Math.min(stats.institutions, 9999));
+        this.animateCounter('projects-count', Math.min(stats.projects, 9999));
+        this.animateCounter('resources-count', Math.min(stats.resources, 9999));
+        this.animateCounter('countries-count', Math.min(stats.countries, 99));
     }
 
     animateCounter(elementId, targetValue) {
         const element = document.getElementById(elementId);
-        if (!element) return;
+        if (!element || this.isDestroyed) return;
 
+        // Validate target value
+        const target = Math.max(0, Math.min(targetValue, 99999));
         let currentValue = 0;
-        const increment = targetValue / 100;
+        const increment = target / 50; // Reduce iterations for performance
+        
         const timer = setInterval(() => {
+            if (this.isDestroyed) {
+                clearInterval(timer);
+                return;
+            }
+            
             currentValue += increment;
-            if (currentValue >= targetValue) {
-                element.textContent = targetValue;
+            if (currentValue >= target) {
+                element.textContent = target;
                 clearInterval(timer);
             } else {
                 element.textContent = Math.floor(currentValue);
             }
-        }, 20);
+        }, 40); // Slower animation for better performance
     }
 
     renderInstitutions() {
-        const container = document.getElementById('institutions-grid');
-        if (!container) return;
+        const container = document.getElementById('institutions');
+        if (!container || this.isDestroyed) return;
 
-        if (this.data.institutions.length === 0) {
+        if (!Array.isArray(this.data.institutions) || this.data.institutions.length === 0) {
             container.innerHTML = this.getEmptyState('institutions');
             return;
         }
 
-        container.innerHTML = this.data.institutions.map(institution => `
-            <div class="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-                <div class="p-8">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-3 mb-2">
-                                <div class="w-12 h-12 bg-gradient-to-br from-eu-blue to-accent-purple rounded-2xl flex items-center justify-center">
-                                    <i data-lucide="${this.getInstitutionIcon(institution.type)}" class="w-6 h-6 text-white"></i>
-                                </div>
-                                <span class="px-3 py-1 bg-${this.getTypeColor(institution.type)}/10 text-${this.getTypeColor(institution.type)} text-sm font-medium rounded-full">
-                                    ${institution.type}
-                                </span>
-                            </div>
-                            <h3 class="text-xl font-space font-bold text-slate-900 mb-2 group-hover:text-eu-blue transition-colors">
-                                ${this.escapeHtml(institution.name)}
-                            </h3>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center text-slate-600 mb-4">
-                        <i data-lucide="map-pin" class="w-4 h-4 mr-2"></i>
-                        <span class="text-sm">${this.escapeHtml(institution.city)}, ${this.escapeHtml(institution.country)}</span>
-                    </div>
-                    
-                    <p class="text-slate-600 leading-relaxed mb-6">
-                        ${this.escapeHtml(institution.description)}
-                    </p>
-                    
-                    ${institution.research_areas ? `
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            ${institution.research_areas.slice(0, 3).map(area => 
-                                `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
-                                    ${this.escapeHtml(area)}
-                                </span>`
-                            ).join('')}
-                            ${institution.research_areas.length > 3 ? 
-                                `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
-                                    +${institution.research_areas.length - 3} more
-                                </span>` : ''
-                            }
-                        </div>
-                    ` : ''}
-                    
-                    <a href="${institution.website}" target="_blank" 
-                       class="inline-flex items-center justify-center w-full bg-gradient-to-r from-eu-blue to-accent-purple text-white px-6 py-3 rounded-2xl font-semibold hover:scale-105 transition-all duration-300 group">
-                        <span>Visit Website</span>
-                        <i data-lucide="external-link" class="w-4 h-4 ml-2 group-hover:rotate-12 transition-transform"></i>
-                    </a>
+        // Create institutions section HTML
+        container.innerHTML = `
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Research Institutions</h2>
+                    <p class="section-description">Leading European institutions advancing Generative AI research and innovation</p>
                 </div>
+                
+                <div class="filter-wrapper">
+                    <div class="filter-container">
+                        <div class="filter-group">
+                            <i data-lucide="search" class="filter-icon"></i>
+                            <input type="text" id="institutions-search" placeholder="Search institutions..." 
+                                   class="filter-input" maxlength="100" autocomplete="off">
+                        </div>
+                        <div class="filter-group">
+                            <i data-lucide="globe" class="filter-icon"></i>
+                            <select id="institutions-filter-country" class="filter-select" aria-label="Filter by country">
+                                <option value="all">All Countries</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <i data-lucide="building-2" class="filter-icon"></i>
+                            <select id="institutions-filter-type" class="filter-select" aria-label="Filter by type">
+                                <option value="all">All Types</option>
+                                <option value="university">Universities</option>
+                                <option value="research">Research Centers</option>
+                                <option value="industry">Industry Labs</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="institutions-grid" class="content-grid"></div>
+            </div>
+        `;
+
+        this.renderInstitutionsGrid();
+        this.populateFilterOptions('institutions-filter-country', 
+            [...new Set(this.data.institutions.map(inst => inst.country).filter(Boolean))]);
+        
+        // Initialize search for this section
+        if (window.SearchManager && this.data) {
+            window.SearchManager.init(this.data);
+        }
+
+        // Reinitialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    renderInstitutionsGrid() {
+        const container = document.getElementById('institutions-grid');
+        if (!container || this.isDestroyed) return;
+
+        container.innerHTML = this.data.institutions.map(institution => `
+            <div class="content-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i data-lucide="${this.getInstitutionIcon(institution.type)}"></i>
+                    </div>
+                    <span class="card-badge card-badge-${this.getTypeColor(institution.type)}">
+                        ${this.escapeHtml(institution.type || 'Unknown')}
+                    </span>
+                </div>
+                
+                <h3 class="card-title">${this.escapeHtml(institution.name || 'Unknown Institution')}</h3>
+                
+                <div class="card-meta">
+                    <i data-lucide="map-pin"></i>
+                    <span>${this.escapeHtml(institution.city || '')}, ${this.escapeHtml(institution.country || '')}</span>
+                </div>
+                
+                <p class="card-description">
+                    ${this.escapeHtml(this.truncateText(institution.description || '', 150))}
+                </p>
+                
+                ${institution.research_areas && Array.isArray(institution.research_areas) ? `
+                    <div class="card-tags">
+                        ${institution.research_areas.slice(0, 3).map(area => 
+                            `<span class="tag">${this.escapeHtml(area)}</span>`
+                        ).join('')}
+                        ${institution.research_areas.length > 3 ? 
+                            `<span class="tag">+${institution.research_areas.length - 3} more</span>` : ''
+                        }
+                    </div>
+                ` : ''}
+                
+                ${institution.website ? `
+                    <a href="${this.sanitizeUrl(institution.website)}" target="_blank" rel="noopener noreferrer"
+                       class="card-link">
+                        <span>Visit Website</span>
+                        <i data-lucide="external-link"></i>
+                    </a>
+                ` : ''}
             </div>
         `).join('');
         
@@ -253,91 +407,125 @@ class EUGenAIHub {
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
-
-        // Populate filter options
-        this.populateFilterOptions('institutions-filter-country', 
-            [...new Set(this.data.institutions.map(inst => inst.country))]);
     }
 
     renderProjects() {
-        const container = document.getElementById('projects-grid');
-        if (!container) return;
+        const container = document.getElementById('projects');
+        if (!container || this.isDestroyed) return;
 
-        if (this.data.projects.length === 0) {
+        if (!Array.isArray(this.data.projects) || this.data.projects.length === 0) {
             container.innerHTML = this.getEmptyState('projects');
             return;
         }
 
-        container.innerHTML = this.data.projects.map(project => `
-            <div class="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 overflow-hidden">
-                <div class="p-8">
-                    <div class="flex items-start justify-between mb-6">
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-3 mb-3">
-                                <div class="w-10 h-10 bg-gradient-to-br from-accent-cyan to-accent-purple rounded-xl flex items-center justify-center">
-                                    <i data-lucide="rocket" class="w-5 h-5 text-white"></i>
-                                </div>
-                                <span class="px-3 py-1 bg-${this.getStatusColor(project.status)}/10 text-${this.getStatusColor(project.status)} text-sm font-semibold rounded-full">
-                                    ${project.status}
-                                </span>
-                            </div>
-                            <h3 class="text-2xl font-space font-bold text-slate-900 mb-4 leading-tight">
-                                ${this.escapeHtml(project.title)}
-                            </h3>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="flex items-center text-slate-600">
-                            <i data-lucide="calendar" class="w-4 h-4 mr-2"></i>
-                            <span class="text-sm">${this.formatDate(project.start_date)} - ${this.formatDate(project.end_date)}</span>
-                        </div>
-                        <div class="flex items-center text-slate-600">
-                            <i data-lucide="euro" class="w-4 h-4 mr-2"></i>
-                            <span class="text-sm font-semibold">${project.funding}</span>
-                        </div>
-                    </div>
-
-                    <p class="text-slate-600 leading-relaxed mb-6">
-                        ${this.escapeHtml(project.description)}
-                    </p>
-
-                    ${project.technologies ? `
-                        <div class="mb-6">
-                            <h4 class="text-sm font-semibold text-slate-700 mb-3">Key Technologies</h4>
-                            <div class="flex flex-wrap gap-2">
-                                ${project.technologies.slice(0, 3).map(tech => 
-                                    `<span class="px-3 py-1 bg-accent-cyan/10 text-accent-cyan text-xs font-medium rounded-full">
-                                        ${this.escapeHtml(tech)}
-                                    </span>`
-                                ).join('')}
-                                ${project.technologies.length > 3 ? 
-                                    `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
-                                        +${project.technologies.length - 3} more
-                                    </span>` : ''
-                                }
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    ${project.participants ? `
-                        <div class="pt-6 border-t border-slate-100">
-                            <h4 class="text-sm font-semibold text-slate-700 mb-3">Research Partners</h4>
-                            <div class="flex flex-wrap gap-2">
-                                ${project.participants.slice(0, 4).map(partner => 
-                                    `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg">
-                                        ${this.escapeHtml(partner)}
-                                    </span>`
-                                ).join('')}
-                                ${project.participants.length > 4 ? 
-                                    `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg">
-                                        +${project.participants.length - 4} more
-                                    </span>` : ''
-                                }
-                            </div>
-                        </div>
-                    ` : ''}
+        container.innerHTML = `
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Research Projects</h2>
+                    <p class="section-description">Current and ongoing GenAI research initiatives across Europe</p>
                 </div>
+                
+                <div class="filter-wrapper">
+                    <div class="filter-container">
+                        <div class="filter-group">
+                            <i data-lucide="search" class="filter-icon"></i>
+                            <input type="text" id="projects-search" placeholder="Search projects..." 
+                                   class="filter-input" maxlength="100" autocomplete="off">
+                        </div>
+                        <div class="filter-group">
+                            <i data-lucide="activity" class="filter-icon"></i>
+                            <select id="projects-filter-status" class="filter-select" aria-label="Filter by status">
+                                <option value="all">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="completed">Completed</option>
+                                <option value="planned">Planned</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <i data-lucide="layers" class="filter-icon"></i>
+                            <select id="projects-filter-area" class="filter-select" aria-label="Filter by research area">
+                                <option value="all">All Research Areas</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="projects-grid" class="content-grid"></div>
+            </div>
+        `;
+
+        this.renderProjectsGrid();
+        
+        // Initialize search
+        if (window.SearchManager && this.data) {
+            window.SearchManager.init(this.data);
+        }
+
+        // Reinitialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    renderProjectsGrid() {
+        const container = document.getElementById('projects-grid');
+        if (!container || this.isDestroyed) return;
+
+        container.innerHTML = this.data.projects.map(project => `
+            <div class="content-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i data-lucide="rocket"></i>
+                    </div>
+                    <span class="card-badge card-badge-${this.getStatusColor(project.status)}">
+                        ${this.escapeHtml(project.status || 'Unknown')}
+                    </span>
+                </div>
+                
+                <h3 class="card-title">${this.escapeHtml(project.title || 'Unknown Project')}</h3>
+                
+                <div class="card-meta-grid">
+                    <div class="card-meta">
+                        <i data-lucide="calendar"></i>
+                        <span>${this.formatDateRange(project.start_date, project.end_date)}</span>
+                    </div>
+                    <div class="card-meta">
+                        <i data-lucide="euro"></i>
+                        <span class="font-semibold">${this.escapeHtml(project.funding || 'N/A')}</span>
+                    </div>
+                </div>
+
+                <p class="card-description">
+                    ${this.escapeHtml(this.truncateText(project.description || '', 150))}
+                </p>
+
+                ${project.technologies && Array.isArray(project.technologies) ? `
+                    <div class="card-section">
+                        <h4 class="card-section-title">Key Technologies</h4>
+                        <div class="card-tags">
+                            ${project.technologies.slice(0, 3).map(tech => 
+                                `<span class="tag tag-primary">${this.escapeHtml(tech)}</span>`
+                            ).join('')}
+                            ${project.technologies.length > 3 ? 
+                                `<span class="tag">+${project.technologies.length - 3} more</span>` : ''
+                            }
+                        </div>
+                    </div>
+                ` : ''}
+
+                ${project.participants && Array.isArray(project.participants) ? `
+                    <div class="card-section">
+                        <h4 class="card-section-title">Research Partners</h4>
+                        <div class="card-tags">
+                            ${project.participants.slice(0, 4).map(partner => 
+                                `<span class="tag">${this.escapeHtml(partner)}</span>`
+                            ).join('')}
+                            ${project.participants.length > 4 ? 
+                                `<span class="tag">+${project.participants.length - 4} more</span>` : ''
+                            }
+                        </div>
+                    </div>
+                ` : ''}
             </div>
         `).join('');
         
@@ -345,100 +533,136 @@ class EUGenAIHub {
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
-
-        // Populate filter options
-        this.populateFilterOptions('projects-filter-area', 
-            [...new Set(this.data.projects.flatMap(proj => proj.research_areas))]);
     }
 
     renderResources() {
-        const container = document.getElementById('resources-grid');
-        if (!container) return;
+        const container = document.getElementById('resources');
+        if (!container || this.isDestroyed) return;
 
-        if (this.data.resources.length === 0) {
+        if (!Array.isArray(this.data.resources) || this.data.resources.length === 0) {
             container.innerHTML = this.getEmptyState('resources');
             return;
         }
 
-        container.innerHTML = this.data.resources.map(resource => `
-            <div class="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 overflow-hidden">
-                <div class="p-8">
-                    <div class="flex items-start justify-between mb-6">
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-3 mb-3">
-                                <div class="w-10 h-10 bg-gradient-to-br from-accent-purple to-accent-pink rounded-xl flex items-center justify-center">
-                                    <i data-lucide="${this.getResourceIcon(resource.type)}" class="w-5 h-5 text-white"></i>
-                                </div>
-                                <span class="px-3 py-1 bg-${this.getTypeColor(resource.type)}/10 text-${this.getTypeColor(resource.type)} text-sm font-semibold rounded-full">
-                                    ${resource.type}
-                                </span>
-                            </div>
-                            <h3 class="text-2xl font-space font-bold text-slate-900 mb-4 leading-tight">
-                                ${this.escapeHtml(resource.title)}
-                            </h3>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="flex items-center text-slate-600">
-                            <i data-lucide="calendar" class="w-4 h-4 mr-2"></i>
-                            <span class="text-sm">${resource.year}</span>
-                        </div>
-                        <div class="flex items-center text-slate-600">
-                            <i data-lucide="building" class="w-4 h-4 mr-2"></i>
-                            <span class="text-sm">${this.escapeHtml(resource.institution)}</span>
-                        </div>
-                    </div>
-
-                    <p class="text-slate-600 leading-relaxed mb-6">
-                        ${this.escapeHtml(resource.description)}
-                    </p>
-
-                    ${resource.keywords ? `
-                        <div class="mb-6">
-                            <h4 class="text-sm font-semibold text-slate-700 mb-3">Keywords</h4>
-                            <div class="flex flex-wrap gap-2">
-                                ${resource.keywords.slice(0, 3).map(keyword => 
-                                    `<span class="px-3 py-1 bg-accent-cyan/10 text-accent-cyan text-xs font-medium rounded-full">
-                                        ${this.escapeHtml(keyword)}
-                                    </span>`
-                                ).join('')}
-                                ${resource.keywords.length > 3 ? 
-                                    `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
-                                        +${resource.keywords.length - 3} more
-                                    </span>` : ''
-                                }
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    ${resource.authors ? `
-                        <div class="pt-6 border-t border-slate-100">
-                            <h4 class="text-sm font-semibold text-slate-700 mb-3">Authors</h4>
-                            <div class="flex flex-wrap gap-2">
-                                ${resource.authors.slice(0, 3).map(author => 
-                                    `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg">
-                                        ${this.escapeHtml(author)}
-                                    </span>`
-                                ).join('')}
-                                ${resource.authors.length > 3 ? 
-                                    `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg">
-                                        +${resource.authors.length - 3} more
-                                    </span>` : ''
-                                }
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    ${resource.url ? `
-                        <div class="mt-6">
-                            <a href="${this.escapeHtml(resource.url)}" target="_blank" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-eu-blue to-accent-purple text-white font-medium rounded-lg hover:shadow-lg transition-all duration-300">
-                                <i data-lucide="external-link" class="w-4 h-4 mr-2"></i>
-                                Access Resource
-                            </a>
-                        </div>
-                    ` : ''}
+        container.innerHTML = `
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Research Resources</h2>
+                    <p class="section-description">Papers, datasets, tools, and other resources from European GenAI research</p>
                 </div>
+                
+                <div class="filter-wrapper">
+                    <div class="filter-container">
+                        <div class="filter-group">
+                            <i data-lucide="search" class="filter-icon"></i>
+                            <input type="text" id="resources-search" placeholder="Search resources..." 
+                                   class="filter-input" maxlength="100" autocomplete="off">
+                        </div>
+                        <div class="filter-group">
+                            <i data-lucide="file-text" class="filter-icon"></i>
+                            <select id="resources-filter-type" class="filter-select" aria-label="Filter by type">
+                                <option value="all">All Types</option>
+                                <option value="paper">Research Papers</option>
+                                <option value="dataset">Datasets</option>
+                                <option value="tool">Tools & Software</option>
+                                <option value="report">Reports</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <i data-lucide="calendar" class="filter-icon"></i>
+                            <select id="resources-filter-year" class="filter-select" aria-label="Filter by year">
+                                <option value="all">All Years</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="resources-grid" class="content-grid"></div>
+            </div>
+        `;
+
+        this.renderResourcesGrid();
+        this.populateFilterOptions('resources-filter-year', 
+            [...new Set(this.data.resources.map(res => res.year).filter(Boolean))].sort().reverse());
+        
+        // Initialize search
+        if (window.SearchManager && this.data) {
+            window.SearchManager.init(this.data);
+        }
+
+        // Reinitialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    renderResourcesGrid() {
+        const container = document.getElementById('resources-grid');
+        if (!container || this.isDestroyed) return;
+
+        container.innerHTML = this.data.resources.map(resource => `
+            <div class="content-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i data-lucide="${this.getResourceIcon(resource.type)}"></i>
+                    </div>
+                    <span class="card-badge card-badge-${this.getTypeColor(resource.type)}">
+                        ${this.escapeHtml(resource.type || 'Unknown')}
+                    </span>
+                </div>
+                
+                <h3 class="card-title">${this.escapeHtml(resource.title || 'Unknown Resource')}</h3>
+                
+                <div class="card-meta-grid">
+                    <div class="card-meta">
+                        <i data-lucide="calendar"></i>
+                        <span>${this.escapeHtml(resource.year || 'Unknown')}</span>
+                    </div>
+                    <div class="card-meta">
+                        <i data-lucide="building"></i>
+                        <span>${this.escapeHtml(this.truncateText(resource.institution || '', 30))}</span>
+                    </div>
+                </div>
+
+                <p class="card-description">
+                    ${this.escapeHtml(this.truncateText(resource.description || '', 150))}
+                </p>
+
+                ${resource.keywords && Array.isArray(resource.keywords) ? `
+                    <div class="card-section">
+                        <h4 class="card-section-title">Keywords</h4>
+                        <div class="card-tags">
+                            ${resource.keywords.slice(0, 3).map(keyword => 
+                                `<span class="tag tag-primary">${this.escapeHtml(keyword)}</span>`
+                            ).join('')}
+                            ${resource.keywords.length > 3 ? 
+                                `<span class="tag">+${resource.keywords.length - 3} more</span>` : ''
+                            }
+                        </div>
+                    </div>
+                ` : ''}
+
+                ${resource.authors && Array.isArray(resource.authors) ? `
+                    <div class="card-section">
+                        <h4 class="card-section-title">Authors</h4>
+                        <div class="card-tags">
+                            ${resource.authors.slice(0, 3).map(author => 
+                                `<span class="tag">${this.escapeHtml(author)}</span>`
+                            ).join('')}
+                            ${resource.authors.length > 3 ? 
+                                `<span class="tag">+${resource.authors.length - 3} more</span>` : ''
+                            }
+                        </div>
+                    </div>
+                ` : ''}
+
+                ${resource.url ? `
+                    <a href="${this.sanitizeUrl(resource.url)}" target="_blank" rel="noopener noreferrer"
+                       class="card-link">
+                        <span>Access Resource</span>
+                        <i data-lucide="external-link"></i>
+                    </a>
+                ` : ''}
             </div>
         `).join('');
         
@@ -446,77 +670,155 @@ class EUGenAIHub {
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
-
-        // Populate filter options
-        this.populateFilterOptions('resources-filter-year', 
-            [...new Set(this.data.resources.map(res => res.year))].sort().reverse());
     }
 
     renderModels() {
-        const tbody = document.getElementById('models-table-body');
-        if (!tbody) return;
+        const container = document.getElementById('models');
+        if (!container || this.isDestroyed) return;
 
-        if (this.data.models.length === 0) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="8" class="px-6 py-12 text-center text-slate-500">
-                        <div class="flex flex-col items-center space-y-3">
-                            <i data-lucide="brain" class="w-12 h-12 text-slate-300"></i>
-                            <h3 class="text-lg font-semibold">No Models Found</h3>
-                            <p>No LLM/VLM models match your current filters.</p>
-                        </div>
-                    </td>
-                </tr>
-            `;
+        if (!Array.isArray(this.data.models) || this.data.models.length === 0) {
+            container.innerHTML = this.getEmptyState('models');
             return;
         }
 
+        container.innerHTML = `
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">European LLM/VLM Models</h2>
+                    <p class="section-description">
+                        Comprehensive overview of Large Language Models and Vision-Language Models developed across European research initiatives
+                    </p>
+                </div>
+                
+                <div class="filter-wrapper">
+                    <div class="filter-container">
+                        <div class="filter-group">
+                            <i data-lucide="search" class="filter-icon"></i>
+                            <input type="text" id="models-search" placeholder="Search models, projects, or partners..." 
+                                   class="filter-input" maxlength="100" autocomplete="off">
+                        </div>
+                        <div class="filter-group">
+                            <i data-lucide="brain" class="filter-icon"></i>
+                            <select id="models-filter-type" class="filter-select" aria-label="Filter by model type">
+                                <option value="all">All Model Types</option>
+                                <option value="LLM">Large Language Models</option>
+                                <option value="VLM">Vision-Language Models</option>
+                                <option value="Multimodal">Multimodal Models</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <i data-lucide="activity" class="filter-icon"></i>
+                            <select id="models-filter-status" class="filter-select" aria-label="Filter by status">
+                                <option value="all">All Status</option>
+                                <option value="active">Active Development</option>
+                                <option value="released">Released</option>
+                                <option value="research">Research Phase</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-wrapper">
+                    <div class="table-container">
+                        <table class="models-table">
+                            <thead class="table-header">
+                                <tr>
+                                    <th>Project Name</th>
+                                    <th>Model Type</th>
+                                    <th>Models Developed</th>
+                                    <th>Key Partners</th>
+                                    <th>Funding</th>
+                                    <th>Status</th>
+                                    <th>Languages</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="models-table-body">
+                                <!-- Model data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="table-note">
+                    <p>Data based on the International Open-Source LLM Builders Summit held in Geneva during ITU's AI for Good</p>
+                </div>
+            </div>
+        `;
+
+        this.renderModelsTable();
+        
+        // Initialize search
+        if (window.SearchManager && this.data) {
+            window.SearchManager.init(this.data);
+        }
+
+        // Reinitialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    renderModelsTable() {
+        const tbody = document.getElementById('models-table-body');
+        if (!tbody || this.isDestroyed) return;
+
         tbody.innerHTML = this.data.models.map(model => `
-            <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                <td class="px-6 py-4">
-                    <div class="font-semibold text-slate-900">${this.escapeHtml(model.project_name)}</div>
-                    <div class="text-sm text-slate-500">${model.year}</div>
+            <tr class="table-row">
+                <td class="table-cell">
+                    <div class="table-cell-main">${this.escapeHtml(model.project_name || 'Unknown')}</div>
+                    <div class="table-cell-sub">${this.escapeHtml(model.year || 'Unknown')}</div>
                 </td>
-                <td class="px-6 py-4">
-                    <span class="px-3 py-1 bg-${this.getModelTypeColor(model.model_type)}/10 text-${this.getModelTypeColor(model.model_type)} text-sm font-medium rounded-full">
-                        ${model.model_type}
+                <td class="table-cell">
+                    <span class="table-badge table-badge-${this.getModelTypeColor(model.model_type)}">
+                        ${this.escapeHtml(model.model_type || 'Unknown')}
                     </span>
                 </td>
-                <td class="px-6 py-4">
-                    <div class="flex flex-wrap gap-1">
-                        ${model.models_developed.slice(0, 2).map(modelName => 
-                            `<span class="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded">${this.escapeHtml(modelName)}</span>`
-                        ).join('')}
-                        ${model.models_developed.length > 2 ? 
-                            `<span class="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded">+${model.models_developed.length - 2}</span>` : ''
+                <td class="table-cell">
+                    <div class="table-tags">
+                        ${Array.isArray(model.models_developed) ? 
+                            model.models_developed.slice(0, 2).map(modelName => 
+                                `<span class="table-tag">${this.escapeHtml(modelName)}</span>`
+                            ).join('') : ''
+                        }
+                        ${Array.isArray(model.models_developed) && model.models_developed.length > 2 ? 
+                            `<span class="table-tag">+${model.models_developed.length - 2}</span>` : ''
                         }
                     </div>
                 </td>
-                <td class="px-6 py-4">
-                    <div class="text-sm text-slate-700">
-                        ${model.key_partners.slice(0, 2).map(partner => this.escapeHtml(partner)).join(', ')}
-                        ${model.key_partners.length > 2 ? `<br><span class="text-xs text-slate-500">+${model.key_partners.length - 2} more</span>` : ''}
+                <td class="table-cell">
+                    <div class="table-cell-content">
+                        ${Array.isArray(model.key_partners) ? 
+                            model.key_partners.slice(0, 2).map(partner => this.escapeHtml(partner)).join(', ') : 'Unknown'
+                        }
+                        ${Array.isArray(model.key_partners) && model.key_partners.length > 2 ? 
+                            `<br><span class="table-cell-sub">+${model.key_partners.length - 2} more</span>` : ''
+                        }
                     </div>
                 </td>
-                <td class="px-6 py-4">
-                    <div class="text-sm font-medium text-slate-900">${this.escapeHtml(model.funding)}</div>
+                <td class="table-cell">
+                    <div class="table-cell-main">${this.escapeHtml(model.funding || 'N/A')}</div>
                 </td>
-                <td class="px-6 py-4">
-                    <span class="px-3 py-1 bg-${this.getStatusColor(model.status)}/10 text-${this.getStatusColor(model.status)} text-sm font-medium rounded-full">
-                        ${model.status}
+                <td class="table-cell">
+                    <span class="table-badge table-badge-${this.getStatusColor(model.status)}">
+                        ${this.escapeHtml(model.status || 'Unknown')}
                     </span>
                 </td>
-                <td class="px-6 py-4">
-                    <div class="text-sm text-slate-700">
-                        ${model.languages.slice(0, 3).join(', ')}
-                        ${model.languages.length > 3 ? `<br><span class="text-xs text-slate-500">+${model.languages.length - 3} more</span>` : ''}
+                <td class="table-cell">
+                    <div class="table-cell-content">
+                        ${Array.isArray(model.languages) ? 
+                            model.languages.slice(0, 3).join(', ') : 'Unknown'
+                        }
+                        ${Array.isArray(model.languages) && model.languages.length > 3 ? 
+                            `<br><span class="table-cell-sub">+${model.languages.length - 3} more</span>` : ''
+                        }
                     </div>
                 </td>
-                <td class="px-6 py-4">
+                <td class="table-cell">
                     ${model.url ? `
-                        <a href="${this.escapeHtml(model.url)}" target="_blank" 
-                           class="inline-flex items-center px-3 py-1 bg-eu-blue text-white text-sm font-medium rounded-lg hover:bg-eu-blue/90 transition-colors">
-                            <i data-lucide="external-link" class="w-3 h-3 mr-1"></i>
+                        <a href="${this.sanitizeUrl(model.url)}" target="_blank" rel="noopener noreferrer"
+                           class="table-link">
+                            <i data-lucide="external-link"></i>
                             View
                         </a>
                     ` : ''}
@@ -530,48 +832,39 @@ class EUGenAIHub {
         }
     }
 
-
-
     populateFilterOptions(selectId, options) {
         const select = document.getElementById(selectId);
-        if (!select) return;
+        if (!select || !Array.isArray(options)) return;
 
         // Keep the "All" option and add new options
         const currentOptions = Array.from(select.options).slice(1);
         currentOptions.forEach(option => option.remove());
 
-        options.sort().forEach(option => {
+        options.filter(Boolean).sort().forEach(option => {
             const optionElement = document.createElement('option');
-            optionElement.value = option;
-            optionElement.textContent = option;
+            optionElement.value = this.escapeHtml(option);
+            optionElement.textContent = this.escapeHtml(option);
             select.appendChild(optionElement);
         });
-    }
-
-    initSearch() {
-        // Initialize search functionality for each section
-        if (window.SearchManager) {
-            window.SearchManager.init(this.data);
-        }
     }
 
     getEmptyState(type) {
         const messages = {
             institutions: {
                 title: 'No Institutions Found',
-                message: 'No research institutions match your current filters.'
+                message: 'No research institutions are available at the moment.'
             },
             projects: {
                 title: 'No Projects Found',
-                message: 'No research projects match your current filters.'
+                message: 'No research projects are available at the moment.'
             },
             resources: {
                 title: 'No Resources Found',
-                message: 'No research resources match your current filters.'
+                message: 'No research resources are available at the moment.'
             },
-            news: {
-                title: 'No News Found',
-                message: 'No news articles match your current filters.'
+            models: {
+                title: 'No Models Found',
+                message: 'No model information is available at the moment.'
             }
         };
 
@@ -579,28 +872,21 @@ class EUGenAIHub {
 
         return `
             <div class="empty-state">
-                <h3>${config.title}</h3>
-                <p>${config.message}</p>
+                <div class="empty-state-icon">
+                    <i data-lucide="database"></i>
+                </div>
+                <h3 class="empty-state-title">${this.escapeHtml(config.title)}</h3>
+                <p class="empty-state-message">${this.escapeHtml(config.message)}</p>
             </div>
         `;
     }
 
     showError(message) {
+        if (this.isDestroyed) return;
+        
         const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message';
-        errorDiv.style.cssText = `
-            position: fixed;
-            top: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent-color);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-medium);
-            z-index: 1001;
-        `;
-        errorDiv.textContent = message;
+        errorDiv.className = 'error-toast';
+        errorDiv.textContent = this.escapeHtml(message);
         
         document.body.appendChild(errorDiv);
         
@@ -611,7 +897,7 @@ class EUGenAIHub {
         }, 5000);
     }
 
-    // Utility functions
+    // Utility functions with security improvements
     escapeHtml(text) {
         if (typeof text !== 'string') return text;
         const div = document.createElement('div');
@@ -619,19 +905,46 @@ class EUGenAIHub {
         return div.innerHTML;
     }
 
-    formatNumber(num) {
-        if (typeof num !== 'number') return num;
-        return num.toLocaleString();
+    sanitizeUrl(url) {
+        if (typeof url !== 'string') return '#';
+        
+        // Allow only http/https protocols
+        try {
+            const parsed = new URL(url);
+            if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+                return url;
+            }
+        } catch (e) {
+            // Invalid URL
+        }
+        return '#';
+    }
+
+    truncateText(text, maxLength) {
+        if (typeof text !== 'string') return '';
+        if (text.length <= maxLength) return text;
+        return text.substring(0, maxLength).trim() + '...';
+    }
+
+    formatDateRange(startDate, endDate) {
+        try {
+            const start = startDate ? this.formatDate(startDate) : 'Unknown';
+            const end = endDate ? this.formatDate(endDate) : 'Ongoing';
+            return `${start} - ${end}`;
+        } catch (error) {
+            return 'Unknown';
+        }
     }
 
     formatDate(dateString) {
         if (!dateString) return 'Unknown';
         try {
             const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString;
+            
             return date.toLocaleDateString('en-EU', {
                 year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+                month: 'short'
             });
         } catch (error) {
             return dateString;
@@ -655,34 +968,60 @@ class EUGenAIHub {
             'paper': 'scroll',
             'framework': 'layers'
         };
-        return icons[type] || 'library';
+        return icons[type] || 'file-text';
     }
 
     getModelTypeColor(type) {
         const colors = {
-            'LLM': 'blue-600',
-            'VLM': 'purple-600',
-            'Multimodal': 'pink-600'
+            'LLM': 'blue',
+            'VLM': 'purple',
+            'Multimodal': 'pink'
         };
-        return colors[type] || 'slate-600';
+        return colors[type] || 'gray';
     }
 
     getTypeColor(type) {
         const colors = {
-            'university': 'blue-600',
-            'research': 'green-600',
-            'industry': 'purple-600'
+            'university': 'blue',
+            'research': 'green',
+            'industry': 'purple',
+            'paper': 'blue',
+            'dataset': 'green',
+            'tool': 'purple',
+            'report': 'orange'
         };
-        return colors[type] || 'slate-600';
+        return colors[type] || 'gray';
     }
 
     getStatusColor(status) {
         const colors = {
-            'active': 'green-600',
-            'completed': 'blue-600',
-            'planned': 'yellow-600'
+            'active': 'green',
+            'completed': 'blue',
+            'planned': 'yellow',
+            'released': 'green',
+            'research': 'orange'
         };
-        return colors[status] || 'slate-600';
+        return colors[status] || 'gray';
+    }
+
+    // Cleanup method to prevent memory leaks
+    destroy() {
+        this.isDestroyed = true;
+        
+        // Cancel any pending requests
+        this.abortController.abort();
+        
+        // Remove event listeners
+        for (const [element, listeners] of this.eventListeners) {
+            listeners.forEach(({ event, handler }) => {
+                element.removeEventListener(event, handler);
+            });
+        }
+        this.eventListeners.clear();
+        
+        // Clear data
+        this.data = null;
+        this.loadedSections.clear();
     }
 }
 
@@ -691,12 +1030,21 @@ document.addEventListener('DOMContentLoaded', () => {
     window.app = new EUGenAIHub();
 });
 
-// Handle window resize for responsive behavior
-window.addEventListener('resize', () => {
-    // Reinitialize map if it exists and is visible
-    if (window.ResearchMap && document.getElementById('map').classList.contains('active')) {
-        setTimeout(() => {
-            window.ResearchMap.resizeMap();
-        }, 100);
+// Handle window beforeunload for cleanup
+window.addEventListener('beforeunload', () => {
+    if (window.app && window.app.destroy) {
+        window.app.destroy();
     }
+});
+
+// Handle window resize for responsive behavior
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        // Reinitialize map if it exists and is visible
+        if (window.ResearchMap && document.getElementById('map').classList.contains('active')) {
+            window.ResearchMap.resizeMap();
+        }
+    }, 250);
 });

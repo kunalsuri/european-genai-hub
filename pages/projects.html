@@ -11,6 +11,9 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -274,13 +277,20 @@
                         ` : ''}
                         ${project.website ? `
                             <div style="margin-top: 1rem;">
-                                <a href="${this.escapeHtml(project.website)}" target="_blank" class="btn btn-primary">
-                                    Project Details
+                                <a href="${this.escapeHtml(project.website)}" target="_blank" rel="noopener noreferrer"
+                                   class="card-link">
+                                    <span>Project Details</span>
+                                    <i data-lucide="external-link"></i>
                                 </a>
                             </div>
                         ` : ''}
                     </div>
                 `).join('');
+
+                // Reinitialize Lucide icons
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
             }
 
             showError() {

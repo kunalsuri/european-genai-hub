@@ -269,8 +269,8 @@ class ResearchMap {
                 ` : ''}
                 ${institution.website ? `
                     <div style="margin-top: 0.5rem;">
-                        <a href="${this.escapeHtml(institution.website)}" 
-                           target="_blank" 
+                        <a href="${this.sanitizeUrl(institution.website)}" 
+                           target="_blank" rel="noopener noreferrer" 
                            style="
                                 background: var(--primary-color);
                                 color: white;
@@ -449,10 +449,23 @@ class ResearchMap {
     }
 
     escapeHtml(text) {
-        if (typeof text !== 'string') return text;
+        if (typeof text !== 'string') return '';
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    sanitizeUrl(url) {
+        if (typeof url !== 'string') return '#';
+        try {
+            const urlObj = new URL(url);
+            if (!['https:', 'http:'].includes(urlObj.protocol)) {
+                return '#';
+            }
+            return url;
+        } catch {
+            return '#';
+        }
     }
 }
 

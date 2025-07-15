@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://your-huggingface-space-url/sitemap.xml
+
+# Security - disallow access to sensitive paths
+Disallow: /data/
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /.env

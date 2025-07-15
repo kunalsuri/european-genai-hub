@@ -1,5 +1,7 @@
 
 // Main application JavaScript with security and performance improvements
+'use strict';
+
 class EUGenAIHub {
     constructor() {
         this.currentSection = 'home';
@@ -78,12 +80,33 @@ class EUGenAIHub {
     }
 
     fetchWithTimeout(url, timeout = 5000) {
+        // Validate URL to prevent SSRF attacks
+        if (!this.isValidUrl(url)) {
+            return Promise.reject(new Error('Invalid URL'));
+        }
+
         return Promise.race([
-            fetch(url, { signal: this.abortController.signal }),
+            fetch(url, { 
+                signal: this.abortController.signal,
+                mode: 'same-origin',
+                credentials: 'same-origin'
+            }),
             new Promise((_, reject) => 
                 setTimeout(() => reject(new Error('Request timeout')), timeout)
             )
         ]);
+    }
+
+    isValidUrl(string) {
+        try {
+            const url = new URL(string, window.location.origin);
+            // Only allow same-origin requests for security
+            return url.origin === window.location.origin && 
+                   url.pathname.startsWith('/data/') &&
+                   url.pathname.endsWith('.json');
+        } catch (_) {
+            return false;
+        }
     }
 
     sanitizeData(data) {
@@ -899,10 +922,24 @@ class EUGenAIHub {
 
     // Utility functions with security improvements
     escapeHtml(text) {
-        if (typeof text !== 'string') return text;
+        if (typeof text !== 'string') return '';
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    sanitizeUrl(url) {
+        if (typeof url !== 'string') return '#';
+        try {
+            const urlObj = new URL(url);
+            // Only allow https and http protocols
+            if (!['https:', 'http:'].includes(urlObj.protocol)) {
+                return '#';
+            }
+            return url;
+        } catch {
+            return '#';
+        }
     }
 
     sanitizeUrl(url) {

@@ -170,6 +170,29 @@ class EUGenAIHub {
             
             this.addEventListener(button, 'click', listener);
         });
+
+        // Featured research area cards
+        const featuredCards = document.querySelectorAll('.featured-card[data-research-area]');
+        featuredCards.forEach(card => {
+            const listener = (e) => {
+                e.preventDefault();
+                const researchArea = card.dataset.researchArea;
+                this.showResearchAreaResources(researchArea);
+            };
+            
+            this.addEventListener(card, 'click', listener);
+            
+            // Add keyboard support
+            const keyListener = (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const researchArea = card.dataset.researchArea;
+                    this.showResearchAreaResources(researchArea);
+                }
+            };
+            
+            this.addEventListener(card, 'keydown', keyListener);
+        });
     }
 
     addEventListener(element, event, handler) {
@@ -180,6 +203,57 @@ class EUGenAIHub {
             this.eventListeners.set(element, []);
         }
         this.eventListeners.get(element).push({ event, handler });
+    }
+
+    showResearchAreaResources(researchArea) {
+        if (this.isDestroyed) return;
+        
+        // Navigate to resources section and filter by research area
+        this.showSection('resources');
+        
+        // Wait for resources to load, then apply filter
+        setTimeout(() => {
+            this.filterResourcesByArea(researchArea);
+        }, 500);
+    }
+
+    filterResourcesByArea(researchArea) {
+        if (!this.data.resources || !Array.isArray(this.data.resources)) return;
+        
+        // Map research areas to filter terms
+        const areaMap = {
+            'nlp': ['Natural Language Processing', 'NLP', 'Language Model', 'Text', 'Conversational AI', 'Multilingual'],
+            'computer-vision': ['Computer Vision', 'Vision', 'Image', 'Visual', 'Multimodal', 'Video', 'Medical Imaging'],
+            'robotics': ['Robotics', 'Autonomous', 'Robot', 'Navigation', 'Manipulation', 'Human-Robot'],
+            'ethics': ['Ethics', 'Trustworthy', 'Safety', 'Governance', 'Responsible AI', 'Fairness', 'Bias']
+        };
+        
+        const searchTerms = areaMap[researchArea] || [];
+        
+        // Filter resources based on research area
+        const filteredResources = this.data.resources.filter(resource => {
+            const searchFields = [
+                resource.title,
+                resource.description,
+                resource.type,
+                ...(resource.keywords || []),
+                ...(resource.research_areas || [])
+            ].join(' ').toLowerCase();
+            
+            return searchTerms.some(term => 
+                searchFields.includes(term.toLowerCase())
+            );
+        });
+        
+        // Update the resources display
+        this.renderResourcesGrid(filteredResources);
+        
+        // Update search input to show what was filtered
+        const searchInput = document.getElementById('resources-search');
+        if (searchInput && searchTerms.length > 0) {
+            searchInput.value = searchTerms[0];
+            searchInput.focus();
+        }
     }
 
     showSection(sectionName) {
@@ -619,11 +693,30 @@ class EUGenAIHub {
         }
     }
 
-    renderResourcesGrid() {
+    renderResourcesGrid(customData = null) {
         const container = document.getElementById('resources-grid');
         if (!container || this.isDestroyed) return;
 
-        container.innerHTML = this.data.resources.map(resource => `
+        const resourcesToRender = customData || this.data.resources || [];
+
+        if (!Array.isArray(resourcesToRender) || resourcesToRender.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i data-lucide="search-x" class="empty-icon"></i>
+                    <h3>No resources found</h3>
+                    <p>Try adjusting your search criteria or browse all resources</p>
+                    <button class="btn btn-primary" onclick="window.euGenAIHub.renderResourcesGrid()">
+                        Show All Resources
+                    </button>
+                </div>
+            `;
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+            return;
+        }
+
+        container.innerHTML = resourcesToRender.map(resource => `
             <div class="content-card">
                 <div class="card-header">
                     <div class="card-icon">

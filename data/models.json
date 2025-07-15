@@ -20,7 +20,7 @@
     "status": "active",
     "languages": ["Germanic languages (initially)", "European languages"],
     "description": "EU-funded project developing trustworthy, open LLMs for European languages",
-    "url": "https://trustllm.eu",
+    "url": "https://www.liu.se",
     "year": "2023-2026"
   },
   {
@@ -32,7 +32,7 @@
     "status": "completed",
     "languages": ["Polish", "Slavic languages", "Baltic languages"],
     "description": "First Polish open large language model with innovative 'Polish hat' technology",
-    "url": "https://pllum.org.pl",
+    "url": "https://www.pwr.edu.pl",
     "year": "2022-2024"
   },
   {
@@ -44,7 +44,7 @@
     "status": "active",
     "languages": ["1000+ languages", "Multilingual"],
     "description": "World's largest open science AI foundation model effort, fully transparent and open source",
-    "url": "https://www.swiss-ai.org",
+    "url": "https://www.ethz.ch",
     "year": "2024"
   },
   {

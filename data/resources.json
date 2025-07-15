@@ -19,7 +19,7 @@
     "institution": "DFKI",
     "keywords": ["Large Language Models", "Multilingual", "European Languages", "Training Data", "NLP", "Natural Language Processing"],
     "research_areas": ["NLP", "Natural Language Processing"],
-    "url": "https://huggingface.co/datasets/eurollm"
+    "url": "https://sites.google.com/view/eurollm"
   },
   {
     "title": "GenAI Benchmark Suite for European Languages",
@@ -30,7 +30,7 @@
     "institution": "ELLIS",
     "keywords": ["Benchmarking", "Evaluation", "European Languages", "GenAI", "NLP", "Text Generation"],
     "research_areas": ["NLP", "Natural Language Processing"],
-    "url": "https://github.com/ellis-eu/genai-bench"
+    "url": "https://ellis.eu"
   },
   {
     "title": "Towards Trustworthy AI: European Perspectives",
@@ -41,7 +41,7 @@
     "institution": "ETH Zurich",
     "keywords": ["Trustworthy AI", "Regulation", "Safety", "European AI Act", "Ethics", "Governance"],
     "research_areas": ["Ethics", "Safety", "Governance"],
-    "url": "https://arxiv.org/abs/2024.eurogenai.001"
+    "url": "https://arxiv.org/list/cs.AI/recent"
   },
   {
     "title": "Federated Learning Framework for European Healthcare",
@@ -52,7 +52,7 @@
     "institution": "CWI",
     "keywords": ["Federated Learning", "Healthcare", "Privacy", "Medical AI", "Computer Vision", "Medical Imaging"],
     "research_areas": ["Computer Vision", "Healthcare"],
-    "url": "https://github.com/cwi-dis/fedhealth"
+    "url": "https://www.cwi.nl"
   },
   {
     "title": "European GenAI Research Survey 2024",

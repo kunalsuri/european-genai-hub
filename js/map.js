@@ -10,13 +10,13 @@ class ResearchMap {
 
     init(institutions = []) {
         this.institutions = institutions;
-        
+
         if (!this.isInitialized) {
             this.setupMap();
             this.setupFilters();
             this.isInitialized = true;
         }
-        
+
         this.loadMarkers();
     }
 
@@ -147,7 +147,7 @@ class ResearchMap {
             'Bulgaria': { lat: 42.6977, lng: 23.3219 },
             'Cyprus': { lat: 35.1264, lng: 33.4299 },
             'Malta': { lat: 35.8997, lng: 14.5146 },
-            
+
             // Major cities for better precision
             'Berlin': { lat: 52.5200, lng: 13.4050 },
             'Munich': { lat: 48.1351, lng: 11.5820 },
@@ -175,14 +175,16 @@ class ResearchMap {
             'Budapest': { lat: 47.4979, lng: 19.0402 },
             'Lisbon': { lat: 38.7223, lng: -9.1393 },
             'Athens': { lat: 37.9838, lng: 23.7275 },
-            'Dublin': { lat: 53.3498, lng: -6.2603 }
+            'Dublin': { lat: 53.3498, lng: -6.2603 },
+            'Cambridge': { lat: 52.2053, lng: 0.1218 },
+            'London': { lat: 51.5074, lng: -0.1278 }
         };
 
         // Try to find coordinates by city first, then country
         if (institution.city && coordinates[institution.city]) {
             return coordinates[institution.city];
         }
-        
+
         if (institution.country && coordinates[institution.country]) {
             // Add some random offset to avoid overlapping markers
             const baseCoords = coordinates[institution.country];
@@ -302,7 +304,7 @@ class ResearchMap {
             countryFilter.addEventListener('change', () => {
                 this.applyFilters();
             });
-            
+
             // Populate country options
             this.populateCountryFilter();
         }
@@ -313,7 +315,7 @@ class ResearchMap {
         if (!countryFilter || !this.institutions) return;
 
         const countries = [...new Set(this.institutions.map(inst => inst.country))].sort();
-        
+
         // Clear existing options except the first one
         while (countryFilter.children.length > 1) {
             countryFilter.removeChild(countryFilter.lastChild);

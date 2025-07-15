@@ -191,10 +191,13 @@
             populateFilters() {
                 if (this.data.length === 0) return;
 
-                // Populate research areas
+                // Populate research areas filter with technologies and categories
                 const areaFilter = document.getElementById('projects-filter-area');
                 if (areaFilter) {
-                    const areas = [...new Set(this.data.flatMap(proj => proj.research_areas || []))].sort();
+                    const technologies = [...new Set(this.data.flatMap(proj => proj.technologies || []))];
+                    const categories = [...new Set(this.data.map(proj => proj.category).filter(Boolean))];
+                    const areas = [...new Set([...technologies, ...categories])].sort();
+                    
                     areas.forEach(area => {
                         const option = document.createElement('option');
                         option.value = area;
@@ -219,12 +222,20 @@
                     const matchesSearch = !searchTerm || 
                         project.title.toLowerCase().includes(searchTerm) ||
                         (project.description && project.description.toLowerCase().includes(searchTerm)) ||
-                        (project.research_areas && project.research_areas.some(area => area.toLowerCase().includes(searchTerm))) ||
-                        (project.partners && project.partners.some(partner => partner.toLowerCase().includes(searchTerm)));
+                        (project.technologies && project.technologies.some(tech => tech.toLowerCase().includes(searchTerm))) ||
+                        (project.participants && project.participants.some(participant => participant.toLowerCase().includes(searchTerm))) ||
+                        (project.category && project.category.toLowerCase().includes(searchTerm));
 
-                    const matchesStatus = selectedStatus === 'all' || project.status === selectedStatus;
-                    const matchesArea = selectedArea === 'all' || (project.research_areas && project.research_areas.includes(selectedArea));
-                    const matchesFunding = selectedFunding === 'all' || (project.funding_source && project.funding_source === selectedFunding);
+                    const matchesStatus = selectedStatus === 'all' || project.status.toLowerCase() === selectedStatus.toLowerCase();
+                    
+                    const matchesArea = selectedArea === 'all' || 
+                        (project.technologies && project.technologies.includes(selectedArea)) ||
+                        (project.category && project.category.toLowerCase().includes(selectedArea.toLowerCase()));
+                    
+                    const matchesFunding = selectedFunding === 'all' || 
+                        (project.funding && project.funding.includes(selectedFunding)) ||
+                        (selectedFunding === 'EU' && project.funding && project.funding.includes('€')) ||
+                        (selectedFunding === 'National' && project.funding && !project.funding.includes('€'));
 
                     return matchesSearch && matchesStatus && matchesArea && matchesFunding;
                 });
@@ -252,23 +263,25 @@
                     <div class="content-card fade-in">
                         <h3>${this.escapeHtml(project.title)}</h3>
                         <div class="meta">
-                            <strong>Status:</strong> <span class="tag ${project.status || 'active'}">${this.escapeHtml(project.status || 'Active')}</span><br>
+                            <strong>Status:</strong> <span class="tag ${project.status ? project.status.toLowerCase() : 'active'}">${this.escapeHtml(project.status || 'Active')}</span><br>
                             <strong>Duration:</strong> ${this.escapeHtml(project.start_date || '2024')} - ${this.escapeHtml(project.end_date || '2027')}<br>
-                            ${project.funding ? `<strong>Funding:</strong> €${this.formatNumber(project.funding)}<br>` : ''}
-                            ${project.funding_source ? `<strong>Source:</strong> ${this.escapeHtml(project.funding_source)}` : ''}
+                            ${project.funding ? `<strong>Funding:</strong> ${this.escapeHtml(project.funding)}<br>` : ''}
+                            ${project.category ? `<strong>Category:</strong> ${this.escapeHtml(project.category)}<br>` : ''}
+                            ${project.country ? `<strong>Country:</strong> ${this.escapeHtml(project.country)}` : ''}
                         </div>
                         <p>${this.escapeHtml(project.description || 'Cutting-edge research project advancing the field of Generative AI.')}</p>
-                        ${project.research_areas && project.research_areas.length > 0 ? `
+                        ${project.technologies && project.technologies.length > 0 ? `
                             <div class="tags">
-                                ${project.research_areas.map(area => 
-                                    `<span class="tag secondary">${this.escapeHtml(area)}</span>`
+                                <strong>Technologies:</strong><br>
+                                ${project.technologies.map(tech => 
+                                    `<span class="tag secondary">${this.escapeHtml(tech)}</span>`
                                 ).join('')}
                             </div>
                         ` : ''}
-                        ${project.partners && project.partners.length > 0 ? `
+                        ${project.participants && project.participants.length > 0 ? `
                             <div style="margin-top: 1rem;">
-                                <strong>Partners:</strong> ${project.partners.map(partner => 
-                                    this.escapeHtml(partner)
+                                <strong>Partners:</strong> ${project.participants.map(participant => 
+                                    this.escapeHtml(participant)
                                 ).join(', ')}
                             </div>
                         ` : ''}

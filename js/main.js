@@ -625,6 +625,8 @@ class EUGenAIHub {
         `;
 
         this.renderProjectsGrid();
+        this.populateProjectFilters();
+        this.setupProjectSearch();
 
         // Initialize search
         if (window.searchManager && this.data) {
@@ -637,11 +639,30 @@ class EUGenAIHub {
         }
     }
 
-    renderProjectsGrid() {
+    renderProjectsGrid(customData = null) {
         const container = document.getElementById('projects-grid');
         if (!container || this.isDestroyed) return;
 
-        container.innerHTML = this.data.projects.map(project => `
+        const projectsToRender = customData || this.data.projects || [];
+
+        if (!Array.isArray(projectsToRender) || projectsToRender.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i data-lucide="search-x" class="empty-icon"></i>
+                    <h3>No projects found</h3>
+                    <p>Try adjusting your search criteria or browse all projects</p>
+                    <button class="btn btn-primary" onclick="window.euGenAIHub.renderProjectsGrid()">
+                        Show All Projects
+                    </button>
+                </div>
+            `;
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+            return;
+        }
+
+        container.innerHTML = projectsToRender.map(project => `
             <div class="content-card">
                 <div class="card-header">
                     <div class="card-icon">
@@ -722,6 +743,75 @@ class EUGenAIHub {
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
+    }
+
+    populateProjectFilters() {
+        if (!this.data.projects || this.data.projects.length === 0) return;
+
+        const areaFilter = document.getElementById('projects-filter-area');
+        if (areaFilter) {
+            const technologies = [...new Set(this.data.projects.flatMap(proj => proj.technologies || []))];
+            const categories = [...new Set(this.data.projects.map(proj => proj.category).filter(Boolean))];
+            const areas = [...new Set([...technologies, ...categories])].sort();
+            
+            areas.forEach(area => {
+                const option = document.createElement('option');
+                option.value = area;
+                option.textContent = area;
+                areaFilter.appendChild(option);
+            });
+        }
+    }
+
+    setupProjectSearch() {
+        const searchInput = document.getElementById('projects-search');
+        const statusFilter = document.getElementById('projects-filter-status');
+        const areaFilter = document.getElementById('projects-filter-area');
+
+        if (searchInput) {
+            let searchTimeout;
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    this.applyProjectFilters();
+                }, 300);
+            });
+        }
+
+        [statusFilter, areaFilter].forEach(filter => {
+            if (filter) {
+                filter.addEventListener('change', () => this.applyProjectFilters());
+            }
+        });
+    }
+
+    applyProjectFilters() {
+        const searchInput = document.getElementById('projects-search');
+        const statusFilter = document.getElementById('projects-filter-status');
+        const areaFilter = document.getElementById('projects-filter-area');
+
+        const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        const selectedStatus = statusFilter ? statusFilter.value : 'all';
+        const selectedArea = areaFilter ? areaFilter.value : 'all';
+
+        const filteredData = this.data.projects.filter(project => {
+            const matchesSearch = !searchTerm || 
+                project.title.toLowerCase().includes(searchTerm) ||
+                (project.description && project.description.toLowerCase().includes(searchTerm)) ||
+                (project.technologies && project.technologies.some(tech => tech.toLowerCase().includes(searchTerm))) ||
+                (project.participants && project.participants.some(participant => participant.toLowerCase().includes(searchTerm))) ||
+                (project.category && project.category.toLowerCase().includes(searchTerm));
+
+            const matchesStatus = selectedStatus === 'all' || project.status.toLowerCase() === selectedStatus.toLowerCase();
+            
+            const matchesArea = selectedArea === 'all' || 
+                (project.technologies && project.technologies.includes(selectedArea)) ||
+                (project.category && project.category.toLowerCase().includes(selectedArea.toLowerCase()));
+
+            return matchesSearch && matchesStatus && matchesArea;
+        });
+
+        this.renderProjectsGrid(filteredData);
     }
 
     renderResources() {

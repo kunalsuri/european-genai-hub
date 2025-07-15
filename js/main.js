@@ -59,16 +59,14 @@ class EUGenAIHub {
     async loadRemainingDataInBackground() {
         try {
             // Load non-critical data in background
-            const [projects, resources, news, models] = await Promise.allSettled([
+            const [projects, resources, models] = await Promise.allSettled([
                 this.fetchWithTimeout('data/projects.json', 5000).then(r => r.json()).catch(() => []),
                 this.fetchWithTimeout('data/resources.json', 5000).then(r => r.json()).catch(() => []),
-                this.fetchWithTimeout('data/news.json', 5000).then(r => r.json()).catch(() => []),
                 this.fetchWithTimeout('data/models.json', 5000).then(r => r.json()).catch(() => [])
             ]);
 
             this.data.projects = this.sanitizeData(projects.status === 'fulfilled' ? projects.value : []);
             this.data.resources = this.sanitizeData(resources.status === 'fulfilled' ? resources.value : []);
-            this.data.news = this.sanitizeData(news.status === 'fulfilled' ? news.value : []);
             this.data.models = this.sanitizeData(models.status === 'fulfilled' ? models.value : []);
 
             // Update stats after all data is loaded
@@ -338,7 +336,7 @@ class EUGenAIHub {
         if (this.isDestroyed) return;
 
         // Validate section name to prevent XSS
-        const allowedSections = ['home', 'institutions', 'projects', 'models', 'resources'];
+        const allowedSections = ['home', 'map', 'institutions', 'projects', 'models', 'resources'];
         if (!allowedSections.includes(sectionName)) {
             console.warn('Invalid section name:', sectionName);
             return;
@@ -429,15 +427,14 @@ class EUGenAIHub {
                 new Set(this.data.institutions.map(inst => inst.country).filter(Boolean)).size : 0
         };
 
-        // Calculate total resources for display
-        const totalResources = stats.institutions + stats.projects + stats.resources;
-
+        // Add models count
+        const modelsCount = Array.isArray(this.data.models) ? this.data.models.length : 0;
+        
         // Animate counters with bounds checking
-        this.animateCounter('total-resources-count', Math.min(totalResources, 9999));
         this.animateCounter('institutions-count', Math.min(stats.institutions, 9999));
         this.animateCounter('projects-count', Math.min(stats.projects, 9999));
         this.animateCounter('resources-count', Math.min(stats.resources, 9999));
-        this.animateCounter('countries-count', Math.min(stats.countries, 99));
+        this.animateCounter('models-count', Math.min(modelsCount, 9999));
     }
 
     animateCounter(elementId, targetValue) {

@@ -1457,3 +1457,40 @@ p { margin-bottom: 1rem; }
         transition-duration: 0.01ms !important;
     }
 }
+
+/* Footer Manager and Social Link Styles */
+.footer-manager {
+    margin: 1rem 0;
+}
+
+.footer-manager-text {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.social-link-primary {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: auto;
+    height: auto;
+}
+
+.social-link-primary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.social-link-primary span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}

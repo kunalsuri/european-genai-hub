@@ -259,12 +259,14 @@ class EUGenAIHub {
                 resource.title,
                 resource.description,
                 resource.type,
+                resource.institution,
                 ...(resource.keywords || []),
-                ...(resource.research_areas || [])
+                ...(resource.research_areas || []),
+                ...(resource.authors || [])
             ].join(' ').toLowerCase();
             
             return searchTerms.some(term => 
-                searchFields.includes(term.toLowerCase())
+                searchFields.toLowerCase().includes(term.toLowerCase())
             );
         });
         
@@ -313,11 +315,12 @@ class EUGenAIHub {
                 resource.description,
                 resource.institution,
                 ...(resource.keywords || []),
-                ...(resource.research_areas || [])
+                ...(resource.research_areas || []),
+                ...(resource.authors || [])
             ].join(' ').toLowerCase();
             
             return searchTerms.some(term => 
-                searchFields.includes(term.toLowerCase())
+                searchFields.toLowerCase().includes(term.toLowerCase())
             );
         });
         

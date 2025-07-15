@@ -6,7 +6,8 @@
     "description": "Comprehensive guidelines for ethical AI development and deployment across European institutions.",
     "authors": ["European Commission AI Ethics Expert Group"],
     "institution": "European Commission",
-    "keywords": ["AI Ethics", "Guidelines", "European Policy", "Responsible AI"],
+    "keywords": ["AI Ethics", "Guidelines", "European Policy", "Responsible AI", "Trustworthy AI", "Safety", "Governance"],
+    "research_areas": ["Ethics", "Safety", "Governance"],
     "url": "https://digital-strategy.ec.europa.eu/en/library/ethics-guidelines-trustworthy-ai"
   },
   {
@@ -16,7 +17,8 @@
     "description": "Multilingual dataset for training large language models with European language diversity and cultural context.",
     "authors": ["DFKI Research Team", "University of Amsterdam"],
     "institution": "DFKI",
-    "keywords": ["Large Language Models", "Multilingual", "European Languages", "Training Data"],
+    "keywords": ["Large Language Models", "Multilingual", "European Languages", "Training Data", "NLP", "Natural Language Processing"],
+    "research_areas": ["NLP", "Natural Language Processing"],
     "url": "https://huggingface.co/datasets/eurollm"
   },
   {
@@ -26,7 +28,8 @@
     "description": "Comprehensive benchmarking tools for evaluating generative AI models on European language tasks.",
     "authors": ["ELLIS Research Network"],
     "institution": "ELLIS",
-    "keywords": ["Benchmarking", "Evaluation", "European Languages", "GenAI"],
+    "keywords": ["Benchmarking", "Evaluation", "European Languages", "GenAI", "NLP", "Text Generation"],
+    "research_areas": ["NLP", "Natural Language Processing"],
     "url": "https://github.com/ellis-eu/genai-bench"
   },
   {
@@ -36,7 +39,8 @@
     "description": "Research paper analyzing approaches to building trustworthy AI systems from a European regulatory perspective.",
     "authors": ["Dr. Maria Schmidt", "Prof. Johannes Mueller", "Dr. Alessandro Rossi"],
     "institution": "ETH Zurich",
-    "keywords": ["Trustworthy AI", "Regulation", "Safety", "European AI Act"],
+    "keywords": ["Trustworthy AI", "Regulation", "Safety", "European AI Act", "Ethics", "Governance"],
+    "research_areas": ["Ethics", "Safety", "Governance"],
     "url": "https://arxiv.org/abs/2024.eurogenai.001"
   },
   {
@@ -46,7 +50,8 @@
     "description": "Open-source framework enabling privacy-preserving machine learning across European healthcare institutions.",
     "authors": ["CWI AI Research Group"],
     "institution": "CWI",
-    "keywords": ["Federated Learning", "Healthcare", "Privacy", "Medical AI"],
+    "keywords": ["Federated Learning", "Healthcare", "Privacy", "Medical AI", "Computer Vision", "Medical Imaging"],
+    "research_areas": ["Computer Vision", "Healthcare"],
     "url": "https://github.com/cwi-dis/fedhealth"
   },
   {
@@ -57,6 +62,106 @@
     "authors": ["EU GenAI Research Consortium"],
     "institution": "Multiple",
     "keywords": ["Survey", "Research Landscape", "GenAI", "European Research"],
+    "research_areas": ["General AI", "Research"],
     "url": "https://europa.eu/research/genai-survey-2024"
+  },
+  {
+    "title": "AI On Demand Platform Resources",
+    "type": "platform",
+    "year": "2024",
+    "description": "Centralized European AI platform providing trustworthy AI resources, tools, datasets, and solutions for researchers and industry.",
+    "authors": ["AI4Europe Consortium"],
+    "institution": "AI4Europe",
+    "keywords": ["AI On Demand", "AIOD", "European AI", "AI4Europe", "Platform", "Resources"],
+    "research_areas": ["Platform", "Resources"],
+    "url": "https://www.ai4europe.eu/"
+  },
+  {
+    "title": "INSAIT Research Publications",
+    "type": "paper",
+    "year": "2024",
+    "description": "Collection of research papers from INSAIT - Eastern Europe's premier AI institute featuring work on LLMs and AI systems.",
+    "authors": ["INSAIT Research Team"],
+    "institution": "INSAIT",
+    "keywords": ["INSAIT", "Sofia", "Bulgaria", "Eastern Europe", "BRAIN++", "LLM", "AI Research"],
+    "research_areas": ["NLP", "Computer Vision", "Robotics"],
+    "url": "https://insait.ai/research/"
+  },
+  {
+    "title": "SwissGPT Technical Documentation",
+    "type": "tool",
+    "year": "2024",
+    "description": "Technical resources and documentation for SwissGPT, the Falcon-based multilingual LLM developed by AlpineAI and EPFL.",
+    "authors": ["AlpineAI", "EPFL"],
+    "institution": "AlpineAI",
+    "keywords": ["SwissGPT", "AlpineAI", "Swiss", "Switzerland", "Falcon", "Multilingual", "LLM"],
+    "research_areas": ["NLP", "Natural Language Processing"],
+    "url": "https://alpineai.swiss/en/"
+  },
+  {
+    "title": "MathArena Evaluation Framework",
+    "type": "tool",
+    "year": "2024",
+    "description": "Live evaluation platform for testing large language models on mathematics competitions with human-judged reasoning chains.",
+    "authors": ["MathArena Team"],
+    "institution": "Independent",
+    "keywords": ["MathArena", "Mathematics", "Evaluation", "AIME", "Competition", "LLM", "Benchmark"],
+    "research_areas": ["Evaluation", "Mathematics"],
+    "url": "https://matharena.ai/"
+  },
+  {
+    "title": "ADRA Strategic Roadmap",
+    "type": "report",
+    "year": "2024",
+    "description": "Strategic roadmap for responsible and sovereign AI development from the AI, Data & Robotics Association.",
+    "authors": ["ADRA Members"],
+    "institution": "ADRA",
+    "keywords": ["ADRA", "AI Data Robotics", "Partnership", "Association", "Strategy", "Roadmap"],
+    "research_areas": ["Robotics", "Strategy"],
+    "url": "https://adr-association.eu/"
+  },
+  {
+    "title": "EU AI Act Implementation Guide",
+    "type": "report",
+    "year": "2024",
+    "description": "Comprehensive guide for implementing the European AI Act with practical guidance from the European AI Office.",
+    "authors": ["European AI Office"],
+    "institution": "European Commission",
+    "keywords": ["European AI Office", "AI Act", "Governance", "Regulation", "European Commission", "Implementation"],
+    "research_areas": ["Ethics", "Governance", "Regulation"],
+    "url": "https://digital-strategy.ec.europa.eu/en/policies/ai-office"
+  },
+  {
+    "title": "European Computer Vision Research Network",
+    "type": "platform",
+    "year": "2024",
+    "description": "Network of European researchers working on computer vision, image generation, and multimodal AI systems.",
+    "authors": ["ECCV Research Network"],
+    "institution": "Multiple European Institutions",
+    "keywords": ["Computer Vision", "Vision", "Image", "Visual", "Multimodal", "Video", "Medical Imaging"],
+    "research_areas": ["Computer Vision", "Multimodal"],
+    "url": "https://eccv.org/"
+  },
+  {
+    "title": "European Robotics Research Agenda",
+    "type": "report",
+    "year": "2024",
+    "description": "Research agenda for robotics and autonomous systems development across European institutions and industry.",
+    "authors": ["euRobotics Association"],
+    "institution": "euRobotics",
+    "keywords": ["Robotics", "Autonomous", "Robot", "Navigation", "Manipulation", "Human-Robot", "Manufacturing"],
+    "research_areas": ["Robotics", "Autonomous Systems"],
+    "url": "https://eurobotics.net/"
+  },
+  {
+    "title": "Conversational AI in European Languages",
+    "type": "dataset",
+    "year": "2024",
+    "description": "Large-scale dataset for training conversational AI systems supporting multiple European languages and dialects.",
+    "authors": ["DFKI", "Universitat Pompeu Fabra"],
+    "institution": "DFKI",
+    "keywords": ["Conversational AI", "Multilingual", "Text", "Language Model", "Dialogue", "European Languages"],
+    "research_areas": ["NLP", "Conversational AI"],
+    "url": "https://huggingface.co/datasets/euro-conversational"
   }
 ]

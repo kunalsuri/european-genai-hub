@@ -11,6 +11,9 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -156,12 +159,15 @@
 
                 if (searchInput) {
                     let searchTimeout;
-                    searchInput.addEventListener('input', (e) => {
+                    const handleSearchInput = (e) => {
                         clearTimeout(searchTimeout);
                         searchTimeout = setTimeout(() => {
                             this.applyFilters();
                         }, 300);
-                    });
+                    };
+                    
+                    searchInput.addEventListener('input', handleSearchInput);
+                    searchInput.addEventListener('keyup', handleSearchInput);
                 }
 
                 [countryFilter, typeFilter].forEach(filter => {
@@ -195,11 +201,13 @@
 
                 const filteredData = this.data.filter(institution => {
                     const matchesSearch = !searchTerm || 
-                        institution.name.toLowerCase().includes(searchTerm) ||
-                        institution.country.toLowerCase().includes(searchTerm) ||
+                        (institution.name && institution.name.toLowerCase().includes(searchTerm)) ||
+                        (institution.country && institution.country.toLowerCase().includes(searchTerm)) ||
                         (institution.city && institution.city.toLowerCase().includes(searchTerm)) ||
                         (institution.description && institution.description.toLowerCase().includes(searchTerm)) ||
-                        (institution.research_areas && institution.research_areas.some(area => area.toLowerCase().includes(searchTerm)));
+                        (institution.focus && institution.focus.toLowerCase().includes(searchTerm)) ||
+                        (institution.research_areas && Array.isArray(institution.research_areas) && 
+                         institution.research_areas.some(area => area.toLowerCase().includes(searchTerm)));
 
                     const matchesCountry = selectedCountry === 'all' || institution.country === selectedCountry;
                     const matchesType = selectedType === 'all' || institution.type === selectedType;
@@ -244,13 +252,20 @@
                         ` : ''}
                         ${institution.website ? `
                             <div style="margin-top: 1rem;">
-                                <a href="${this.escapeHtml(institution.website)}" target="_blank" class="btn btn-primary">
-                                    Visit Website
+                                <a href="${this.escapeHtml(institution.website)}" target="_blank" rel="noopener noreferrer"
+                                   class="card-link">
+                                    <span>Visit Website</span>
+                                    <i data-lucide="external-link"></i>
                                 </a>
                             </div>
                         ` : ''}
                     </div>
                 `).join('');
+
+                // Reinitialize Lucide icons after rendering
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
             }
 
             showError() {

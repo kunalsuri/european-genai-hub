@@ -1,99 +1,96 @@
 [
   {
-    "name": "DFKI - German Research Center for Artificial Intelligence",
-    "country": "Germany",
-    "city": "Kaiserslautern",
-    "type": "research",
-    "focus": "AI Research & Development",
-    "description": "Leading European AI research center focusing on innovative software technologies based on Artificial Intelligence methods.",
+    "name": "Adra - AI-Data-Robotics-Association",
+    "country": "EU",
+    "city": "Brussels",
+    "type": "association",
+    "focus": "AI, Data, Robotics, advocacy, collaboration, driving research and innovation in Europe",
+    "description": "The European association for Artificial Intelligence, Data, and Robotics, bringing together the community to advance the development, adoption, and ethical use of these technologies in Europe.",
     "research_areas": [
+      "AI Policy",
+      "AI Development",
+      "Data Governance",
+      "Robotics Deployment",
+      "Ethical AI",
+      "Trustworthy AI",
+      "AI Regulation"
+    ],
+    "website": "https://adr-association.eu/",
+    "coordinates": [50.8503, 4.3517]
+  },
+  {
+    "name": "AI Sweden",
+    "country": "Sweden",
+    "city": "Stockholm",
+    "type": "national initiative",
+    "focus": "Applied Artificial Intelligence, accelerating AI adoption and innovation across Sweden, building a national AI ecosystem",
+    "description": "A national center for applied AI, bringing together academia, industry, and the public sector to strengthen Sweden's competitiveness in AI.",
+    "research_areas": [
+      "Applied AI",
+      "Responsible AI",
+      "AI Infrastructure",
+      "Data-driven Innovation",
+      "Edge AI",
       "Natural Language Processing",
       "Computer Vision",
-      "Machine Learning",
-      "Robotics"
+      "AI for Sustainability"
     ],
-    "website": "https://www.dfki.de",
-    "coordinates": [49.4401, 7.7491]
+    "website": "https://www.ai.se/en",
+    "coordinates": [59.334591, 18.063240]
   },
   {
-    "name": "INRIA - French National Institute for Research in Digital Science",
-    "country": "France",
-    "city": "Rocquencourt",
-    "type": "research",
-    "focus": "Digital Sciences",
-    "description": "Premier research institute in computational sciences, pioneering advances in AI and machine learning.",
-    "research_areas": [
-      "Deep Learning",
-      "Computer Graphics",
-      "Distributed Systems",
-      "Data Science"
-    ],
-    "website": "https://www.inria.fr",
-    "coordinates": [48.8405, 2.0770]
-  },
-  {
-    "name": "University of Cambridge - AI Lab",
-    "country": "United Kingdom",
-    "city": "Cambridge",
-    "type": "university",
-    "focus": "Academic Research",
-    "description": "World-renowned university pushing the boundaries of artificial intelligence research and education.",
-    "research_areas": [
-      "Generative Models",
-      "Reinforcement Learning",
-      "Ethics in AI",
-      "Quantum Computing"
-    ],
-    "website": "https://www.cam.ac.uk",
-    "coordinates": [52.2053, 0.1218]
-  },
-  {
-    "name": "ETH Zurich - Institute for Machine Learning",
-    "country": "Switzerland",
-    "city": "Zurich",
-    "type": "university",
-    "focus": "Machine Learning Research",
-    "description": "Leading technical university with cutting-edge research in machine learning and AI systems.",
-    "research_areas": [
-      "Neural Networks",
-      "Optimization",
-      "Probabilistic Models",
-      "AI Safety"
-    ],
-    "website": "https://www.ethz.ch",
-    "coordinates": [47.3769, 8.5417]
-  },
-  {
-    "name": "DeepMind London",
-    "country": "United Kingdom",
-    "city": "London",
-    "type": "industry",
-    "focus": "General AI Research",
-    "description": "World leader in artificial intelligence research, developing general-purpose learning algorithms.",
-    "research_areas": [
-      "Deep Reinforcement Learning",
-      "Protein Folding",
-      "Game AI",
-      "Multimodal AI"
-    ],
-    "website": "https://www.deepmind.com",
-    "coordinates": [51.5074, -0.1278]
-  },
-  {
-    "name": "Technical University of Munich - AI Lab",
+    "name": "AppliedAI Initiative GmbH",
     "country": "Germany",
     "city": "Munich",
-    "type": "university",
-    "focus": "Applied AI Research",
-    "description": "Top technical university advancing practical applications of artificial intelligence.",
+    "type": "industry/research",
+    "focus": "Applied Artificial Intelligence, enabling companies to adopt and scale AI, AI education",
+    "description": "Europe's largest initiative for the application of AI in industry, providing guidance, training, and platforms for AI implementation.",
     "research_areas": [
-      "Autonomous Systems",
-      "Medical AI",
-      "Industrial AI",
-      "Human-AI Interaction"
+      "AI Strategy & Implementation",
+      "Machine Learning Engineering",
+      "Data Science",
+      "AI Use Cases in various industries",
+      "Responsible AI"
     ],
-    "website": "https://www.tum.de",
-    "coordinates": [48.1351, 11.5820]
+    "website": "https://www.appliedai.de/",
+    "coordinates": [48.1370, 11.5750]
+  },
+  {
+    "name": "Barcelona Supercomputing Center",
+    "country": "Spain",
+    "city": "Barcelona",
+    "type": "research",
+    "focus": "High-performance computing (HPC), computational science, supercomputing infrastructure, Artificial Intelligence",
+    "description": "A public research center that manages MareNostrum, one of the most powerful supercomputers in Europe, dedicated to advancing computational science and engineering.",
+    "research_areas": [
+      "Computer Sciences (HPC, Big Data, AI, Computer Architecture)",
+      "Life Sciences (Bioinformatics, Computational Biology)",
+      "Earth Sciences (Climate Research, Oceanography)",
+      "Computer Applications in Science and Engineering"
+    ],
+    "website": "https://www.bsc.es/",
+    "coordinates": [41.3892, 2.1130]
+  },
+  {
+    "name": "CSCS (Swiss National Supercomputing Centre)",
+    "country": "Switzerland",
+    "city": "Lugano",
+    "type": "research",
+    "focus": "High-performance computing, computational science, supercomputing",
+    "description": "The national high-performance computing centre of Switzerland, providing state-of-the-art supercomputing facilities and services for scientific research.",
+    "research_areas": [
+      "Computational Science",
+      "Climate Modeling",
+      "Materials Science",
+      "Life Sciences",
+      "Fluid Dynamics",
+      "Chemistry",
+      "Physics",
+      "Geosciences",
+      "Data Science"
+    ],
+    "website": "https://www.cscs.ch/",
+    "coordinates": [46.0039, 8.9555]
   },
   {
     "name": "CWI - Centrum Wiskunde & Informatica",
@@ -101,15 +98,256 @@
     "city": "Amsterdam",
     "type": "research",
     "focus": "Mathematics & Computer Science",
-    "description": "National research institute for mathematics and computer science in the Netherlands.",
+    "description": "The national research institute for mathematics and computer science in the Netherlands, known for pioneering research in fundamental areas like algorithms, data, security, and quantum computing, and for contributing to various fields, including the creation of the Python programming language. [4, 5, 9, 10, 16, 23, 32, 34]",
     "research_areas": [
       "Machine Learning",
       "Cryptography",
       "Algorithms",
-      "Data Analytics"
+      "Data Analytics",
+      "Quantum Computing",
+      "Computational Imaging",
+      "Computer Security",
+      "Distributed and Interactive Systems",
+      "Intelligent and Autonomous Systems"
     ],
     "website": "https://www.cwi.nl",
     "coordinates": [52.3676, 4.9041]
+  },
+  {
+    "name": "DeepMind London",
+    "country": "United Kingdom",
+    "city": "London",
+    "type": "industry",
+    "focus": "General AI Research",
+    "description": "A world leader in artificial intelligence research, developing general-purpose learning algorithms and working on breakthroughs across various scientific and real-world challenges. [13, 14, 19, 24, 27, 37, 43]",
+    "research_areas": [
+      "Deep Reinforcement Learning",
+      "Protein Folding",
+      "Game AI",
+      "Multimodal AI",
+      "AI for Biology",
+      "Robotics",
+      "Large Language Models",
+      "Generative AI"
+    ],
+    "website": "https://www.deepmind.com",
+    "coordinates": [51.5074, -0.1278]
+  },
+  {
+    "name": "DFKI - German Research Center for Artificial Intelligence",
+    "country": "Germany",
+    "city": "Kaiserslautern",
+    "type": "research",
+    "focus": "AI Research & Development",
+    "description": "Leading European AI research center focusing on innovative software technologies based on Artificial Intelligence methods, with an emphasis on both scientific excellence and societal relevance. [7, 18, 25, 26, 31]",
+    "research_areas": [
+      "Natural Language Processing",
+      "Computer Vision",
+      "Machine Learning",
+      "Robotics",
+      "Data Management & Analysis",
+      "Virtual & Augmented Reality",
+      "Human-Machine Interaction",
+      "Autonomous Systems",
+      "IT Security"
+    ],
+    "website": "https://www.dfki.de",
+    "coordinates": [49.42944, 7.75194]
+  },
+  {
+    "name": "ELLIS - European Laboratory for Learning and Intelligent Systems",
+    "country": "Europe-wide",
+    "city": "N/A - Distributed Network",
+    "type": "research network",
+    "focus": "Fundamental science in machine learning and AI, technical innovation, societal impact, education, securing Europe's sovereignty in AI",
+    "description": "A pan-European AI network of excellence, founded in 2018, that aims to secure Europe's future in AI by performing high-level research and fostering talent. [8, 45, 46]",
+    "research_areas": [
+      "Machine Learning",
+      "Deep Learning",
+      "Computer Vision",
+      "Natural Language Processing",
+      "Robotics",
+      "AI for Health",
+      "Responsible AI",
+      "Reinforcement Learning",
+      "Computational Neuroscience"
+    ],
+    "website": "https://ellis.eu/",
+    "coordinates": []
+  },
+{
+  "name": "EPFL AI",
+  "country": "Switzerland",
+  "city": "Lausanne",
+  "type": "university",
+    "focus": "Science, Technology, Engineering, Life Sciences, Artificial Intelligence",
+    "description": "A leading European university of science and technology in Lausanne, Switzerland, known for its excellence in research and education and hosting the EPFL AI Center and an ELLIS unit. [8, 15, 44]",
+    "research_areas": [
+      "Machine Learning",
+      "Robotics",
+      "Health",
+      "Biomedicine",
+      "Digital Sciences",
+      "Large Language Models",
+      "Generative AI",
+      "Graph Machine Learning"
+    ],
+    "website": "https://ai.epfl.ch/",
+    "coordinates": [46.5186, 6.5660]
+  },
+  {
+    "name": "ETH AI Center",
+    "country": "Switzerland",
+    "city": "Zurich",
+    "type": "university",
+    "focus": "Science, Technology, Engineering, Mathematics, Data Science, Sustainability, Manufacturing Technologies, Robotics",
+    "description": "A public university in Zurich, Switzerland, founded in 1854, consistently ranked among the world's leading universities in science and technology. [3, 17, 29, 35, 36]",
+    "research_areas": [
+      "Data Science",
+      "Machine Learning",
+      "Robotics",
+      "Autonomous Systems",
+      "Energy Research",
+      "Environmental Research",
+      "Manufacturing Technologies",
+      "Medicine",
+      "Control Systems"
+    ],
+    "website": "https://ai.ethz.ch/",
+    "coordinates": [47.37639, 8.54806]
+  },
+  {
+    "name": "ETH Zurich - Institute for Machine Learning",
+    "country": "Switzerland",
+    "city": "Zurich",
+    "type": "university",
+    "focus": "Machine Learning Research",
+    "description": "A key institute within ETH Zurich, dedicated to cutting-edge research in machine learning, focusing on learning and inference of large statistical models from data, with applications across science and engineering. [6, 28, 39, 40]",
+    "research_areas": [
+      "Neural Networks",
+      "Optimization",
+      "Probabilistic Models",
+      "AI Safety",
+      "Computational Genetics and Epigenetics",
+      "Data Analytics",
+      "Biomedical Informatics",
+      "Statistical Machine Learning"
+    ],
+    "website": "https://ml.inf.ethz.ch/",
+    "coordinates": [47.3769, 8.5417]
+  },
+  {
+    "name": "Forschungszentrum Jülich AI",
+    "country": "Germany",
+    "city": "Jülich",
+    "type": "research",
+    "focus": "Energy, Information, Bioeconomy, Quantum Technologies, High-Performance Computing, Artificial Intelligence",
+    "description": "One of Europe's largest interdisciplinary research institutions, a member of the Helmholtz Association, contributing to solutions for major societal challenges. [2, 12, 13, 16, 18, 22, 37]",
+    "research_areas": [
+      "Information Technologies",
+      "Brain Research",
+      "Energy System Transformation",
+      "Sustainable Bioeconomy",
+      "High-Performance Computing",
+      "Artificial Intelligence",
+      "Materials Science",
+      "Nanotechnology",
+      "Climate Research"
+    ],
+    "website": "https://www.fz-juelich.de/en/research/research-fields/information/artificial-intelligence",
+    "coordinates": [50.9100, 6.4130]
+  },
+  {
+    "name": "IBM AI",
+    "country": "USA",
+    "city": "Armonk",
+    "type": "industry",
+    "focus": "Artificial Intelligence, Cloud Computing, Quantum Computing, Enterprise Technology, Consulting, IT Services",
+    "description": "A multinational technology and consulting company, a major player in computing hardware, software, and services.",
+    "research_areas": [
+      "Artificial Intelligence (IBM Watson, AI Ethics)",
+      "Quantum Computing",
+      "Blockchain",
+      "Cybersecurity",
+      "Hybrid Cloud",
+      "Data Analytics",
+      "Materials Science",
+      "Semiconductors"
+    ],
+    "website": "https://www.ibm.com/artificial-intelligence",
+    "coordinates": [41.1098, -73.7126]
+  },
+  {
+    "name": "IDEAS NCBR",
+    "country": "Poland",
+    "city": "Warsaw",
+    "type": "research",
+    "focus": "Artificial intelligence, digital economy, AI research, bridging academia and business",
+    "description": "A research center based in Warsaw, Poland, created with the goal of becoming a leading innovation center in AI and the digital economy, and hosts the ELLIS Unit Warsaw. [10, 26]",
+    "research_areas": [
+      "Intelligent Algorithms and Learned Data Structures",
+      "Efficient and Sustainable Machine Learning Focused on Computer Vision",
+      "Machine Learning and Sequential Decision-Making",
+      "Algorithmic Game Theory in Security",
+      "Interpretable Artificial Intelligence",
+      "Autonomous Agents and Alignment of Language Models"
+    ],
+    "website": "https://ideas-ncbr.pl/en/",
+    "coordinates": [52.2297, 21.0122]
+  },
+  {
+    "name": "INRIA - French National Institute for Research in Digital Science",
+    "country": "France",
+    "city": "Rocquencourt (Paris)",
+    "type": "research",
+    "focus": "Digital Sciences",
+    "description": "Premier research institute in computational sciences, pioneering advances in AI and machine learning across its various research centers in France. [3]",
+    "research_areas": [
+      "Deep Learning",
+      "Computer Graphics",
+      "Distributed Systems",
+      "Data Science",
+      "Applied Mathematics",
+      "High-Performance Computing"
+    ],
+    "website": "https://www.inria.fr/en/artificial-intelligence",
+    "coordinates": [48.8405, 2.0770]
+  },
+  {
+    "name": "Instituto Superior Técnico",
+    "country": "Portugal",
+    "city": "Lisbon",
+    "type": "university",
+    "focus": "Engineering, Science, Technology, Architecture",
+    "description": "The largest school of engineering, science, and technology in Portugal, offering a wide range of undergraduate and postgraduate programs and conducting research. [45]",
+    "research_areas": [
+      "Artificial Intelligence",
+      "Robotics",
+      "Computer Science",
+      "Electrical Engineering",
+      "Civil Engineering",
+      "Mechanical Engineering",
+      "Biomedical Engineering",
+      "Materials Science"
+    ],
+    "website": "https://tecnico.ulisboa.pt/en/tag/artificial-intelligence/",
+    "coordinates": [38.7369, -9.1399]
+  },
+    {
+    "name": "International Computation and AI Network (ICAIN)",
+    "country": "Global",
+    "city": "N/A - Global Network",
+    "type": "network",
+    "focus": "International collaboration in computation and AI, fostering research, education, and policy dialogue",
+    "description": "An international network promoting collaboration among researchers, institutions, and policymakers to advance computation and AI for global benefit.",
+    "research_areas": [
+      "Broad in Computation and AI",
+      "Ethical Implications of AI",
+      "AI Policy",
+      "Societal Impact of AI"
+    ],
+    "website": "https://icain.ch/index.html",
+    "coordinates": []
   },
   {
     "name": "KTH Royal Institute of Technology",
@@ -117,31 +355,134 @@
     "city": "Stockholm",
     "type": "university",
     "focus": "Technology Research",
-    "description": "Leading technical university in Northern Europe with strong AI and robotics programs.",
+    "description": "A leading technical university in Northern Europe, known for strong research and education in technology, with significant contributions in AI, robotics, and intelligent systems. [15, 33, 36, 41]",
     "research_areas": [
       "Robotics",
       "Speech Recognition",
       "Computer Vision",
-      "Digital Twins"
+      "Digital Twins",
+      "Foundations of AI",
+      "AI for Scientific Discovery",
+      "AI for Engineering and Society",
+      "Machine Learning",
+      "Autonomous Systems",
+      "Natural Language Processing"
     ],
-    "website": "https://www.kth.se",
+    "website": "https://www.kth.se/en/forskning/sarskilda-forskningssatsningar/strategiska-initiativ/kth-center-for-ai",
     "coordinates": [59.3293, 18.0686]
   },
   {
-    "name": "EPFL",
-    "country": "Switzerland",
-    "city": "Lausanne",
-    "type": "university",
-    "focus": "education, research, innovation in science & technology",
-    "description": "Public research university with a major AI Center driving multidisciplinary research, innovation and education in AI.",
+    "name": "Kyutai",
+    "country": "France",
+    "city": "Paris",
+    "type": "private research lab",
+    "focus": "Fundamental Artificial Intelligence research, open and independent AI development, large AI models",
+    "description": "A newly established independent, non-profit AI research laboratory in France, focused on pushing the boundaries of open scientific research in AI.",
     "research_areas": [
-      "Artificial Intelligence",
+      "Generative AI",
+      "Large Language Models",
       "Machine Learning",
-      "Robotics",
-      "Computer Vision",
-      "Digital Epidemiology"
+      "Deep Learning",
+      "AI safety and ethics"
     ],
-    "website": "https://www.epfl.ch",
-    "coordinates": [46.5197, 6.6323]
+    "website": "https://kyutai.org/",
+    "coordinates": [48.8566, 2.3522]
+  },
+  {
+    "name": "LAION",
+    "country": "Germany",
+    "city": "N/A - Distributed organization",
+    "type": "nonprofit/research",
+    "focus": "Large-scale AI research, open AI models, open datasets for training large machine learning models, open science",
+    "description": "A non-profit organization that curates and releases large, open datasets for AI training, most notably for large language and image models, promoting open research.",
+    "research_areas": [
+      "Large Language Models (LLMs)",
+      "Diffusion Models",
+      "Generative AI",
+      "Computer Vision",
+      "Natural Language Processing",
+      "Dataset Curation",
+      "Open-source AI development"
+    ],
+    "website": "https://laion.ai/",
+    "coordinates": []
+  },
+  {
+    "name": "Linköping University AI",
+    "country": "Sweden",
+    "city": "Linköping",
+    "type": "university",
+    "focus": "Interdisciplinary research, materials science, IT, hearing, bioelectronics, mobile communication",
+    "description": "A Swedish university known for its interdisciplinary approach and innovation in education and research, with world-leading research in several areas. [6, 31, 38, 41]",
+    "research_areas": [
+      "IT and Mobile Communication",
+      "Materials Science",
+      "Security and Emergency Management",
+      "e-Science",
+      "Transport Research",
+      "Bioelectronics",
+      "Medical Visualization & Simulation",
+      "Artificial Intelligence"
+    ],
+    "website": "https://liu.se/en/research/ai",
+    "coordinates": [58.4000, 15.6178]
+  },
+  {
+    "name": "Technical University of Munich - AI Lab",
+    "country": "Germany",
+    "city": "Munich",
+    "type": "university",
+    "focus": "Applied AI Research",
+    "description": "A top technical university with extensive research in artificial intelligence, machine learning, and their applications across various engineering and scientific disciplines. AI research is conducted across numerous chairs and initiatives within the university.",
+    "research_areas": [
+      "Autonomous Systems",
+      "Medical AI",
+      "Industrial AI",
+      "Human-AI Interaction",
+      "Machine Learning",
+      "Computer Vision",
+      "Natural Language Processing"
+    ],
+    "website": "https://www.cs.cit.tum.de/en/cs/research/areas/artificial-intelligence-machine-learning/",
+    "coordinates": [48.1351, 11.5820]
+  },
+  {
+    "name": "Tübingen AI Center",
+    "country": "Germany",
+    "city": "Tübingen",
+    "type": "research",
+    "focus": "Artificial intelligence, machine learning, fundamental AI research, transfer to applications",
+    "description": "A central institution for AI research in Tübingen, part of the 'Cyber Valley' ecosystem, bringing together leading AI scientists. [46]",
+    "research_areas": [
+      "Machine Learning",
+      "Computer Vision",
+      "Natural Language Processing",
+      "Robotics",
+      "Trustworthy AI",
+      "Explainable AI",
+      "Probabilistic Machine Learning",
+      "Reinforcement Learning"
+    ],
+    "website": "https://tuebingen.ai/",
+    "coordinates": [48.5228, 9.0558]
+  },
+  {
+    "name": "University of Cambridge - AI @ Cam",
+    "country": "United Kingdom",
+    "city": "Cambridge",
+    "type": "university",
+    "focus": "Artificial Intelligence, Computer Science, Technology, and related academic disciplines",
+    "description": "A world-renowned university with significant research in artificial intelligence, computer science, and related fields, conducted across various departments and centers like the Department of Computer Science and Technology. [8, 11, 29, 30]",
+    "research_areas": [
+      "Generative Models",
+      "Reinforcement Learning",
+      "Ethics in AI",
+      "Quantum Computing",
+      "Machine Learning",
+      "Natural Language Processing",
+      "Computer Vision"
+    ],
+    "website": "https://www.ai.cam.ac.uk/",
+    "coordinates": [52.2053, 0.1218]
   }
 ]

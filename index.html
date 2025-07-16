@@ -14,7 +14,7 @@
         <!-- Security Headers -->
         <meta
             http-equiv="Content-Security-Policy"
-            content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://upload.wikimedia.org https://tile.openstreetmap.org; connect-src 'self' https://tile.openstreetmap.org; frame-src 'none';"
+            content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://upload.wikimedia.org https://tile.openstreetmap.org; connect-src 'self' https://tile.openstreetmap.org; frame-src 'none'; worker-src 'self';"
         />
         <meta http-equiv="X-Content-Type-Options" content="nosniff" />
         <meta http-equiv="X-Frame-Options" content="DENY" />
@@ -76,6 +76,20 @@
                     <a href="#home" class="nav-link active" data-section="home">
                         <i data-lucide="home" class="nav-link-icon"></i>Home
                     </a>
+                    <div class="nav-dropdown">
+                        <a href="#featured" class="nav-link" data-section="featured">
+                            <i data-lucide="star" class="nav-link-icon"></i>Featured
+                            <i data-lucide="chevron-down" class="nav-dropdown-icon"></i>
+                        </a>
+                        <div class="nav-dropdown-content">
+                            <a href="#featured-initiatives" class="nav-dropdown-link" data-section="featured-initiatives">
+                                <i data-lucide="zap" class="nav-link-icon"></i>EU AI Initiatives
+                            </a>
+                            <a href="#research-areas" class="nav-dropdown-link" data-section="research-areas">
+                                <i data-lucide="book-open" class="nav-link-icon"></i>Research Areas
+                            </a>
+                        </div>
+                    </div>
                     <a
                         href="#projects"
                         class="nav-link"
@@ -105,8 +119,22 @@
                         >Resources
                     </a>
                 </div>
+                
+                <!-- Dark Mode Toggle -->
+                <div class="theme-toggle-container">
+                    <label class="theme-toggle-switch" for="theme-checkbox" aria-label="Toggle dark mode">
+                        <input type="checkbox" id="theme-checkbox" class="theme-checkbox" aria-label="Toggle between light and dark mode" />
+                        <span class="theme-slider">
+                            <span class="theme-slider-icons">
+                                <i data-lucide="sun" class="theme-icon-sun"></i>
+                                <i data-lucide="moon" class="theme-icon-moon"></i>
+                            </span>
+                        </span>
+                    </label>
+                </div>
 
                 <button
+                    type="button"
                     class="nav-toggle"
                     id="mobile-menu-btn"
                     aria-label="Toggle mobile menu"
@@ -153,6 +181,20 @@
                         <i data-lucide="library" class="mobile-nav-icon"></i
                         >Resources
                     </a>
+                    
+                    <!-- Mobile Dark Mode Toggle -->
+                    <div class="mobile-theme-toggle">
+                        <span class="mobile-theme-label">Dark Mode</span>
+                        <label class="theme-toggle-switch mobile-theme-switch" for="mobile-theme-checkbox" aria-label="Toggle dark mode">
+                            <input type="checkbox" id="mobile-theme-checkbox" class="theme-checkbox" aria-label="Toggle between light and dark mode" />
+                            <span class="theme-slider">
+                                <span class="theme-slider-icons">
+                                    <i data-lucide="sun" class="theme-icon-sun"></i>
+                                    <i data-lucide="moon" class="theme-icon-moon"></i>
+                                </span>
+                            </span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -187,7 +229,8 @@
 
                                 <div class="hero-actions">
                                     <button
-                                        class="btn btn-secondary"
+                                        type="button"
+                                        class="btn btn-secondary btn-lg"
                                         data-section="projects"
                                         aria-label="Explore Projects"
                                     >
@@ -199,7 +242,8 @@
                                     </button>
 
                                     <button
-                                        class="btn btn-primary"
+                                        type="button"
+                                        class="btn btn-primary btn-lg"
                                         data-section="institutions"
                                         aria-label="Browse Institutions"
                                     >
@@ -209,7 +253,12 @@
                                         ></i>
                                         Browse Institutions
                                     </button>
-
+                                </div>
+                                
+                                <div class="hero-hint">
+                                    <p class="hero-hint-text">
+                                        💡 Pro tip: Press <kbd>Ctrl+K</kbd> (or <kbd>Cmd+K</kbd> on Mac) for quick navigation
+                                    </p>
                                 </div>
                             </div>
 
@@ -255,7 +304,7 @@
                         </div>
 
                         <div class="stats-grid">
-                    <div class="stat-card stat-card-1 scroll-reveal scroll-reveal-up hover-lift">
+                    <div class="stat-card stat-card-1 scroll-reveal scroll-reveal-up hover-lift animate-in">
                         <div class="stat-bg-element"></div>
                         <div class="stat-content">
                             <i
@@ -274,7 +323,7 @@
                         </div>
                     </div>
 
-                    <div class="stat-card stat-card-2 scroll-reveal scroll-reveal-up hover-lift">
+                    <div class="stat-card stat-card-2 scroll-reveal scroll-reveal-up hover-lift animate-in">
                         <div class="stat-bg-element"></div>
                         <div class="stat-content">
                             <i
@@ -293,7 +342,7 @@
                         </div>
                     </div>
 
-                    <div class="stat-card stat-card-3 scroll-reveal scroll-reveal-up hover-lift">
+                    <div class="stat-card stat-card-3 scroll-reveal scroll-reveal-up hover-lift animate-in">
                         <div class="stat-bg-element"></div>
                         <div class="stat-content">
                             <i
@@ -312,7 +361,7 @@
                         </div>
                     </div>
 
-                    <div class="stat-card stat-card-4 scroll-reveal scroll-reveal-up hover-lift">
+                    <div class="stat-card stat-card-4 scroll-reveal scroll-reveal-up hover-lift animate-in">
                         <div class="stat-bg-element"></div>
                         <div class="stat-content">
                             <i
@@ -332,7 +381,8 @@
 
                         <div class="stats-cta">
                             <button
-                                class="btn btn-gradient"
+                                type="button"
+                                class="btn btn-gradient btn-lg hover-lift"
                                 data-section="resources"
                                 aria-label="Search Catalogue"
                             >
@@ -356,180 +406,10 @@
                             </p>
                         </div>
 
-                        <div class="featured-projects-grid">
-                            <div
-                                class="project-card"
-                                data-project="ai-on-demand"
-                            >
-                                <div class="project-icon">
-                                    <i data-lucide="zap"></i>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="project-title">
-                                        AI On Demand Platform
-                                    </h3>
-                                    <p class="project-description">
-                                        EU's flagship platform centralizing
-                                        trustworthy AI resources, tools,
-                                        datasets, and solutions. Supports
-                                        adoption across sectors with European
-                                        Commission strategy alignment.
-                                    </p>
-                                    <div class="project-meta">
-                                        <span class="project-tag"
-                                            >🇪🇺 EU Initiative</span
-                                        >
-                                        <span class="project-tag"
-                                            >Platform</span
-                                        >
-                                    </div>
-                                    <div class="project-link">
-                                        <span>Explore Platform</span>
-                                        <i data-lucide="external-link"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="project-card" data-project="insait">
-                                <div class="project-icon">
-                                    <i data-lucide="brain"></i>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="project-title">
-                                        INSAIT - Sofia AI Hub
-                                    </h3>
-                                    <p class="project-description">
-                                        Eastern Europe's premier AI institute at
-                                        Sofia University with ETH Zurich & EPFL.
-                                        Features €90M BRAIN++ AI factory and
-                                        Bulgarian LLMs (2.6/9/27B parameters).
-                                    </p>
-                                    <div class="project-meta">
-                                        <span class="project-tag"
-                                            >🇧🇬 Bulgaria</span
-                                        >
-                                        <span class="project-tag"
-                                            >Research Institute</span
-                                        >
-                                    </div>
-                                    <div class="project-link">
-                                        <span>Visit INSAIT</span>
-                                        <i data-lucide="external-link"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="project-card" data-project="swissgpt">
-                                <div class="project-icon">
-                                    <i data-lucide="mountain"></i>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="project-title">SwissGPT</h3>
-                                    <p class="project-description">
-                                        Falcon-based multilingual LLM by
-                                        AlpineAI, EPFL, and Swiss institutions.
-                                        Focuses on high-trust environments,
-                                        sovereignty, and Swiss language support.
-                                    </p>
-                                    <div class="project-meta">
-                                        <span class="project-tag"
-                                            >🇨🇭 Switzerland</span
-                                        >
-                                        <span class="project-tag"
-                                            >Language Model</span
-                                        >
-                                    </div>
-                                    <div class="project-link">
-                                        <span>Explore SwissGPT</span>
-                                        <i data-lucide="external-link"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="project-card" data-project="matharena">
-                                <div class="project-icon">
-                                    <i data-lucide="calculator"></i>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="project-title">MathArena</h3>
-                                    <p class="project-description">
-                                        Live LLM evaluation platform testing
-                                        models on fresh math competitions (AIME,
-                                        HMMT, USAMO). Human judges score
-                                        reasoning chains with open-source code.
-                                    </p>
-                                    <div class="project-meta">
-                                        <span class="project-tag"
-                                            >🧮 Evaluation</span
-                                        >
-                                        <span class="project-tag"
-                                            >Open Source</span
-                                        >
-                                    </div>
-                                    <div class="project-link">
-                                        <span>Visit MathArena</span>
-                                        <i data-lucide="external-link"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="project-card" data-project="adra">
-                                <div class="project-icon">
-                                    <i data-lucide="users"></i>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="project-title">
-                                        ADRA Association
-                                    </h3>
-                                    <p class="project-description">
-                                        AI, Data & Robotics Association uniting
-                                        180+ members under EU's public-private
-                                        partnership. Defines strategic roadmap
-                                        for responsible and sovereign AI.
-                                    </p>
-                                    <div class="project-meta">
-                                        <span class="project-tag"
-                                            >🤖 Partnership</span
-                                        >
-                                        <span class="project-tag">Policy</span>
-                                    </div>
-                                    <div class="project-link">
-                                        <span>Learn About ADRA</span>
-                                        <i data-lucide="external-link"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div
-                                class="project-card"
-                                data-project="eu-ai-office"
-                            >
-                                <div class="project-icon">
-                                    <i data-lucide="shield-check"></i>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="project-title">
-                                        European AI Office
-                                    </h3>
-                                    <p class="project-description">
-                                        European Commission office responsible
-                                        for EU AI Act enforcement and guidance.
-                                        Promotes responsible AI, coordinates
-                                        practices, and supports AI sandboxes.
-                                    </p>
-                                    <div class="project-meta">
-                                        <span class="project-tag"
-                                            >🏛️ EU Governance</span
-                                        >
-                                        <span class="project-tag"
-                                            >Regulation</span
-                                        >
-                                    </div>
-                                    <div class="project-link">
-                                        <span>Visit AI Office</span>
-                                        <i data-lucide="external-link"></i>
-                                    </div>
-                                </div>
+                        <div class="featured-projects-grid" id="featured-initiatives-grid">
+                            <div class="loading-state">
+                                <div class="loading-spinner"></div>
+                                <p>Loading featured initiatives...</p>
                             </div>
                         </div>
                     </div>
@@ -548,143 +428,49 @@
                             </p>
                         </div>
 
-                        <div class="featured-projects-grid">
-                            <div
-                                class="project-card"
-                                data-research-area="nlp"
-                                role="button"
-                                tabindex="0"
-                            >
-                                <div class="project-icon">
-                                    <i data-lucide="message-square"></i>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="project-title">
-                                        Natural Language Processing
-                                    </h3>
-                                    <p class="project-description">
-                                        Advanced multilingual language models,
-                                        conversational AI, and text analysis
-                                        systems from European research
-                                        institutions and industry labs.
-                                    </p>
-                                    <div class="project-meta">
-                                        <span class="project-tag"
-                                            >🗣️ Language Models</span
-                                        >
-                                        <span class="project-tag"
-                                            >Research Area</span
-                                        >
-                                    </div>
-                                    <div class="project-link">
-                                        <span>Explore NLP Resources</span>
-                                        <i data-lucide="external-link"></i>
-                                    </div>
-                                </div>
+                        <div class="featured-projects-grid" id="research-areas-grid">
+                            <div class="loading-state">
+                                <div class="loading-spinner"></div>
+                                <p>Loading research areas...</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-                            <div
-                                class="project-card"
-                                data-research-area="computer-vision"
-                                role="button"
-                                tabindex="0"
-                            >
-                                <div class="project-icon">
-                                    <i data-lucide="eye"></i>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="project-title">
-                                        Computer Vision & Multimodal AI
-                                    </h3>
-                                    <p class="project-description">
-                                        Cutting-edge visual AI, image
-                                        generation, medical imaging, and
-                                        vision-language models developed across
-                                        European research centers.
-                                    </p>
-                                    <div class="project-meta">
-                                        <span class="project-tag"
-                                            >👁️ Vision AI</span
-                                        >
-                                        <span class="project-tag"
-                                            >Research Area</span
-                                        >
-                                    </div>
-                                    <div class="project-link">
-                                        <span>Explore Vision Research</span>
-                                        <i data-lucide="external-link"></i>
-                                    </div>
-                                </div>
-                            </div>
+            <!-- Featured AI Initiatives Section -->
+            <section id="featured-initiatives" class="section hidden">
+                <div class="section-container">
+                    <div class="section-header">
+                        <h1 class="section-title">EU AI Initiatives</h1>
+                        <p class="section-description">
+                            Explore detailed information about pioneering AI initiatives and organizations 
+                            shaping Europe's AI landscape and ecosystem.
+                        </p>
+                    </div>
+                    <div id="featured-initiatives-content" class="content-grid">
+                        <div class="loading-state">
+                            <div class="loading-spinner"></div>
+                            <p>Loading AI initiatives...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-                            <div
-                                class="project-card"
-                                data-research-area="robotics"
-                                role="button"
-                                tabindex="0"
-                            >
-                                <div class="project-icon">
-                                    <i data-lucide="cpu"></i>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="project-title">
-                                        Robotics & Autonomous Systems
-                                    </h3>
-                                    <p class="project-description">
-                                        Advanced robotics research in
-                                        healthcare, manufacturing, autonomous
-                                        navigation, and human-robot
-                                        collaboration from leading EU
-                                        institutions.
-                                    </p>
-                                    <div class="project-meta">
-                                        <span class="project-tag"
-                                            >🤖 Robotics</span
-                                        >
-                                        <span class="project-tag"
-                                            >Research Area</span
-                                        >
-                                    </div>
-                                    <div class="project-link">
-                                        <span>Explore Robotics Research</span>
-                                        <i data-lucide="external-link"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div
-                                class="project-card"
-                                data-research-area="ethics"
-                                role="button"
-                                tabindex="0"
-                            >
-                                <div class="project-icon">
-                                    <i data-lucide="shield-check"></i>
-                                </div>
-                                <div class="project-content">
-                                    <h3 class="project-title">
-                                        AI Ethics & Trustworthy AI
-                                    </h3>
-                                    <p class="project-description">
-                                        Leading European research on responsible
-                                        AI development, governance frameworks,
-                                        and ethical AI guidelines compliant with
-                                        EU AI Act.
-                                    </p>
-                                    <div class="project-meta">
-                                        <span class="project-tag"
-                                            >🛡️ Ethics & Safety</span
-                                        >
-                                        <span class="project-tag"
-                                            >Research Area</span
-                                        >
-                                    </div>
-                                    <div class="project-link">
-                                        <span>Explore Ethics Research</span>
-                                        <i data-lucide="external-link"></i>
-                                    </div>
-                                </div>
-                            </div>
+            <!-- Research Areas Section -->
+            <section id="research-areas" class="section hidden">
+                <div class="section-container">
+                    <div class="section-header">
+                        <h1 class="section-title">Research Areas</h1>
+                        <p class="section-description">
+                            Discover comprehensive learning resources for AI research domains including 
+                            top YouTube channels, courses, research papers, and implementation tools.
+                        </p>
+                    </div>
+                    <div id="research-areas-content" class="content-grid">
+                        <div class="loading-state">
+                            <div class="loading-spinner"></div>
+                            <p>Loading research areas...</p>
                         </div>
                     </div>
                 </div>
@@ -864,9 +650,495 @@
                         mobileMenu.classList.add("hidden");
                     }
                 });
+
+                // Dark mode toggle functionality
+                const themeCheckbox = document.getElementById('theme-checkbox');
+                const mobileThemeCheckbox = document.getElementById('mobile-theme-checkbox');
+                const html = document.documentElement;
+
+                // Check for saved theme preference or default to light
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                
+                // Apply saved theme
+                function applyTheme(theme) {
+                    html.setAttribute('data-theme', theme);
+                    
+                    // Sync both toggles
+                    if (themeCheckbox) {
+                        themeCheckbox.checked = theme === 'dark';
+                    }
+                    if (mobileThemeCheckbox) {
+                        mobileThemeCheckbox.checked = theme === 'dark';
+                    }
+                    
+                    // Add smooth transition
+                    document.body.style.transition = 'all 0.3s ease';
+                    setTimeout(() => {
+                        document.body.style.transition = '';
+                    }, 300);
+                    
+                }
+                
+                // Initialize theme
+                applyTheme(savedTheme);
+
+                // Theme toggle event listeners
+                function handleThemeToggle() {
+                    const newTheme = this.checked ? 'dark' : 'light';
+                    
+                    localStorage.setItem('theme', newTheme);
+                    applyTheme(newTheme);
+                    
+                    // Re-create icons to ensure they display correctly
+                    if (typeof lucide !== 'undefined') {
+                        lucide.createIcons();
+                    }
+                }
+
+                if (themeCheckbox) {
+                    themeCheckbox.addEventListener('change', handleThemeToggle);
+                }
+                
+                if (mobileThemeCheckbox) {
+                    mobileThemeCheckbox.addEventListener('change', handleThemeToggle);
+                }
+
+                // System theme detection
+                if (window.matchMedia && !localStorage.getItem('theme')) {
+                    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+                    const systemTheme = mediaQuery.matches ? 'dark' : 'light';
+                    applyTheme(systemTheme);
+                    
+                    // Listen for system theme changes
+                    mediaQuery.addEventListener('change', function(e) {
+                        if (!localStorage.getItem('theme')) {
+                            const newSystemTheme = e.matches ? 'dark' : 'light';
+                            applyTheme(newSystemTheme);
+                        }
+                    });
+                }
+                
+                // Re-create icons after theme is applied
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+
+                // Load featured initiatives
+                loadFeaturedInitiatives();
+
+                // Load research areas
+                loadResearchAreas();
+
+                // Load detailed content for sections
+                loadDetailedFeaturedInitiatives();
+                loadDetailedResearchAreas();
             });
+
+            // Load featured initiatives from JSON
+            async function loadFeaturedInitiatives() {
+                try {
+                    const response = await fetch('data/featured-initiatives.json');
+                    const data = await response.json();
+                    renderFeaturedInitiatives(data.initiatives);
+                } catch (error) {
+                    console.error('Error loading featured initiatives:', error);
+                    const grid = document.getElementById('featured-initiatives-grid');
+                    if (grid) {
+                        grid.innerHTML = '<p>Error loading featured initiatives</p>';
+                    }
+                }
+            }
+
+            // Render featured initiatives
+            function renderFeaturedInitiatives(initiatives) {
+                const grid = document.getElementById('featured-initiatives-grid');
+                if (!grid) return;
+
+                grid.innerHTML = initiatives.map(initiative => `
+                    <div class="project-card hover-lift" data-project="${initiative.id}" onclick="openFeaturedPage('${initiative.id}')">
+                        <div class="project-icon">
+                            <i data-lucide="${initiative.icon}"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">${initiative.title}</h3>
+                            <p class="project-description">${initiative.description}</p>
+                            <div class="project-meta">
+                                ${initiative.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
+                            </div>
+                            <div class="project-link">
+                                <span>Learn More</span>
+                                <i data-lucide="external-link"></i>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Re-create icons after rendering
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+
+            // Open featured page
+            function openFeaturedPage(initiativeId) {
+                // Navigate to featured-initiatives section and scroll to specific item
+                navigateToSection('featured-initiatives');
+                setTimeout(() => {
+                    const element = document.getElementById(`initiative-${initiativeId}`);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }, 300);
+            }
+
+            // Load research areas from JSON
+            async function loadResearchAreas() {
+                try {
+                    const response = await fetch('data/research-areas.json');
+                    const data = await response.json();
+                    renderResearchAreas(data.research_areas);
+                } catch (error) {
+                    console.error('Error loading research areas:', error);
+                    const grid = document.getElementById('research-areas-grid');
+                    if (grid) {
+                        grid.innerHTML = '<p>Error loading research areas</p>';
+                    }
+                }
+            }
+
+            // Render research areas
+            function renderResearchAreas(areas) {
+                const grid = document.getElementById('research-areas-grid');
+                if (!grid) return;
+
+                grid.innerHTML = areas.map(area => `
+                    <div class="project-card hover-lift" data-research-area="${area.id}" onclick="openResearchAreaPage('${area.id}')">
+                        <div class="project-icon">
+                            <i data-lucide="${area.icon}"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">${area.title}</h3>
+                            <p class="project-description">${area.description}</p>
+                            <div class="project-meta">
+                                ${area.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
+                            </div>
+                            <div class="project-link">
+                                <span>Explore Resources</span>
+                                <i data-lucide="external-link"></i>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Re-create icons after rendering
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+
+            // Open research area page
+            function openResearchAreaPage(areaId) {
+                // Navigate to research-areas section and scroll to specific item
+                navigateToSection('research-areas');
+                setTimeout(() => {
+                    const element = document.getElementById(`area-${areaId}`);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }, 300);
+            }
+
+            // Navigation function
+            function navigateToSection(sectionId) {
+                // Use the main app navigation if available, otherwise fallback to inline navigation
+                if (window.app && window.app.showSection) {
+                    window.app.showSection(sectionId);
+                    return;
+                }
+                
+                // Fallback inline navigation
+                // Hide all sections
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.add('hidden');
+                    section.classList.remove('active');
+                });
+                
+                // Show target section
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.classList.remove('hidden');
+                    targetSection.classList.add('active');
+                    
+                    // Update URL hash
+                    window.location.hash = sectionId;
+                    
+                    // Update active navigation
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    document.querySelectorAll('.nav-dropdown-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    
+                    const activeLink = document.querySelector(`[data-section="${sectionId}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active');
+                    }
+                }
+            }
+
+            // Load detailed featured initiatives content
+            async function loadDetailedFeaturedInitiatives() {
+                try {
+                    const response = await fetch('data/featured-initiatives.json');
+                    const data = await response.json();
+                    renderDetailedFeaturedInitiatives(data.initiatives);
+                } catch (error) {
+                    console.error('Error loading detailed featured initiatives:', error);
+                }
+            }
+
+            // Render detailed featured initiatives
+            function renderDetailedFeaturedInitiatives(initiatives) {
+                const container = document.getElementById('featured-initiatives-content');
+                if (!container) return;
+
+                container.innerHTML = initiatives.map(initiative => `
+                    <div class="content-card" id="initiative-${initiative.id}">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i data-lucide="${initiative.icon}"></i>
+                            </div>
+                            <div class="card-title-section">
+                                <h2 class="card-title">${initiative.title}</h2>
+                                <div class="card-tags">
+                                    ${initiative.tags.map(tag => `<span class="card-tag">${tag}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-content">
+                            <p class="card-description">${initiative.description}</p>
+                            
+                            <div class="card-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Established</span>
+                                    <span class="stat-value">${initiative.details.established}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Funding</span>
+                                    <span class="stat-value">${initiative.details.funding}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Members</span>
+                                    <span class="stat-value">${initiative.details.members}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Countries</span>
+                                    <span class="stat-value">${initiative.details.countries}</span>
+                                </div>
+                            </div>
+
+                            <div class="card-section">
+                                <h3 class="section-title">Key Achievements</h3>
+                                <ul class="achievement-list">
+                                    ${initiative.details.key_achievements.map(achievement => `
+                                        <li class="achievement-item">${achievement}</li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+
+                            <div class="card-section">
+                                <h3 class="section-title">Focus Areas</h3>
+                                <div class="focus-areas-grid">
+                                    ${initiative.details.focus_areas.map(area => `
+                                        <span class="focus-area-tag">${area}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <div class="card-actions">
+                                <a href="${initiative.website}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                                    <i data-lucide="external-link"></i>
+                                    Visit Website
+                                </a>
+                                ${initiative.youtube ? `
+                                    <a href="${initiative.youtube}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                                        <i data-lucide="youtube"></i>
+                                        YouTube Channel
+                                    </a>
+                                ` : ''}
+                                <a href="mailto:${initiative.contact.email}" class="btn btn-outline">
+                                    <i data-lucide="mail"></i>
+                                    Contact
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Re-create icons after rendering
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+
+            // Load detailed research areas content
+            async function loadDetailedResearchAreas() {
+                try {
+                    const response = await fetch('data/research-areas.json');
+                    const data = await response.json();
+                    renderDetailedResearchAreas(data.research_areas);
+                } catch (error) {
+                    console.error('Error loading detailed research areas:', error);
+                }
+            }
+
+            // Render detailed research areas
+            function renderDetailedResearchAreas(areas) {
+                const container = document.getElementById('research-areas-content');
+                if (!container) return;
+
+                container.innerHTML = areas.map(area => `
+                    <div class="content-card" id="area-${area.id}">
+                        <div class="card-header">
+                            <div class="card-icon" style="background-color: ${area.color}">
+                                <i data-lucide="${area.icon}"></i>
+                            </div>
+                            <div class="card-title-section">
+                                <h2 class="card-title">${area.title}</h2>
+                                <div class="card-tags">
+                                    ${area.tags.map(tag => `<span class="card-tag">${tag}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-content">
+                            <p class="card-description">${area.overview}</p>
+                            
+                            <div class="card-section">
+                                <h3 class="section-title">Key Topics</h3>
+                                <div class="focus-areas-grid">
+                                    ${area.key_topics.map(topic => `
+                                        <span class="focus-area-tag">${topic}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <div class="card-section">
+                                <h3 class="section-title">Featured YouTube Channels</h3>
+                                <div class="channels-grid">
+                                    ${area.featured_channels.slice(0, 3).map(channel => `
+                                        <div class="channel-card">
+                                            <div class="channel-header">
+                                                <div class="channel-avatar">${channel.name.charAt(0)}</div>
+                                                <div class="channel-info">
+                                                    <h4 class="channel-name">${channel.name}</h4>
+                                                    <p class="channel-subs">${channel.subscribers} subscribers</p>
+                                                </div>
+                                            </div>
+                                            <p class="channel-desc">${channel.description}</p>
+                                            <div class="channel-actions">
+                                                <a href="${channel.youtube_url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary">
+                                                    <i data-lucide="youtube"></i>
+                                                    Visit Channel
+                                                </a>
+                                                <a href="${channel.featured_playlist.url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline">
+                                                    <i data-lucide="play-circle"></i>
+                                                    ${channel.featured_playlist.title}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <div class="card-section">
+                                <h3 class="section-title">Recommended Courses</h3>
+                                <div class="courses-grid">
+                                    ${area.courses.map(course => `
+                                        <div class="course-card">
+                                            <div class="course-header">
+                                                <i data-lucide="graduation-cap"></i>
+                                                <div>
+                                                    <h4 class="course-title">${course.title}</h4>
+                                                    <p class="course-meta">${course.institution} • ${course.level}</p>
+                                                </div>
+                                            </div>
+                                            <p class="course-instructor">Instructor: ${course.instructor}</p>
+                                            <div class="course-actions">
+                                                <a href="${course.url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-secondary">
+                                                    <i data-lucide="external-link"></i>
+                                                    Access Course
+                                                </a>
+                                                ${course.youtube_playlist ? `
+                                                    <a href="${course.youtube_playlist}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline">
+                                                        <i data-lucide="youtube"></i>
+                                                        YouTube
+                                                    </a>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <div class="card-section">
+                                <h3 class="section-title">Essential Papers</h3>
+                                <div class="papers-grid">
+                                    ${area.papers.map(paper => `
+                                        <div class="paper-card">
+                                            <div class="paper-header">
+                                                <i data-lucide="file-text"></i>
+                                                <div>
+                                                    <h4 class="paper-title">${paper.title}</h4>
+                                                    <p class="paper-meta">${paper.authors} • ${paper.year}</p>
+                                                </div>
+                                            </div>
+                                            <p class="paper-description">${paper.description}</p>
+                                            <a href="${paper.url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline">
+                                                <i data-lucide="external-link"></i>
+                                                Read Paper
+                                            </a>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <div class="card-section">
+                                <h3 class="section-title">Tools & Libraries</h3>
+                                <div class="tools-grid">
+                                    ${area.tools.map(tool => `
+                                        <div class="tool-card">
+                                            <div class="tool-header">
+                                                <i data-lucide="wrench"></i>
+                                                <div>
+                                                    <h4 class="tool-title">${tool.name}</h4>
+                                                    <p class="tool-type">${tool.type}</p>
+                                                </div>
+                                            </div>
+                                            <p class="tool-description">${tool.description}</p>
+                                            <a href="${tool.url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline">
+                                                <i data-lucide="external-link"></i>
+                                                Explore Tool
+                                            </a>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Re-create icons after rendering
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
         </script>
-        <script src="js/search-utility.js"></script>
+        <script src="js/logger.js"></script>
+        <script src="js/performance-monitor.js"></script>
+        <script src="js/page-specific-search.js"></script>
         <script src="js/main.js"></script>
     </body>
 </html>

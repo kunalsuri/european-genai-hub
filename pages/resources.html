@@ -5,236 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Resources - EU GenAI Hub</title>
     <meta name="description" content="Access research papers, datasets, tools, and other resources from European GenAI research initiatives.">
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/style.css">
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="redirect.css">
+    <script>
+        // Secure redirect to main page with hash
+        (function() {
+            'use strict';
+            // Validate current origin before redirect
+            const targetUrl = '/#resources';
+            const currentOrigin = window.location.origin;
+            
+            setTimeout(() => {
+                try {
+                    // Only redirect if on same origin
+                    if (window.location.origin === currentOrigin) {
+                        window.location.replace(targetUrl);
+                    }
+                } catch (e) {
+                    // Fallback to manual link click
+                    document.querySelector('.redirect-link').click();
+                }
+            }, 1000);
+        })();
+    </script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <h1><a href="../index.html" style="text-decoration: none; color: inherit;">EU GenAI Hub</a></h1>
-                <span class="nav-subtitle">European Generative AI Research Portal</span>
-            </div>
-            <div class="nav-menu">
-                <a href="../index.html" class="nav-link">Home</a>
-                <a href="../index.html#map" class="nav-link">Research Map</a>
-                <a href="institutions.html" class="nav-link">Institutions</a>
-                <a href="projects.html" class="nav-link">Projects</a>
-                <a href="#" class="nav-link active">Resources</a>
-            </div>
+    <div class="redirect-container">
+        <h2><span class="loading-spinner"></span>Redirecting...</h2>
+        <p>Taking you to the Resources section</p>
+        <a href="/#resources" class="redirect-link">Continue manually</a>
+        <div class="redirect-info">
+            <p>This page has moved to our new single-page application for better performance.</p>
         </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="section-header">
-            <h1>European GenAI Research Resources</h1>
-            <p>Discover research papers, datasets, tools, and other valuable resources from European Generative AI research initiatives.</p>
-        </div>
-
-        <!-- Search and Filters -->
-        <div class="search-filters">
-            <input type="text" id="resources-search" placeholder="Search resources by title, authors, or keywords...">
-            <select id="resources-filter-type">
-                <option value="all">All Types</option>
-                <option value="paper">Research Papers</option>
-                <option value="dataset">Datasets</option>
-                <option value="tool">Tools & Software</option>
-                <option value="report">Reports</option>
-                <option value="platform">Platforms</option>
-            </select>
-            <select id="resources-filter-year">
-                <option value="all">All Years</option>
-            </select>
-        </div>
-
-        <!-- Results Grid -->
-        <div id="resources-grid" class="content-grid">
-            <div class="loading">Loading research resources...</div>
-        </div>
-
-        <!-- Resource Categories Section -->
-        <section class="resource-categories" style="margin-top: 3rem; padding: 2rem 0; background: var(--neutral-color);">
-            <div class="container">
-                <h2>Resource Categories</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
-                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
-                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">📄 Research Papers</h3>
-                        <p>Academic publications, conference papers, and peer-reviewed articles on Generative AI research from European institutions.</p>
-                    </div>
-                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
-                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🗃️ Datasets</h3>
-                        <p>Training datasets, benchmarks, and data collections specifically designed for European language models and AI applications.</p>
-                    </div>
-                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
-                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🔧 Tools & Software</h3>
-                        <p>Open-source libraries, frameworks, and development tools created by European AI research communities.</p>
-                    </div>
-                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
-                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">📊 Reports & Analysis</h3>
-                        <p>Policy documents, technical reports, and analytical studies on the state of AI research in Europe.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>EU GenAI Hub</h3>
-                    <p>A comprehensive portal for European Generative AI research, fostering collaboration and knowledge sharing across the continent.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Navigation</h4>
-                    <ul>
-                        <li><a href="../index.html">Home</a></li>
-                        <li><a href="../index.html#map">Research Map</a></li>
-                        <li><a href="institutions.html">Institutions</a></li>
-                        <li><a href="projects.html">Projects</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Submit Resource</a></li>
-                        <li><a href="#">API Documentation</a></li>
-                        <li><a href="#">Data Export</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Platform Management</h4>
-                    <p>Managed by <a href="https://www.linkedin.com/in/drkualsuri/" target="_blank" rel="noopener noreferrer">Dr. Kunal Suri</a></p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 EU GenAI Hub. Supporting European AI research excellence.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="../js/search-utility.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Lucide icons
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-            
-            // Initialize page-specific functionality
-            loadResourcesData();
-        });
-
-        async function loadResourcesData() {
-            try {
-                const response = await fetch('../data/resources.json');
-                const resources = await response.json();
-                
-                // Initialize search with universal search utility
-                if (window.universalSearch) {
-                    window.universalSearch.init('resources', resources, renderResources);
-                }
-                
-                // Populate filter options
-                populateYearFilter(resources);
-                
-                // Render initial data
-                renderResources(resources);
-                
-            } catch (error) {
-                console.error('Error loading resources data:', error);
-                document.getElementById('resources-grid').innerHTML = `
-                    <div class="empty-state">
-                        <h3>Error loading data</h3>
-                        <p>Please try refreshing the page</p>
-                    </div>
-                `;
-            }
-        }
-
-        function renderResources(resources) {
-            const container = document.getElementById('resources-grid');
-            if (!container) return;
-
-            if (!resources || resources.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <h3>No resources found</h3>
-                        <p>Try adjusting your search criteria</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = resources.map(resource => `
-                <div class="content-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i data-lucide="${getResourceIcon(resource.type)}"></i>
-                        </div>
-                        <span class="card-badge">${resource.type || 'Resource'}</span>
-                    </div>
-                    <h3 class="card-title">${resource.title || 'Unknown Resource'}</h3>
-                    <div class="card-meta">
-                        <span><i data-lucide="building-2"></i> ${resource.institution || ''}</span>
-                        <span><i data-lucide="calendar"></i> ${resource.year || ''}</span>
-                    </div>
-                    <p class="card-description">${resource.description || ''}</p>
-                    <div class="card-tags">
-                        ${(resource.keywords || []).map(keyword => `<span class="tag">${keyword}</span>`).join('')}
-                    </div>
-                    ${resource.url ? `
-                        <a href="${resource.url}" class="card-link" target="_blank" rel="noopener noreferrer">
-                            <span>Access Resource</span>
-                            <i data-lucide="external-link"></i>
-                        </a>
-                    ` : ''}
-                </div>
-            `).join('');
-
-            // Reinitialize Lucide icons
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-        }
-
-        function getResourceIcon(type) {
-            const iconMap = {
-                'paper': 'file-text',
-                'dataset': 'database',
-                'tool': 'wrench',
-                'report': 'file-chart',
-                'platform': 'globe',
-                'default': 'file'
-            };
-            return iconMap[type] || iconMap.default;
-        }
-
-        function populateYearFilter(resources) {
-            const yearFilter = document.getElementById('resources-filter-year');
-            if (!yearFilter) return;
-
-            const years = [...new Set(resources.map(res => res.year).filter(Boolean))].sort().reverse();
-            
-            years.forEach(year => {
-                const option = document.createElement('option');
-                option.value = year;
-                option.textContent = year;
-                yearFilter.appendChild(option);
-            });
-        }
-    </script>
+    </div>
 </body>
 </html>

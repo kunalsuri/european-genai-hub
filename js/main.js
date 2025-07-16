@@ -8,7 +8,6 @@ class EUGenAIHub {
             institutions: [],
             projects: [],
             resources: [],
-            news: [],
             models: []
         };
         this.eventListeners = new Map(); // Track event listeners for cleanup
@@ -22,6 +21,9 @@ class EUGenAIHub {
         if (this.isDestroyed) return;
 
         try {
+            // Validate security headers
+            this.validateSecurityHeaders();
+            
             // Load minimal data first - only what's needed for the home page
             await this.loadHomeData();
 
@@ -32,13 +34,55 @@ class EUGenAIHub {
             // Show home section
             this.showSection('home');
 
-            console.log('EU GenAI Hub initialized successfully');
+            window.logger.log('EU GenAI Hub initialized successfully');
 
             // Load other data in background
             this.loadRemainingDataInBackground();
         } catch (error) {
-            console.error('Error initializing application:', error);
+            window.logger.error('Error initializing application:', error);
             this.showError('Failed to load application data. Please refresh the page.');
+            // Graceful degradation
+            this.showEmergencyMode();
+        }
+    }
+    
+    validateSecurityHeaders() {
+        try {
+            // Check for CSP header
+            const metaCSP = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+            if (!metaCSP) {
+                window.logger.warn('Content Security Policy not found');
+            }
+            
+            // Check for secure context
+            if (!window.isSecureContext && location.protocol !== 'http:') {
+                window.logger.warn('Application not running in secure context');
+            }
+            
+            // Validate against potential XSS in URL parameters
+            if (window.location.search.includes('<') || window.location.search.includes('>')) {
+                window.logger.error('Potential XSS in URL parameters');
+                window.location.search = '';
+            }
+        } catch (error) {
+            window.logger.error('Security validation error:', error);
+        }
+    }
+    
+    showEmergencyMode() {
+        try {
+            const homeSection = document.getElementById('home');
+            if (homeSection) {
+                homeSection.innerHTML = `
+                    <div class="emergency-mode">
+                        <h2>Service Temporarily Unavailable</h2>
+                        <p>We're experiencing technical difficulties. Please try refreshing the page.</p>
+                        <button onclick="location.reload()" class="btn btn-primary">Refresh Page</button>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            window.logger.error('Emergency mode failed:', error);
         }
     }
 
@@ -51,7 +95,7 @@ class EUGenAIHub {
 
             this.data.institutions = this.sanitizeData(institutions);
         } catch (error) {
-            console.error('Error loading home data:', error);
+            window.logger.error('Error loading home data:', error);
             this.data.institutions = [];
         }
     }
@@ -72,7 +116,7 @@ class EUGenAIHub {
             // Update stats after all data is loaded
             this.initStats();
         } catch (error) {
-            console.error('Error loading background data:', error);
+            window.logger.error('Error loading background data:', error);
         }
     }
 
@@ -140,8 +184,8 @@ class EUGenAIHub {
     }
 
     initNavigation() {
-        // Navigation links
-        const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link, .footer-link');
+        // Navigation links - include dropdown links
+        const navLinks = document.querySelectorAll('.nav-link, .nav-dropdown-link, .mobile-nav-link, .footer-link');
         navLinks.forEach(link => {
             const listener = (e) => {
                 e.preventDefault();
@@ -167,52 +211,6 @@ class EUGenAIHub {
 
             this.addEventListener(button, 'click', listener);
         });
-
-        // Featured research area cards
-        const featuredCards = document.querySelectorAll('.project-card[data-research-area]');
-        featuredCards.forEach(card => {
-            const listener = (e) => {
-                e.preventDefault();
-                const researchArea = card.dataset.researchArea;
-                this.showResearchAreaResources(researchArea);
-            };
-
-            this.addEventListener(card, 'click', listener);
-
-            // Add keyboard support
-            const keyListener = (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    const researchArea = card.dataset.researchArea;
-                    this.showResearchAreaResources(researchArea);
-                }
-            };
-
-            this.addEventListener(card, 'keydown', keyListener);
-        });
-
-        // Featured project cards
-        const projectCards = document.querySelectorAll('.project-card[data-project]');
-        projectCards.forEach(card => {
-            const listener = (e) => {
-                e.preventDefault();
-                const project = card.dataset.project;
-                this.showProjectDetails(project);
-            };
-
-            this.addEventListener(card, 'click', listener);
-
-            // Add keyboard support
-            const keyListener = (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    const project = card.dataset.project;
-                    this.showProjectDetails(project);
-                }
-            };
-
-            this.addEventListener(card, 'keydown', keyListener);
-        });
     }
 
     addEventListener(element, event, handler) {
@@ -225,120 +223,13 @@ class EUGenAIHub {
         this.eventListeners.get(element).push({ event, handler });
     }
 
-    showResearchAreaResources(researchArea) {
-        if (this.isDestroyed) return;
-
-        // Navigate to resources section and filter by research area
-        this.showSection('resources');
-
-        // Wait for resources to load, then apply filter
-        setTimeout(() => {
-            this.filterResourcesByArea(researchArea);
-        }, 500);
-    }
-
-    filterResourcesByArea(researchArea) {
-        if (!this.data.resources || !Array.isArray(this.data.resources)) return;
-
-        // Map research areas to filter terms
-        const areaMap = {
-            'nlp': ['Natural Language Processing', 'NLP', 'Language Model', 'Text', 'Conversational AI', 'Multilingual'],
-            'computer-vision': ['Computer Vision', 'Vision', 'Image', 'Visual', 'Multimodal', 'Video', 'Medical Imaging'],
-            'robotics': ['Robotics', 'Autonomous', 'Robot', 'Navigation', 'Manipulation', 'Human-Robot'],
-            'ethics': ['Ethics', 'Trustworthy', 'Safety', 'Governance', 'Responsible AI', 'Fairness', 'Bias']
-        };
-
-        const searchTerms = areaMap[researchArea] || [];
-
-        // Filter resources based on research area
-        const filteredResources = this.data.resources.filter(resource => {
-            const searchFields = [
-                resource.title,
-                resource.description,
-                resource.type,
-                resource.institution,
-                ...(resource.keywords || []),
-                ...(resource.research_areas || []),
-                ...(resource.authors || [])
-            ].join(' ').toLowerCase();
-
-            return searchTerms.some(term => 
-                searchFields.toLowerCase().includes(term.toLowerCase())
-            );
-        });
-
-        // Update the resources display
-        this.renderResourcesGrid(filteredResources);
-
-        // Update search input to show what was filtered
-        const searchInput = document.getElementById('resources-search');
-        if (searchInput && searchTerms.length > 0) {
-            searchInput.value = searchTerms[0];
-            searchInput.focus();
-        }
-    }
-
-    showProjectDetails(project) {
-        if (this.isDestroyed) return;
-
-        // Navigate to resources section and filter by project
-        this.showSection('resources');
-
-        // Wait for resources to load, then apply project filter
-        setTimeout(() => {
-            this.filterResourcesByProject(project);
-        }, 500);
-    }
-
-    filterResourcesByProject(project) {
-        if (!this.data.resources || !Array.isArray(this.data.resources)) return;
-
-        // Map projects to search terms
-        const projectMap = {
-            'ai-on-demand': ['AI On Demand', 'AIOD', 'European AI', 'AI4Europe'],
-            'insait': ['INSAIT', 'Sofia', 'Bulgaria', 'Eastern Europe', 'BRAIN++'],
-            'swissgpt': ['SwissGPT', 'AlpineAI', 'Swiss', 'Switzerland', 'Falcon'],
-            'matharena': ['MathArena', 'Mathematics', 'Evaluation', 'AIME', 'Competition'],
-            'adra': ['ADRA', 'AI Data Robotics', 'Partnership', 'Association'],
-            'eu-ai-office': ['European AI Office', 'AI Act', 'Governance', 'Regulation', 'European Commission']
-        };
-
-        const searchTerms = projectMap[project] || [];
-
-        // Filter resources based on project
-        const filteredResources = this.data.resources.filter(resource => {
-            const searchFields = [
-                resource.title,
-                resource.description,
-                resource.institution,
-                ...(resource.keywords || []),
-                ...(resource.research_areas || []),
-                ...(resource.authors || [])
-            ].join(' ').toLowerCase();
-
-            return searchTerms.some(term => 
-                searchFields.toLowerCase().includes(term.toLowerCase())
-            );
-        });
-
-        // Update the resources display
-        this.renderResourcesGrid(filteredResources);
-
-        // Update search input to show what was filtered
-        const searchInput = document.getElementById('resources-search');
-        if (searchInput && searchTerms.length > 0) {
-            searchInput.value = searchTerms[0];
-            searchInput.focus();
-        }
-    }
-
     showSection(sectionName) {
         if (this.isDestroyed) return;
 
         // Validate section name to prevent XSS
-        const allowedSections = ['home', 'map', 'institutions', 'projects', 'models', 'resources'];
+        const allowedSections = ['home', 'institutions', 'projects', 'models', 'resources', 'featured-initiatives', 'research-areas'];
         if (!allowedSections.includes(sectionName)) {
-            console.warn('Invalid section name:', sectionName);
+            window.logger.warn('Invalid section name:', sectionName);
             return;
         }
 
@@ -393,11 +284,17 @@ class EUGenAIHub {
                 case 'models':
                     this.renderModels();
                     break;
+                case 'featured-initiatives':
+                    this.renderFeaturedInitiatives();
+                    break;
+                case 'research-areas':
+                    this.renderResearchAreas();
+                    break;
             }
 
             this.loadedSections.add(sectionName);
         } catch (error) {
-            console.error(`Error loading ${sectionName} content:`, error);
+            window.logger.error(`Error loading ${sectionName} content:`, error);
             this.showSectionError(sectionName);
         }
     }
@@ -427,14 +324,13 @@ class EUGenAIHub {
                 new Set(this.data.institutions.map(inst => inst.country).filter(Boolean)).size : 0
         };
 
-        // Add models count
-        const modelsCount = Array.isArray(this.data.models) ? this.data.models.length : 0;
+        // Models count is included in the general statistics calculation
         
         // Animate counters with bounds checking
         this.animateCounter('institutions-count', Math.min(stats.institutions, 9999));
         this.animateCounter('projects-count', Math.min(stats.projects, 9999));
         this.animateCounter('resources-count', Math.min(stats.resources, 9999));
-        this.animateCounter('models-count', Math.min(modelsCount, 9999));
+        this.animateCounter('countries-count', Math.min(stats.countries, 9999));
     }
 
     animateCounter(elementId, targetValue) {
@@ -512,10 +408,10 @@ class EUGenAIHub {
         this.populateFilterOptions('institutions-filter-country', 
             [...new Set(this.data.institutions.map(inst => inst.country).filter(Boolean))]);
 
-        // Initialize search with universal search utility
+        // Initialize search with page-specific search manager
         setTimeout(() => {
-            if (window.universalSearch && this.data.institutions) {
-                window.universalSearch.init('institutions', this.data.institutions, (filteredData) => {
+            if (window.institutionsSearchManager && this.data.institutions) {
+                window.institutionsSearchManager.init(this.data.institutions, (filteredData) => {
                     this.renderInstitutionsGrid(filteredData);
                 });
             }
@@ -527,11 +423,13 @@ class EUGenAIHub {
         }
     }
 
-    renderInstitutionsGrid() {
+    renderInstitutionsGrid(customData = null) {
         const container = document.getElementById('institutions-grid');
         if (!container || this.isDestroyed) return;
 
-        container.innerHTML = this.data.institutions.map(institution => `
+        const institutionsToRender = customData || this.data.institutions || [];
+
+        container.innerHTML = institutionsToRender.map(institution => `
             <div class="content-card">
                 <div class="card-header">
                     <div class="card-icon">
@@ -612,12 +510,6 @@ class EUGenAIHub {
                                 <option value="planned">Planned</option>
                             </select>
                         </div>
-                        <div class="filter-group">
-                            <i data-lucide="layers" class="filter-icon"></i>
-                            <select id="projects-filter-area" class="filter-select" aria-label="Filter by research area">
-                                <option value="all">All Research Areas</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
 
@@ -626,12 +518,11 @@ class EUGenAIHub {
         `;
 
         this.renderProjectsGrid();
-        this.populateProjectFilters();
 
-        // Initialize search with universal search utility
+        // Initialize search with page-specific search manager
         setTimeout(() => {
-            if (window.universalSearch && this.data.projects) {
-                window.universalSearch.init('projects', this.data.projects, (filteredData) => {
+            if (window.projectsSearchManager && this.data.projects) {
+                window.projectsSearchManager.init(this.data.projects, (filteredData) => {
                     this.renderProjectsGrid(filteredData);
                 });
             }
@@ -648,23 +539,6 @@ class EUGenAIHub {
         if (!container || this.isDestroyed) return;
 
         const projectsToRender = customData || this.data.projects || [];
-
-        if (!Array.isArray(projectsToRender) || projectsToRender.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <i data-lucide="search-x" class="empty-icon"></i>
-                    <h3>No projects found</h3>
-                    <p>Try adjusting your search criteria or browse all projects</p>
-                    <button class="btn btn-primary" onclick="window.euGenAIHub.renderProjectsGrid()">
-                        Show All Projects
-                    </button>
-                </div>
-            `;
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-            return;
-        }
 
         container.innerHTML = projectsToRender.map(project => `
             <div class="content-card">
@@ -695,51 +569,23 @@ class EUGenAIHub {
                 </p>
 
                 ${project.technologies && Array.isArray(project.technologies) ? `
-                    <div class="card-section">
-                        <h4 class="card-section-title">Key Technologies</h4>
-                        <div class="card-tags">
-                            ${project.technologies.slice(0, 3).map(tech => 
-                                `<span class="tag tag-primary">${this.escapeHtml(tech)}</span>`
-                            ).join('')}
-                            ${project.technologies.length > 3 ? 
-                                `<span class="tag">+${project.technologies.length - 3} more</span>` : ''
-                            }
-                        </div>
+                    <div class="card-tags">
+                        ${project.technologies.slice(0, 3).map(tech => 
+                            `<span class="tag tag-primary">${this.escapeHtml(tech)}</span>`
+                        ).join('')}
+                        ${project.technologies.length > 3 ? 
+                            `<span class="tag">+${project.technologies.length - 3} more</span>` : ''
+                        }
                     </div>
                 ` : ''}
 
-                ${project.participants && Array.isArray(project.participants) ? `
-                    <div class="card-section">
-                        <h4 class="card-section-title">Research Partners</h4>
-                        <div class="card-tags">
-                            ${project.participants.slice(0, 4).map(partner => 
-                                `<span class="tag">${this.escapeHtml(partner)}</span>`
-                            ).join('')}
-                            ${project.participants.length > 4 ? 
-                                `<span class="tag">+${project.participants.length - 4} more</span>` : ''
-                            }
-                        </div>
-                    </div>
+                ${project.website ? `
+                    <a href="${this.sanitizeUrl(project.website)}" target="_blank" rel="noopener noreferrer"
+                       class="card-link">
+                        <span>Visit Project</span>
+                        <i data-lucide="external-link"></i>
+                    </a>
                 ` : ''}
-                <div class="card-footer">
-                    <div class="card-tags">
-                        ${(project.technologies || []).slice(0, 3).map(tech => 
-                            `<span class="card-tag">${this.escapeHtml(tech)}</span>`
-                        ).join('')}
-                    </div>
-                    <div class="card-participants">
-                        <i data-lucide="users"></i>
-                        <span>${(project.participants || []).length} partners</span>
-                    </div>
-                    ${project.website ? `
-                        <div class="card-link">
-                            <a href="${this.escapeHtml(project.website)}" target="_blank" rel="noopener noreferrer" class="project-link">
-                                <span>Visit Project</span>
-                                <i data-lucide="external-link"></i>
-                            </a>
-                        </div>
-                    ` : ''}
-                </div>
             </div>
         `).join('');
 
@@ -747,53 +593,6 @@ class EUGenAIHub {
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
-    }
-
-    populateProjectFilters() {
-        if (!this.data.projects || this.data.projects.length === 0) return;
-
-        const areaFilter = document.getElementById('projects-filter-area');
-        if (areaFilter) {
-            const technologies = [...new Set(this.data.projects.flatMap(proj => proj.technologies || []))];
-            const categories = [...new Set(this.data.projects.map(proj => proj.category).filter(Boolean))];
-            const areas = [...new Set([...technologies, ...categories])].sort();
-
-            areas.forEach(area => {
-                const option = document.createElement('option');
-                option.value = area;
-                option.textContent = area;
-                areaFilter.appendChild(option);
-            });
-        }
-    }
-
-    applyProjectFilters() {
-        const searchInput = document.getElementById('projects-search');
-        const statusFilter = document.getElementById('projects-filter-status');
-        const areaFilter = document.getElementById('projects-filter-area');
-
-        const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
-        const selectedStatus = statusFilter ? statusFilter.value : 'all';
-        const selectedArea = areaFilter ? areaFilter.value : 'all';
-
-        const filteredData = this.data.projects.filter(project => {
-            const matchesSearch = !searchTerm || 
-                project.title.toLowerCase().includes(searchTerm) ||
-                (project.description && project.description.toLowerCase().includes(searchTerm)) ||
-                (project.technologies && project.technologies.some(tech => tech.toLowerCase().includes(searchTerm))) ||
-                (project.participants && project.participants.some(participant => participant.toLowerCase().includes(searchTerm))) ||
-                (project.category && project.category.toLowerCase().includes(searchTerm));
-
-            const matchesStatus = selectedStatus === 'all' || project.status.toLowerCase() === selectedStatus.toLowerCase();
-
-            const matchesArea = selectedArea === 'all' || 
-                (project.technologies && project.technologies.includes(selectedArea)) ||
-                (project.category && project.category.toLowerCase().includes(selectedArea.toLowerCase()));
-
-            return matchesSearch && matchesStatus && matchesArea;
-        });
-
-        this.renderProjectsGrid(filteredData);
     }
 
     renderResources() {
@@ -829,12 +628,6 @@ class EUGenAIHub {
                                 <option value="report">Reports</option>
                             </select>
                         </div>
-                        <div class="filter-group">
-                            <i data-lucide="calendar" class="filter-icon"></i>
-                            <select id="resources-filter-year" class="filter-select" aria-label="Filter by year">
-                                <option value="all">All Years</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
 
@@ -843,13 +636,11 @@ class EUGenAIHub {
         `;
 
         this.renderResourcesGrid();
-        this.populateFilterOptions('resources-filter-year', 
-            [...new Set(this.data.resources.map(res => res.year).filter(Boolean))].sort().reverse());
 
-        // Initialize search with universal search utility
+        // Initialize search with page-specific search manager
         setTimeout(() => {
-            if (window.universalSearch && this.data.resources) {
-                window.universalSearch.init('resources', this.data.resources, (filteredData) => {
+            if (window.resourcesSearchManager && this.data.resources) {
+                window.resourcesSearchManager.init(this.data.resources, (filteredData) => {
                     this.renderResourcesGrid(filteredData);
                 });
             }
@@ -866,22 +657,6 @@ class EUGenAIHub {
         if (!container || this.isDestroyed) return;
 
         const resourcesToRender = customData || this.data.resources || [];
-
-        if (!Array.isArray(resourcesToRender) || resourcesToRender.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <i data-lucide="search-x" class="empty-icon"></i>
-                    <h3>No resources found</h3>                    <p>Try adjusting your search criteria or browse all resources</p>
-                    <button class="btn btn-primary" onclick="window.euGenAIHub.renderResourcesGrid()">
-                        Show All Resources
-                    </button>
-                </div>
-            `;
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-            return;
-        }
 
         container.innerHTML = resourcesToRender.map(resource => `
             <div class="content-card">
@@ -912,30 +687,13 @@ class EUGenAIHub {
                 </p>
 
                 ${resource.keywords && Array.isArray(resource.keywords) ? `
-                    <div class="card-section">
-                        <h4 class="card-section-title">Keywords</h4>
-                        <div class="card-tags">
-                            ${resource.keywords.slice(0, 3).map(keyword => 
-                                `<span class="tag tag-primary">${this.escapeHtml(keyword)}</span>`
-                            ).join('')}
-                            ${resource.keywords.length > 3 ? 
-                                `<span class="tag">+${resource.keywords.length - 3} more</span>` : ''
-                            }
-                        </div>
-                    </div>
-                ` : ''}
-
-                ${resource.authors && Array.isArray(resource.authors) ? `
-                    <div class="card-section">
-                        <h4 class="card-section-title">Authors</h4>
-                        <div class="card-tags">
-                            ${resource.authors.slice(0, 3).map(author => 
-                                `<span class="tag">${this.escapeHtml(author)}</span>`
-                            ).join('')}
-                            ${resource.authors.length > 3 ? 
-                                `<span class="tag">+${resource.authors.length - 3} more</span>` : ''
-                            }
-                        </div>
+                    <div class="card-tags">
+                        ${resource.keywords.slice(0, 3).map(keyword => 
+                            `<span class="tag tag-primary">${this.escapeHtml(keyword)}</span>`
+                        ).join('')}
+                        ${resource.keywords.length > 3 ? 
+                            `<span class="tag">+${resource.keywords.length - 3} more</span>` : ''
+                        }
                     </div>
                 ` : ''}
 
@@ -968,74 +726,38 @@ class EUGenAIHub {
             <div class="section-container">
                 <div class="section-header">
                     <h2 class="section-title">European LLM/VLM Models</h2>
-                    <p class="section-description">
-                        Comprehensive overview of Large Language Models and Vision-Language Models developed across European research initiatives
-                    </p>
+                    <p class="section-description">Large Language Models and Vision-Language Models from European research</p>
                 </div>
 
                 <div class="filter-wrapper">
                     <div class="filter-container">
                         <div class="filter-group">
                             <i data-lucide="search" class="filter-icon"></i>
-                            <input type="text" id="models-search" placeholder="Search models, projects, or partners..." 
+                            <input type="text" id="models-search" placeholder="Search models..." 
                                    class="filter-input" maxlength="100" autocomplete="off">
                         </div>
                         <div class="filter-group">
                             <i data-lucide="brain" class="filter-icon"></i>
-                            <select id="models-filter-type" class="filter-select" aria-label="Filter by model type">
-                                <option value="all">All Model Types</option>
+                            <select id="models-filter-type" class="filter-select" aria-label="Filter by type">
+                                <option value="all">All Types</option>
                                 <option value="LLM">Large Language Models</option>
                                 <option value="VLM">Vision-Language Models</option>
-                                <option value="Multimodal">Multimodal Models</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <i data-lucide="activity" class="filter-icon"></i>
-                            <select id="models-filter-status" class="filter-select" aria-label="Filter by status">
-                                <option value="all">All Status</option>
-                                <option value="active">Active Development</option>
-                                <option value="released">Released</option>
-                                <option value="research">Research Phase</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <div class="table-wrapper">
-                    <div class="table-container">
-                        <table class="models-table">
-                            <thead class="table-header">
-                                <tr>
-                                    <th>Project Name</th>
-                                    <th>Model Type</th>
-                                    <th>Models Developed</th>
-                                    <th>Key Partners</th>
-                                    <th>Funding</th>
-                                    <th>Status</th>
-                                    <th>Languages</th>
-                                    <th>Details</th>
-                                </tr>
-                            </thead>
-                            <tbody id="models-table-body">
-                                <!-- Model data will be populated here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="table-note">
-                    <p>Data based on the International Open-Source LLM Builders Summit held in Geneva during ITU's AI for Good</p>
-                </div>
+                <div id="models-grid" class="content-grid"></div>
             </div>
         `;
 
-        this.renderModelsTable();
+        this.renderModelsGrid();
 
-        // Initialize search with universal search utility
+        // Initialize search with page-specific search manager
         setTimeout(() => {
-            if (window.universalSearch && this.data.models) {
-                window.universalSearch.init('models', this.data.models, (filteredData) => {
-                    this.updateModelsTable(filteredData);
+            if (window.modelsSearchManager && this.data.models) {
+                window.modelsSearchManager.init(this.data.models, (filteredData) => {
+                    this.renderModelsGrid(filteredData);
                 });
             }
         }, 100);
@@ -1046,184 +768,59 @@ class EUGenAIHub {
         }
     }
 
-    applyModelsFilters() {
-        const searchInput = document.getElementById('models-search');
-        const typeFilter = document.getElementById('models-filter-type');
-        const statusFilter = document.getElementById('models-filter-status');
+    renderModelsGrid(customData = null) {
+        const container = document.getElementById('models-grid');
+        if (!container || this.isDestroyed) return;
 
-        const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
-        const selectedType = typeFilter ? typeFilter.value : 'all';
-        const selectedStatus = statusFilter ? statusFilter.value : 'all';
+        const modelsToRender = customData || this.data.models || [];
 
-        const filteredData = this.data.models.filter(model => {
-            const matchesSearch = !searchTerm || 
-                (model.project_name && model.project_name.toLowerCase().includes(searchTerm)) ||
-                (model.models_developed && model.models_developed.some(m => m.toLowerCase().includes(searchTerm))) ||
-                (model.key_partners && model.key_partners.some(p => p.toLowerCase().includes(searchTerm))) ||
-                (model.languages && model.languages.some(l => l.toLowerCase().includes(searchTerm)));
-
-            const matchesType = selectedType === 'all' || model.model_type === selectedType;
-            const matchesStatus = selectedStatus === 'all' || model.status.toLowerCase() === selectedStatus.toLowerCase();
-
-            return matchesSearch && matchesType && matchesStatus;
-        });
-
-        this.updateModelsTable(filteredData);
-    }
-
-    updateModelsTable(models) {
-        const tbody = document.getElementById('models-table-body');
-        if (!tbody) return;
-
-        if (!Array.isArray(models) || models.length === 0) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="8" class="table-empty">
-                        <div class="empty-state">
-                            <i data-lucide="search-x" class="empty-icon"></i>
-                            <h3>No models found</h3>
-                            <p>Try adjusting your search or filter criteria</p>
-                        </div>
-                    </td>
-                </tr>
-            `;
-            return;
-        }
-
-        tbody.innerHTML = models.map(model => `
-            <tr class="table-row">
-                <td class="table-cell">
-                    <div class="table-cell-main">${this.escapeHtml(model.project_name || 'Unknown')}</div>
-                    <div class="table-cell-sub">${this.escapeHtml(model.year || 'Unknown')}</div>
-                </td>
-                <td class="table-cell">
-                    <span class="table-badge table-badge-${this.getModelTypeColor(model.model_type)}">
+        container.innerHTML = modelsToRender.map(model => `
+            <div class="content-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i data-lucide="brain"></i>
+                    </div>
+                    <span class="card-badge card-badge-${this.getTypeColor(model.model_type)}">
                         ${this.escapeHtml(model.model_type || 'Unknown')}
                     </span>
-                </td>
-                <td class="table-cell">
-                    <div class="table-tags">
-                        ${Array.isArray(model.models_developed) ? 
-                            model.models_developed.slice(0, 2).map(modelName => 
-                                `<span class="table-tag">${this.escapeHtml(modelName)}</span>`
-                            ).join('') : ''
-                        }
-                        ${Array.isArray(model.models_developed) && model.models_developed.length > 2 ? 
-                            `<span class="table-tag">+${model.models_developed.length - 2}</span>` : ''
-                        }
-                    </div>
-                </td>
-                <td class="table-cell">
-                    <div class="table-cell-content">
-                        ${Array.isArray(model.key_partners) ? 
-                            model.key_partners.slice(0, 2).map(partner => this.escapeHtml(partner)).join(', ') : 'Unknown'
-                        }
-                        ${Array.isArray(model.key_partners) && model.key_partners.length > 2 ? 
-                            `<br><span class="table-cell-sub">+${model.key_partners.length - 2} more</span>` : ''
-                        }
-                    </div>
-                </td>
-                <td class="table-cell">
-                    <div class="table-cell-main">${this.escapeHtml(model.funding || 'N/A')}</div>
-                </td>
-                <td class="table-cell">
-                    <span class="table-badge table-badge-${this.getStatusColor(model.status)}">
-                        ${this.escapeHtml(model.status || 'Unknown')}
-                    </span>
-                </td>
-                <td class="table-cell">
-                    <div class="table-cell-content">
-                        ${Array.isArray(model.languages) ? 
-                            model.languages.slice(0, 3).join(', ') : 'Unknown'
-                        }
-                        ${Array.isArray(model.languages) && model.languages.length > 3 ? 
-                            `<br><span class="table-cell-sub">+${model.languages.length - 3} more</span>` : ''
-                        }
-                    </div>
-                </td>
-                <td class="table-cell">
-                    ${model.url ? `
-                        <a href="${this.sanitizeUrl(model.url)}" target="_blank" rel="noopener noreferrer"
-                           class="table-link">
-                            <i data-lucide="external-link"></i>
-                            View
-                        </a>
-                    ` : ''}
-                </td>
-            </tr>
-        `).join('');
+                </div>
 
-        // Reinitialize Lucide icons
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    }
+                <h3 class="card-title">${this.escapeHtml(model.project_name || 'Unknown Model')}</h3>
 
-    renderModelsTable() {
-        const tbody = document.getElementById('models-table-body');
-        if (!tbody || this.isDestroyed) return;
+                <div class="card-meta-grid">
+                    <div class="card-meta">
+                        <i data-lucide="calendar"></i>
+                        <span>${this.escapeHtml(model.year || 'Unknown')}</span>
+                    </div>
+                    <div class="card-meta">
+                        <i data-lucide="users"></i>
+                        <span>${Array.isArray(model.key_partners) ? model.key_partners.length : 0} partners</span>
+                    </div>
+                </div>
 
-        tbody.innerHTML = this.data.models.map(model => `
-            <tr class="table-row">
-                <td class="table-cell">
-                    <div class="table-cell-main">${this.escapeHtml(model.project_name || 'Unknown')}</div>
-                    <div class="table-cell-sub">${this.escapeHtml(model.year || 'Unknown')}</div>
-                </td>
-                <td class="table-cell">
-                    <span class="table-badge table-badge-${this.getModelTypeColor(model.model_type)}">
-                        ${this.escapeHtml(model.model_type || 'Unknown')}
-                    </span>
-                </td>
-                <td class="table-cell">
-                    <div class="table-tags">
-                        ${Array.isArray(model.models_developed) ? 
-                            model.models_developed.slice(0, 2).map(modelName => 
-                                `<span class="table-tag">${this.escapeHtml(modelName)}</span>`
-                            ).join('') : ''
-                        }
-                        ${Array.isArray(model.models_developed) && model.models_developed.length > 2 ? 
-                            `<span class="table-tag">+${model.models_developed.length - 2}</span>` : ''
+                <p class="card-description">
+                    ${this.escapeHtml(this.truncateText(model.description || '', 150))}
+                </p>
+
+                ${model.languages && Array.isArray(model.languages) ? `
+                    <div class="card-tags">
+                        ${model.languages.slice(0, 3).map(lang => 
+                            `<span class="tag tag-primary">${this.escapeHtml(lang)}</span>`
+                        ).join('')}
+                        ${model.languages.length > 3 ? 
+                            `<span class="tag">+${model.languages.length - 3} more</span>` : ''
                         }
                     </div>
-                </td>
-                <td class="table-cell">
-                    <div class="table-cell-content">
-                        ${Array.isArray(model.key_partners) ? 
-                            model.key_partners.slice(0, 2).map(partner => this.escapeHtml(partner)).join(', ') : 'Unknown'
-                        }
-                        ${Array.isArray(model.key_partners) && model.key_partners.length > 2 ? 
-                            `<br><span class="table-cell-sub">+${model.key_partners.length - 2} more</span>` : ''
-                        }
-                    </div>
-                </td>
-                <td class="table-cell">
-                    <div class="table-cell-main">${this.escapeHtml(model.funding || 'N/A')}</div>
-                </td>
-                <td class="table-cell">
-                    <span class="table-badge table-badge-${this.getStatusColor(model.status)}">
-                        ${this.escapeHtml(model.status || 'Unknown')}
-                    </span>
-                </td>
-                <td class="table-cell">
-                    <div class="table-cell-content">
-                        ${Array.isArray(model.languages) ? 
-                            model.languages.slice(0, 3).join(', ') : 'Unknown'
-                        }
-                        ${Array.isArray(model.languages) && model.languages.length > 3 ? 
-                            `<br><span class="table-cell-sub">+${model.languages.length - 3} more</span>` : ''
-                        }
-                    </div>
-                </td>
-                <td class="table-cell">
-                    ${model.url ? `
-                        <a href="${this.sanitizeUrl(model.url)}" target="_blank" rel="noopener noreferrer"
-                           class="table-link">
-                            <i data-lucide="external-link"></i>
-                            View
-                        </a>
-                    ` : ''}
-                </td>
-            </tr>
+                ` : ''}
+
+                ${model.url ? `
+                    <a href="${this.sanitizeUrl(model.url)}" target="_blank" rel="noopener noreferrer"
+                       class="card-link">
+                        <span>View Model</span>
+                        <i data-lucide="external-link"></i>
+                    </a>
+                ` : ''}
+            </div>
         `).join('');
 
         // Reinitialize Lucide icons
@@ -1265,6 +862,14 @@ class EUGenAIHub {
             models: {
                 title: 'No Models Found',
                 message: 'No model information is available at the moment.'
+            },
+            'featured-initiatives': {
+                title: 'No Featured Initiatives Found',
+                message: 'Featured initiatives data is not available at the moment.'
+            },
+            'research-areas': {
+                title: 'No Research Areas Found',
+                message: 'Research areas data is not available at the moment.'
             }
         };
 
@@ -1297,7 +902,7 @@ class EUGenAIHub {
         }, 5000);
     }
 
-    // Utility functions with security improvements
+    // Utility functions
     escapeHtml(text) {
         if (typeof text !== 'string') return '';
         const div = document.createElement('div');
@@ -1307,12 +912,31 @@ class EUGenAIHub {
 
     sanitizeUrl(url) {
         if (typeof url !== 'string') return '#';
+        
+        // Block dangerous protocols
+        const dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:', 'ftp:'];
+        for (const protocol of dangerousProtocols) {
+            if (url.toLowerCase().startsWith(protocol)) {
+                return '#';
+            }
+        }
+        
         try {
             const urlObj = new URL(url);
-            // Only allow https and http protocols
             if (!['https:', 'http:'].includes(urlObj.protocol)) {
                 return '#';
             }
+            
+            // Block localhost/private networks for security
+            const hostname = urlObj.hostname.toLowerCase();
+            if (hostname === 'localhost' || 
+                hostname.startsWith('127.') || 
+                hostname.startsWith('192.168.') || 
+                hostname.startsWith('10.') || 
+                hostname.startsWith('172.')) {
+                return '#';
+            }
+            
             return url;
         } catch {
             return '#';
@@ -1373,15 +997,6 @@ class EUGenAIHub {
         return icons[type] || 'file-text';
     }
 
-    getModelTypeColor(type) {
-        const colors = {
-            'LLM': 'blue',
-            'VLM': 'purple',
-            'Multimodal': 'pink'
-        };
-        return colors[type] || 'gray';
-    }
-
     getTypeColor(type) {
         const colors = {
             'university': 'blue',
@@ -1390,7 +1005,9 @@ class EUGenAIHub {
             'paper': 'blue',
             'dataset': 'green',
             'tool': 'purple',
-            'report': 'orange'
+            'report': 'orange',
+            'LLM': 'blue',
+            'VLM': 'purple'
         };
         return colors[type] || 'gray';
     }
@@ -1406,24 +1023,266 @@ class EUGenAIHub {
         return colors[status] || 'gray';
     }
 
+    // Featured sections rendering
+    async renderFeaturedInitiatives() {
+        const container = document.getElementById('featured-initiatives-content');
+        if (!container || this.isDestroyed) return;
+
+        try {
+            // Load featured initiatives data
+            const response = await this.fetchWithTimeout('data/featured-initiatives.json', 5000);
+            const data = await response.json();
+            
+            if (!data.initiatives || !Array.isArray(data.initiatives)) {
+                container.innerHTML = this.getEmptyState('featured-initiatives');
+                return;
+            }
+
+            // Render featured initiatives content
+            container.innerHTML = data.initiatives.map(initiative => `
+                <div class="content-card" id="initiative-${initiative.id}">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i data-lucide="${initiative.icon}"></i>
+                        </div>
+                        <div class="card-title-section">
+                            <h2 class="card-title">${this.escapeHtml(initiative.title)}</h2>
+                            <div class="card-tags">
+                                ${initiative.tags.map(tag => `<span class="card-tag">${this.escapeHtml(tag)}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-content">
+                        <p class="card-description">${this.escapeHtml(initiative.description)}</p>
+                        
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Established</span>
+                                <span class="stat-value">${this.escapeHtml(initiative.details.established)}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Funding</span>
+                                <span class="stat-value">${this.escapeHtml(initiative.details.funding)}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Members</span>
+                                <span class="stat-value">${this.escapeHtml(initiative.details.members)}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Countries</span>
+                                <span class="stat-value">${this.escapeHtml(initiative.details.countries)}</span>
+                            </div>
+                        </div>
+
+                        <div class="card-section">
+                            <h3 class="section-title">Key Achievements</h3>
+                            <ul class="achievement-list">
+                                ${initiative.details.key_achievements.map(achievement => `
+                                    <li class="achievement-item">${this.escapeHtml(achievement)}</li>
+                                `).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="card-section">
+                            <h3 class="section-title">Focus Areas</h3>
+                            <div class="focus-areas-grid">
+                                ${initiative.details.focus_areas.map(area => `
+                                    <span class="focus-area-tag">${this.escapeHtml(area)}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="card-actions">
+                            <a href="${this.sanitizeUrl(initiative.website)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                                <i data-lucide="external-link"></i>
+                                Visit Website
+                            </a>
+                            ${initiative.youtube ? `
+                                <a href="${this.sanitizeUrl(initiative.youtube)}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                                    <i data-lucide="youtube"></i>
+                                    YouTube Channel
+                                </a>
+                            ` : ''}
+                            <a href="mailto:${this.escapeHtml(initiative.contact.email)}" class="btn btn-outline">
+                                <i data-lucide="mail"></i>
+                                Contact
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Reinitialize Lucide icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        } catch (error) {
+            window.logger.error('Error loading featured initiatives:', error);
+            container.innerHTML = this.getEmptyState('featured-initiatives');
+        }
+    }
+
+    async renderResearchAreas() {
+        const container = document.getElementById('research-areas-content');
+        if (!container || this.isDestroyed) return;
+
+        try {
+            // Load research areas data
+            const response = await this.fetchWithTimeout('data/research-areas.json', 5000);
+            const data = await response.json();
+            
+            if (!data.research_areas || !Array.isArray(data.research_areas)) {
+                container.innerHTML = this.getEmptyState('research-areas');
+                return;
+            }
+
+            // Render research areas content
+            container.innerHTML = data.research_areas.map(area => `
+                <div class="content-card" id="area-${area.id}">
+                    <div class="card-header">
+                        <div class="card-icon" style="background-color: ${area.color}">
+                            <i data-lucide="${area.icon}"></i>
+                        </div>
+                        <div class="card-title-section">
+                            <h2 class="card-title">${this.escapeHtml(area.title)}</h2>
+                            <div class="card-tags">
+                                ${area.tags.map(tag => `<span class="card-tag">${this.escapeHtml(tag)}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-content">
+                        <p class="card-description">${this.escapeHtml(area.overview)}</p>
+                        
+                        <div class="card-section">
+                            <h3 class="section-title">Key Topics</h3>
+                            <div class="focus-areas-grid">
+                                ${area.key_topics.map(topic => `
+                                    <span class="focus-area-tag">${this.escapeHtml(topic)}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="card-section">
+                            <h3 class="section-title">Featured YouTube Channels</h3>
+                            <div class="channels-grid">
+                                ${area.featured_channels.slice(0, 3).map(channel => `
+                                    <div class="channel-card">
+                                        <div class="channel-header">
+                                            <div class="channel-avatar">${channel.name.charAt(0)}</div>
+                                            <div class="channel-info">
+                                                <h4 class="channel-name">${this.escapeHtml(channel.name)}</h4>
+                                                <p class="channel-subs">${this.escapeHtml(channel.subscribers)} subscribers</p>
+                                            </div>
+                                        </div>
+                                        <p class="channel-desc">${this.escapeHtml(channel.description)}</p>
+                                        <div class="channel-actions">
+                                            <a href="${this.sanitizeUrl(channel.youtube_url)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary">
+                                                <i data-lucide="youtube"></i>
+                                                Visit Channel
+                                            </a>
+                                            <a href="${this.sanitizeUrl(channel.featured_playlist.url)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline">
+                                                <i data-lucide="play-circle"></i>
+                                                ${this.escapeHtml(channel.featured_playlist.title)}
+                                            </a>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        ${area.courses ? `
+                            <div class="card-section">
+                                <h3 class="section-title">Recommended Courses</h3>
+                                <div class="courses-grid">
+                                    ${area.courses.map(course => `
+                                        <div class="course-card">
+                                            <div class="course-header">
+                                                <i data-lucide="graduation-cap"></i>
+                                                <div>
+                                                    <h4 class="course-title">${this.escapeHtml(course.title)}</h4>
+                                                    <p class="course-meta">${this.escapeHtml(course.institution)} • ${this.escapeHtml(course.level)}</p>
+                                                </div>
+                                            </div>
+                                            <p class="course-instructor">Instructor: ${this.escapeHtml(course.instructor)}</p>
+                                            <div class="course-actions">
+                                                <a href="${this.sanitizeUrl(course.url)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-secondary">
+                                                    <i data-lucide="external-link"></i>
+                                                    Access Course
+                                                </a>
+                                                ${course.youtube_playlist ? `
+                                                    <a href="${this.sanitizeUrl(course.youtube_playlist)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline">
+                                                        <i data-lucide="youtube"></i>
+                                                        YouTube
+                                                    </a>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            // Reinitialize Lucide icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        } catch (error) {
+            window.logger.error('Error loading research areas:', error);
+            container.innerHTML = this.getEmptyState('research-areas');
+        }
+    }
+
     // Cleanup method to prevent memory leaks
     destroy() {
         this.isDestroyed = true;
 
-        // Cancel any pending requests
-        this.abortController.abort();
+        try {
+            // Cancel any pending requests
+            if (this.abortController) {
+                this.abortController.abort();
+            }
 
-        // Remove event listeners
-        for (const [element, listeners] of this.eventListeners) {
-            listeners.forEach(({ event, handler }) => {
-                element.removeEventListener(event, handler);
-            });
+            // Remove event listeners
+            for (const [element, listeners] of this.eventListeners) {
+                if (element && listeners) {
+                    listeners.forEach(({ event, handler }) => {
+                        try {
+                            element.removeEventListener(event, handler);
+                        } catch (error) {
+                            window.logger.warn('Error removing event listener:', error);
+                        }
+                    });
+                }
+            }
+            this.eventListeners.clear();
+
+            // Clear data
+            this.data = null;
+            this.loadedSections.clear();
+            
+            // Clear search managers
+            if (window.institutionsSearchManager) {
+                window.institutionsSearchManager.destroy();
+            }
+            if (window.projectsSearchManager) {
+                window.projectsSearchManager.destroy();
+            }
+            if (window.resourcesSearchManager) {
+                window.resourcesSearchManager.destroy();
+            }
+            if (window.modelsSearchManager) {
+                window.modelsSearchManager.destroy();
+            }
+            
+            window.logger.log('EU GenAI Hub destroyed successfully');
+        } catch (error) {
+            window.logger.error('Error during cleanup:', error);
         }
-        this.eventListeners.clear();
-
-        // Clear data
-        this.data = null;
-        this.loadedSections.clear();
     }
 }
 
@@ -1438,13 +1297,4 @@ window.addEventListener('beforeunload', () => {
     if (window.app && window.app.destroy) {
         window.app.destroy();
     }
-});
-
-// Handle window resize for responsive behavior
-let resizeTimeout;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-        // Handle responsive behavior
-    }, 250);
 });

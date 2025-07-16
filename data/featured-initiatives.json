@@ -1,0 +1,226 @@
+{
+  "initiatives": [
+    {
+      "id": "ai-on-demand",
+      "title": "AI On Demand Platform",
+      "description": "EU's flagship platform centralizing trustworthy AI resources, tools, datasets, and solutions. Supports adoption across sectors with European Commission strategy alignment.",
+      "icon": "zap",
+      "tags": ["🇪🇺 EU Initiative", "Platform"],
+      "website": "https://www.ai4europe.eu/",
+      "youtube": "https://www.youtube.com/@ai4europe",
+      "embedded_demo": "https://www.ai4europe.eu/",
+      "details": {
+        "established": "2019",
+        "funding": "€20M EU Horizon 2020",
+        "members": "500+ organizations",
+        "countries": "27 EU countries",
+        "focus_areas": [
+          "AI Tools & Services",
+          "Datasets & Resources",
+          "Training & Education",
+          "Policy & Ethics"
+        ],
+        "key_achievements": [
+          "Largest AI marketplace in Europe",
+          "1000+ AI assets catalogued",
+          "Integration with European AI ecosystem",
+          "Support for SMEs and startups"
+        ]
+      },
+      "contact": {
+        "email": "info@ai4europe.eu",
+        "twitter": "@AI4Europe",
+        "linkedin": "ai4europe"
+      },
+      "gallery": [
+        "https://www.ai4europe.eu/sites/default/files/styles/large/public/2023-04/ai4europe-platform.jpg",
+        "https://www.ai4europe.eu/sites/default/files/styles/large/public/2023-04/ai-catalog.jpg"
+      ]
+    },
+    {
+      "id": "insait",
+      "title": "INSAIT - Sofia AI Hub",
+      "description": "Eastern Europe's premier AI institute at Sofia University with ETH Zurich & EPFL. Features €90M BRAIN++ AI factory and Bulgarian LLMs (2.6/9/27B parameters).",
+      "icon": "brain",
+      "tags": ["🇧🇬 Bulgaria", "Research Institute"],
+      "website": "https://insait.ai/",
+      "youtube": "https://www.youtube.com/@insaitai",
+      "embedded_demo": "https://insait.ai/",
+      "details": {
+        "established": "2022",
+        "funding": "€90M BRAIN++ AI factory",
+        "members": "50+ researchers",
+        "countries": "Bulgaria, Switzerland",
+        "focus_areas": [
+          "Large Language Models",
+          "Computer Vision",
+          "Reinforcement Learning",
+          "AI Safety"
+        ],
+        "key_achievements": [
+          "Bulgarian LLMs (2.6B, 9B, 27B parameters)",
+          "Partnership with ETH Zurich & EPFL",
+          "State-of-the-art AI research facility",
+          "Leading AI education programs"
+        ]
+      },
+      "contact": {
+        "email": "info@insait.ai",
+        "twitter": "@insaitai",
+        "linkedin": "insait"
+      },
+      "gallery": [
+        "https://insait.ai/assets/images/brain-factory.jpg",
+        "https://insait.ai/assets/images/research-lab.jpg"
+      ]
+    },
+    {
+      "id": "swissgpt",
+      "title": "SwissGPT",
+      "description": "Falcon-based multilingual LLM by AlpineAI, EPFL, and Swiss institutions. Focuses on high-trust environments, sovereignty, and Swiss language support.",
+      "icon": "mountain",
+      "tags": ["🇨🇭 Switzerland", "Language Model"],
+      "website": "https://swissgpt.ai/",
+      "youtube": "https://www.youtube.com/@swissgpt",
+      "embedded_demo": "https://swissgpt.ai/demo",
+      "details": {
+        "established": "2023",
+        "funding": "CHF 10M Swiss National Science Foundation",
+        "members": "AlpineAI, EPFL, University of Geneva",
+        "countries": "Switzerland",
+        "focus_areas": [
+          "Multilingual AI",
+          "Data Sovereignty",
+          "High-Trust Computing",
+          "Swiss Language Support"
+        ],
+        "key_achievements": [
+          "Falcon-based architecture",
+          "Swiss German dialect support",
+          "Privacy-focused design",
+          "Enterprise-ready solutions"
+        ]
+      },
+      "contact": {
+        "email": "contact@swissgpt.ai",
+        "twitter": "@swissgpt",
+        "linkedin": "swissgpt"
+      },
+      "gallery": [
+        "https://swissgpt.ai/assets/images/model-architecture.jpg",
+        "https://swissgpt.ai/assets/images/demo-interface.jpg"
+      ]
+    },
+    {
+      "id": "matharena",
+      "title": "MathArena",
+      "description": "Live LLM evaluation platform testing models on fresh math competitions (AIME, HMMT, USAMO). Human judges score reasoning chains with open-source code.",
+      "icon": "calculator",
+      "tags": ["🧮 Evaluation", "Open Source"],
+      "website": "https://matharena.org/",
+      "youtube": "https://www.youtube.com/@matharena",
+      "embedded_demo": "https://matharena.org/leaderboard",
+      "details": {
+        "established": "2023",
+        "funding": "Open Source Community",
+        "members": "Global AI research community",
+        "countries": "International",
+        "focus_areas": [
+          "Mathematical Reasoning",
+          "LLM Evaluation",
+          "Competition Mathematics",
+          "Open Source Tools"
+        ],
+        "key_achievements": [
+          "Live evaluation platform",
+          "Fresh math competition problems",
+          "Human judge scoring system",
+          "Open-source codebase"
+        ]
+      },
+      "contact": {
+        "email": "contact@matharena.org",
+        "twitter": "@matharena",
+        "linkedin": "matharena"
+      },
+      "gallery": [
+        "https://matharena.org/assets/images/leaderboard.jpg",
+        "https://matharena.org/assets/images/competition.jpg"
+      ]
+    },
+    {
+      "id": "adra",
+      "title": "ADRA Association",
+      "description": "AI, Data & Robotics Association uniting 180+ members under EU's public-private partnership. Defines strategic roadmap for responsible and sovereign AI.",
+      "icon": "users",
+      "tags": ["🤖 Partnership", "Policy"],
+      "website": "https://adra.eu/",
+      "youtube": "https://www.youtube.com/@adraeu",
+      "embedded_demo": "https://adra.eu/roadmap",
+      "details": {
+        "established": "2020",
+        "funding": "EU Public-Private Partnership",
+        "members": "180+ organizations",
+        "countries": "27 EU countries",
+        "focus_areas": [
+          "AI Policy & Strategy",
+          "Robotics Innovation",
+          "Data Governance",
+          "Public-Private Partnerships"
+        ],
+        "key_achievements": [
+          "Strategic roadmap for EU AI",
+          "180+ member organizations",
+          "Policy influence on EU AI Act",
+          "Cross-sector collaboration"
+        ]
+      },
+      "contact": {
+        "email": "info@adra.eu",
+        "twitter": "@adraeu",
+        "linkedin": "adra-association"
+      },
+      "gallery": [
+        "https://adra.eu/assets/images/members.jpg",
+        "https://adra.eu/assets/images/roadmap.jpg"
+      ]
+    },
+    {
+      "id": "eu-ai-office",
+      "title": "European AI Office",
+      "description": "European Commission office responsible for EU AI Act enforcement and guidance. Promotes responsible AI, coordinates practices, and supports AI sandboxes.",
+      "icon": "shield-check",
+      "tags": ["🏛️ EU Governance", "Regulation"],
+      "website": "https://digital-strategy.ec.europa.eu/en/policies/ai-office",
+      "youtube": "https://www.youtube.com/@EuropeanCommission",
+      "embedded_demo": "https://digital-strategy.ec.europa.eu/en/policies/ai-act",
+      "details": {
+        "established": "2024",
+        "funding": "European Commission",
+        "members": "EU Commission staff",
+        "countries": "27 EU countries",
+        "focus_areas": [
+          "AI Act Enforcement",
+          "Regulatory Guidance",
+          "AI Sandboxes",
+          "International Cooperation"
+        ],
+        "key_achievements": [
+          "EU AI Act implementation",
+          "Regulatory sandbox program",
+          "International AI governance",
+          "Industry guidance documents"
+        ]
+      },
+      "contact": {
+        "email": "ai-office@ec.europa.eu",
+        "twitter": "@EU_Commission",
+        "linkedin": "european-commission"
+      },
+      "gallery": [
+        "https://digital-strategy.ec.europa.eu/sites/default/files/ai-act.jpg",
+        "https://digital-strategy.ec.europa.eu/sites/default/files/ai-office.jpg"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,479 @@
+{
+  "research_areas": [
+    {
+      "id": "nlp",
+      "title": "Natural Language Processing",
+      "description": "Advanced multilingual language models, conversational AI, and text analysis systems from European research institutions and industry labs.",
+      "icon": "message-square",
+      "color": "#3B82F6",
+      "tags": ["🗣️ Language Models", "Research Area"],
+      "overview": "Natural Language Processing (NLP) is a rapidly evolving field that combines linguistics, computer science, and artificial intelligence to enable computers to understand, interpret, and generate human language.",
+      "key_topics": [
+        "Large Language Models (LLMs)",
+        "Machine Translation",
+        "Text Classification",
+        "Sentiment Analysis",
+        "Named Entity Recognition",
+        "Question Answering",
+        "Text Generation",
+        "Conversational AI"
+      ],
+      "featured_channels": [
+        {
+          "name": "3Blue1Brown",
+          "channel_id": "UCYO_jab_esuFRV4b17AJtAw",
+          "subscribers": "5.2M",
+          "description": "Mathematical explanations of neural networks and deep learning concepts with incredible visualizations",
+          "youtube_url": "https://www.youtube.com/@3blue1brown",
+          "featured_playlist": {
+            "title": "Neural Networks",
+            "playlist_id": "PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi",
+            "url": "https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi"
+          },
+          "featured_video": {
+            "title": "But what is a Neural Network?",
+            "video_id": "aircAruvnKk",
+            "url": "https://www.youtube.com/watch?v=aircAruvnKk"
+          }
+        },
+        {
+          "name": "Andrej Karpathy",
+          "channel_id": "UCPk8m_r6fkUSYmvgCBanM-Q",
+          "subscribers": "500K",
+          "description": "Deep learning and AI education from former Tesla AI director, focusing on practical implementations",
+          "youtube_url": "https://www.youtube.com/@AndrejKarpathy",
+          "featured_playlist": {
+            "title": "Neural Networks: Zero to Hero",
+            "playlist_id": "PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ",
+            "url": "https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ"
+          },
+          "featured_video": {
+            "title": "Let's build GPT: from scratch, in code, spelled out",
+            "video_id": "kCc8FmEb1nY",
+            "url": "https://www.youtube.com/watch?v=kCc8FmEb1nY"
+          }
+        },
+        {
+          "name": "Hugging Face",
+          "channel_id": "UCHlNU7kIZhRgSbhHvFoy72w",
+          "subscribers": "100K",
+          "description": "Open-source NLP library tutorials and transformer model explanations",
+          "youtube_url": "https://www.youtube.com/@HuggingFace",
+          "featured_playlist": {
+            "title": "NLP Course",
+            "playlist_id": "PLo2EIpI_JMQvWfQndUesu0nPBAtZ9gP1o",
+            "url": "https://www.youtube.com/playlist?list=PLo2EIpI_JMQvWfQndUesu0nPBAtZ9gP1o"
+          },
+          "featured_video": {
+            "title": "What is Hugging Face?",
+            "video_id": "h5mELOmXnLw",
+            "url": "https://www.youtube.com/watch?v=h5mELOmXnLw"
+          }
+        }
+      ],
+      "courses": [
+        {
+          "title": "CS224N: Natural Language Processing with Deep Learning",
+          "institution": "Stanford University",
+          "instructor": "Christopher Manning",
+          "url": "https://web.stanford.edu/class/cs224n/",
+          "youtube_playlist": "https://www.youtube.com/playlist?list=PLoROMvodv4rOSH4v6133s9LFPRHjEmbmJ",
+          "level": "Advanced"
+        },
+        {
+          "title": "NLP Specialization",
+          "institution": "DeepLearning.AI",
+          "instructor": "Younes Bensouda Mourri",
+          "url": "https://www.coursera.org/specializations/natural-language-processing",
+          "level": "Intermediate"
+        }
+      ],
+      "papers": [
+        {
+          "title": "Attention Is All You Need",
+          "authors": "Vaswani et al.",
+          "year": "2017",
+          "url": "https://arxiv.org/abs/1706.03762",
+          "description": "The foundational paper introducing the Transformer architecture"
+        },
+        {
+          "title": "BERT: Pre-training of Deep Bidirectional Transformers",
+          "authors": "Devlin et al.",
+          "year": "2018",
+          "url": "https://arxiv.org/abs/1810.04805",
+          "description": "Revolutionary bidirectional encoder representations from transformers"
+        }
+      ],
+      "tools": [
+        {
+          "name": "Hugging Face Transformers",
+          "description": "State-of-the-art NLP library",
+          "url": "https://huggingface.co/transformers/",
+          "type": "Library"
+        },
+        {
+          "name": "spaCy",
+          "description": "Industrial-strength NLP library",
+          "url": "https://spacy.io/",
+          "type": "Library"
+        }
+      ]
+    },
+    {
+      "id": "computer-vision",
+      "title": "Computer Vision & Multimodal AI",
+      "description": "Cutting-edge visual AI, image generation, medical imaging, and vision-language models developed across European research centers.",
+      "icon": "eye",
+      "color": "#10B981",
+      "tags": ["👁️ Vision AI", "Research Area"],
+      "overview": "Computer Vision enables machines to interpret and understand visual information from the world, while Multimodal AI combines vision with other modalities like text and audio.",
+      "key_topics": [
+        "Image Classification",
+        "Object Detection",
+        "Image Segmentation",
+        "Generative Models (GANs, Diffusion)",
+        "Vision Transformers",
+        "Medical Imaging",
+        "Autonomous Vehicles",
+        "Multimodal Learning"
+      ],
+      "featured_channels": [
+        {
+          "name": "Two Minute Papers",
+          "channel_id": "UCbfYPuaJiXlpN-BPbUVeM6Q",
+          "subscribers": "1.4M",
+          "description": "Latest AI research papers explained in accessible 2-minute videos",
+          "youtube_url": "https://www.youtube.com/@TwoMinutePapers",
+          "featured_playlist": {
+            "title": "Computer Vision",
+            "playlist_id": "PLujxSBD-JXgnqDD1n-V30pKtp6Q886x7e",
+            "url": "https://www.youtube.com/playlist?list=PLujxSBD-JXgnqDD1n-V30pKtp6Q886x7e"
+          },
+          "featured_video": {
+            "title": "This AI Creates Stunning Videos From Text!",
+            "video_id": "W4Mcuh38wyM",
+            "url": "https://www.youtube.com/watch?v=W4Mcuh38wyM"
+          }
+        },
+        {
+          "name": "Yannic Kilcher",
+          "channel_id": "UCZHmQk67mSJgfCCTn7xBfew",
+          "subscribers": "280K",
+          "description": "Deep dives into computer vision and AI research papers",
+          "youtube_url": "https://www.youtube.com/@YannicKilcher",
+          "featured_playlist": {
+            "title": "Computer Vision Papers",
+            "playlist_id": "PL1v8zpldgH3qQB5Pz6ZSTTDLu0BjAJYNf",
+            "url": "https://www.youtube.com/playlist?list=PL1v8zpldgH3qQB5Pz6ZSTTDLu0BjAJYNf"
+          },
+          "featured_video": {
+            "title": "Vision Transformer (ViT) Explained",
+            "video_id": "TrdevFK_am4",
+            "url": "https://www.youtube.com/watch?v=TrdevFK_am4"
+          }
+        },
+        {
+          "name": "PyImageSearch",
+          "channel_id": "UCGEpvWMRjvBV_wPIXpfTVrQ",
+          "subscribers": "80K",
+          "description": "Practical computer vision tutorials and OpenCV programming",
+          "youtube_url": "https://www.youtube.com/@PyImageSearch",
+          "featured_playlist": {
+            "title": "Deep Learning for Computer Vision",
+            "playlist_id": "PLKdU0fuY4OFckRdRqhJgaJJyOSGNJ1HiR",
+            "url": "https://www.youtube.com/playlist?list=PLKdU0fuY4OFckRdRqhJgaJJyOSGNJ1HiR"
+          },
+          "featured_video": {
+            "title": "OpenCV Deep Learning Face Detection",
+            "video_id": "SgHBuQ_8o2w",
+            "url": "https://www.youtube.com/watch?v=SgHBuQ_8o2w"
+          }
+        }
+      ],
+      "courses": [
+        {
+          "title": "CS231n: Convolutional Neural Networks for Visual Recognition",
+          "institution": "Stanford University",
+          "instructor": "Fei-Fei Li",
+          "url": "https://cs231n.stanford.edu/",
+          "youtube_playlist": "https://www.youtube.com/playlist?list=PL3FW7Lu3i5JvHM8ljYj-zLfQRF3EO8sYv",
+          "level": "Advanced"
+        },
+        {
+          "title": "Computer Vision Specialization",
+          "institution": "University of Buffalo",
+          "instructor": "Various",
+          "url": "https://www.coursera.org/specializations/computervision",
+          "level": "Intermediate"
+        }
+      ],
+      "papers": [
+        {
+          "title": "An Image is Worth 16x16 Words: Transformers for Image Recognition",
+          "authors": "Dosovitskiy et al.",
+          "year": "2020",
+          "url": "https://arxiv.org/abs/2010.11929",
+          "description": "Vision Transformer (ViT) paper that revolutionized computer vision"
+        },
+        {
+          "title": "Denoising Diffusion Probabilistic Models",
+          "authors": "Ho et al.",
+          "year": "2020",
+          "url": "https://arxiv.org/abs/2006.11239",
+          "description": "Foundation of modern image generation models"
+        }
+      ],
+      "tools": [
+        {
+          "name": "OpenCV",
+          "description": "Open source computer vision library",
+          "url": "https://opencv.org/",
+          "type": "Library"
+        },
+        {
+          "name": "Stable Diffusion",
+          "description": "Open source image generation model",
+          "url": "https://stability.ai/stable-diffusion",
+          "type": "Model"
+        }
+      ]
+    },
+    {
+      "id": "robotics",
+      "title": "Robotics & Autonomous Systems",
+      "description": "Advanced robotics research in healthcare, manufacturing, autonomous navigation, and human-robot collaboration from leading EU institutions.",
+      "icon": "cpu",
+      "color": "#8B5CF6",
+      "tags": ["🤖 Robotics", "Research Area"],
+      "overview": "Robotics and Autonomous Systems combine AI, mechanical engineering, and control theory to create intelligent machines that can perceive, think, and act in the physical world.",
+      "key_topics": [
+        "Robot Operating System (ROS)",
+        "Autonomous Navigation",
+        "Manipulation and Grasping",
+        "Human-Robot Interaction",
+        "Swarm Robotics",
+        "Medical Robotics",
+        "Industrial Automation",
+        "Reinforcement Learning for Robotics"
+      ],
+      "featured_channels": [
+        {
+          "name": "Boston Dynamics",
+          "channel_id": "UC7vVhkEfw4nOGp8TyDk7RcQ",
+          "subscribers": "2.8M",
+          "description": "Cutting-edge robotics demonstrations and research from industry leaders",
+          "youtube_url": "https://www.youtube.com/@BostonDynamics",
+          "featured_playlist": {
+            "title": "Robot Videos",
+            "playlist_id": "PLXtCLAiU_l9KKOEbWI_kBYrFXb2eKrGm_",
+            "url": "https://www.youtube.com/playlist?list=PLXtCLAiU_l9KKOEbWI_kBYrFXb2eKrGm_"
+          },
+          "featured_video": {
+            "title": "Atlas | Partners in Parkour",
+            "video_id": "tF4DML7FIWk",
+            "url": "https://www.youtube.com/watch?v=tF4DML7FIWk"
+          }
+        },
+        {
+          "name": "Robotics and AI",
+          "channel_id": "UCW4fBnbKCAFPfhZfYvLrIgw",
+          "subscribers": "150K",
+          "description": "Educational content on robotics algorithms and AI integration",
+          "youtube_url": "https://www.youtube.com/@RoboticsandAI",
+          "featured_playlist": {
+            "title": "ROS Tutorials",
+            "playlist_id": "PLLSegLrePWgIbIrA4iehUQ-impvIXdd9Q",
+            "url": "https://www.youtube.com/playlist?list=PLLSegLrePWgIbIrA4iehUQ-impvIXdd9Q"
+          },
+          "featured_video": {
+            "title": "Introduction to ROS",
+            "video_id": "N6K9dS9W7zI",
+            "url": "https://www.youtube.com/watch?v=N6K9dS9W7zI"
+          }
+        },
+        {
+          "name": "NVIDIA AI",
+          "channel_id": "UCKiYEtYbOsEtJ8xNGZ0aXVg",
+          "subscribers": "90K",
+          "description": "AI and robotics research from NVIDIA including Isaac Sim and Omniverse",
+          "youtube_url": "https://www.youtube.com/@NVIDIAAI",
+          "featured_playlist": {
+            "title": "Robotics",
+            "playlist_id": "PLZHnYvH1qtOYkElUMqYiE_v1-2GDMXK8F",
+            "url": "https://www.youtube.com/playlist?list=PLZHnYvH1qtOYkElUMqYiE_v1-2GDMXK8F"
+          },
+          "featured_video": {
+            "title": "Isaac Sim: Robot Simulation Platform",
+            "video_id": "J9cP8JnONFg",
+            "url": "https://www.youtube.com/watch?v=J9cP8JnONFg"
+          }
+        }
+      ],
+      "courses": [
+        {
+          "title": "Modern Robotics Specialization",
+          "institution": "Northwestern University",
+          "instructor": "Kevin Lynch",
+          "url": "https://www.coursera.org/specializations/modernrobotics",
+          "youtube_playlist": "https://www.youtube.com/playlist?list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx",
+          "level": "Advanced"
+        },
+        {
+          "title": "Robotics Specialization",
+          "institution": "University of Pennsylvania",
+          "instructor": "Various",
+          "url": "https://www.coursera.org/specializations/robotics",
+          "level": "Intermediate"
+        }
+      ],
+      "papers": [
+        {
+          "title": "Mastering the Game of Go with Deep Neural Networks and Tree Search",
+          "authors": "Silver et al.",
+          "year": "2016",
+          "url": "https://www.nature.com/articles/nature16961",
+          "description": "DeepMind's AlphaGo paper showing AI mastery in complex games"
+        },
+        {
+          "title": "Learning Dexterous In-Hand Manipulation",
+          "authors": "OpenAI",
+          "year": "2018",
+          "url": "https://arxiv.org/abs/1808.00177",
+          "description": "Breakthrough in robotic hand manipulation using reinforcement learning"
+        }
+      ],
+      "tools": [
+        {
+          "name": "ROS (Robot Operating System)",
+          "description": "Open-source robotics middleware suite",
+          "url": "https://www.ros.org/",
+          "type": "Framework"
+        },
+        {
+          "name": "Gazebo",
+          "description": "3D robotics simulation environment",
+          "url": "https://gazebosim.org/",
+          "type": "Simulation"
+        }
+      ]
+    },
+    {
+      "id": "ethics",
+      "title": "AI Ethics & Trustworthy AI",
+      "description": "Leading European research on responsible AI development, governance frameworks, and ethical AI guidelines compliant with EU AI Act.",
+      "icon": "shield-check",
+      "color": "#EF4444",
+      "tags": ["🛡️ Ethics & Safety", "Research Area"],
+      "overview": "AI Ethics and Trustworthy AI focuses on ensuring AI systems are fair, transparent, accountable, and aligned with human values and societal needs.",
+      "key_topics": [
+        "Algorithmic Fairness",
+        "AI Transparency and Explainability",
+        "Privacy and Data Protection",
+        "AI Governance and Regulation",
+        "Bias Detection and Mitigation",
+        "AI Safety and Alignment",
+        "Human-AI Collaboration",
+        "Responsible AI Development"
+      ],
+      "featured_channels": [
+        {
+          "name": "AI Ethics Lab",
+          "channel_id": "UCXRZSsLT6pZrwfCfBVKnSxQ",
+          "subscribers": "25K",
+          "description": "Academic discussions on AI ethics, fairness, and responsible development",
+          "youtube_url": "https://www.youtube.com/@AIEthicsLab",
+          "featured_playlist": {
+            "title": "AI Ethics Lectures",
+            "playlist_id": "PLrO8fWQKZJnzK_mRr_-KmIJgHIIRqLrH1",
+            "url": "https://www.youtube.com/playlist?list=PLrO8fWQKZJnzK_mRr_-KmIJgHIIRqLrH1"
+          },
+          "featured_video": {
+            "title": "Introduction to AI Ethics",
+            "video_id": "MJmlyYzCZNk",
+            "url": "https://www.youtube.com/watch?v=MJmlyYzCZNk"
+          }
+        },
+        {
+          "name": "Partnership on AI",
+          "channel_id": "UCRaETNZWVGK-7XdyOXV5N1g",
+          "subscribers": "15K",
+          "description": "Industry collaboration on AI safety and beneficial AI development",
+          "youtube_url": "https://www.youtube.com/@PartnershipAI",
+          "featured_playlist": {
+            "title": "AI Safety Discussions",
+            "playlist_id": "PLnLNOvU6YMIJGTQvLHaYUDXnOhAQoRcP-",
+            "url": "https://www.youtube.com/playlist?list=PLnLNOvU6YMIJGTQvLHaYUDXnOhAQoRcP-"
+          },
+          "featured_video": {
+            "title": "AI Safety Research Priorities",
+            "video_id": "pYXy-A4siMw",
+            "url": "https://www.youtube.com/watch?v=pYXy-A4siMw"
+          }
+        },
+        {
+          "name": "Future of Humanity Institute",
+          "channel_id": "UCqVE9J8ZjpEpwlYvZFhc2tQ",
+          "subscribers": "50K",
+          "description": "Research on existential risks and AI safety from Oxford University",
+          "youtube_url": "https://www.youtube.com/@FHIOxford",
+          "featured_playlist": {
+            "title": "AI Safety Research",
+            "playlist_id": "PLqjhNv-mWzBmFKxJRQyELSILYiXs5KmBj",
+            "url": "https://www.youtube.com/playlist?list=PLqjhNv-mWzBmFKxJRQyELSILYiXs5KmBj"
+          },
+          "featured_video": {
+            "title": "AI Alignment Problem",
+            "video_id": "EUjc1WuyPT8",
+            "url": "https://www.youtube.com/watch?v=EUjc1WuyPT8"
+          }
+        }
+      ],
+      "courses": [
+        {
+          "title": "Ethics in AI",
+          "institution": "University of Helsinki",
+          "instructor": "Various",
+          "url": "https://ethics-of-ai.mooc.fi/",
+          "level": "Beginner"
+        },
+        {
+          "title": "AI for Social Good Specialization",
+          "institution": "DeepLearning.AI",
+          "instructor": "Various",
+          "url": "https://www.coursera.org/specializations/ai-for-social-good",
+          "level": "Intermediate"
+        }
+      ],
+      "papers": [
+        {
+          "title": "Concrete Problems in AI Safety",
+          "authors": "Amodei et al.",
+          "year": "2016",
+          "url": "https://arxiv.org/abs/1606.06565",
+          "description": "Foundational paper outlining key challenges in AI safety research"
+        },
+        {
+          "title": "Fairness and Abstraction in Sociotechnical Systems",
+          "authors": "Selbst et al.",
+          "year": "2019",
+          "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3265913",
+          "description": "Critical analysis of fairness in AI systems within social contexts"
+        }
+      ],
+      "tools": [
+        {
+          "name": "Fairlearn",
+          "description": "Python toolkit for assessing and improving fairness in ML",
+          "url": "https://fairlearn.org/",
+          "type": "Library"
+        },
+        {
+          "name": "AI Fairness 360",
+          "description": "IBM's comprehensive toolkit for AI fairness",
+          "url": "https://aif360.mybluemix.net/",
+          "type": "Toolkit"
+        }
+      ]
+    }
+  ]
+}

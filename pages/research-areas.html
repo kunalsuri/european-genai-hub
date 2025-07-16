@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Research Area | EU GenAI Hub</title>
+        <meta name="description" content="Explore comprehensive learning resources for AI research areas including top YouTube channels, courses, papers, and tools." />
+
+        <!-- Security Headers -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://www.youtube.com https://youtube.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: http:; connect-src 'self' https:; frame-src 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com; worker-src 'self';" />
+        <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+        <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+        <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+        <!-- Local CSS -->
+        <link rel="stylesheet" href="../css/style.css" />
+
+        <!-- Lucide Icons -->
+        <script src="https://unpkg.com/lucide@0.294.0/dist/umd/lucide.js" crossorigin="anonymous"></script>
+
+        <style>
+            /* Research Areas Page Specific Styles */
+            .research-hero {
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+                color: white;
+                padding: 8rem 0 4rem;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .research-hero::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+                opacity: 0.3;
+            }
+
+            .research-hero-content {
+                position: relative;
+                z-index: 2;
+            }
+
+            .research-nav {
+                margin-bottom: 2rem;
+            }
+
+            .research-nav a {
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+                font-size: 0.875rem;
+                transition: var(--transition);
+            }
+
+            .research-nav a:hover {
+                color: white;
+            }
+
+            .research-title {
+                font-size: 3rem;
+                font-weight: 800;
+                margin-bottom: 1rem;
+                background: linear-gradient(135deg, #fff, #e2e8f0);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .research-overview {
+                font-size: 1.25rem;
+                opacity: 0.9;
+                margin-bottom: 2rem;
+                max-width: 800px;
+            }
+
+            .research-topics {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .research-topic {
+                background: rgba(255, 255, 255, 0.2);
+                padding: 0.5rem 1rem;
+                border-radius: 2rem;
+                font-size: 0.875rem;
+                backdrop-filter: blur(10px);
+            }
+
+            .research-main {
+                padding: 4rem 0;
+            }
+
+            .content-tabs {
+                display: flex;
+                border-bottom: 2px solid var(--border-color);
+                margin-bottom: 3rem;
+                overflow-x: auto;
+            }
+
+            .content-tab {
+                padding: 1rem 1.5rem;
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 1rem;
+                font-weight: 500;
+                color: var(--text-secondary);
+                transition: var(--transition);
+                white-space: nowrap;
+                border-bottom: 2px solid transparent;
+            }
+
+            .content-tab.active {
+                color: var(--primary-color);
+                border-bottom-color: var(--primary-color);
+            }
+
+            .content-tab:hover {
+                color: var(--text-color);
+            }
+
+            .tab-content {
+                display: none;
+            }
+
+            .tab-content.active {
+                display: block;
+            }
+
+            .channels-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 2rem;
+                margin-bottom: 3rem;
+            }
+
+            .channel-card {
+                background: var(--neutral-color);
+                border-radius: var(--border-radius);
+                padding: 2rem;
+                box-shadow: var(--shadow-medium);
+                transition: var(--transition);
+                border: 1px solid var(--border-color);
+            }
+
+            .channel-card:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-heavy);
+            }
+
+            .channel-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .channel-avatar {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background: var(--primary-color);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+
+            .channel-info h3 {
+                margin: 0;
+                font-size: 1.25rem;
+                font-weight: 700;
+            }
+
+            .channel-subscribers {
+                font-size: 0.875rem;
+                color: var(--text-secondary);
+                margin: 0;
+            }
+
+            .channel-description {
+                color: var(--text-secondary);
+                margin-bottom: 1.5rem;
+                line-height: 1.6;
+            }
+
+            .video-preview {
+                margin-bottom: 1.5rem;
+            }
+
+            .video-embed {
+                width: 100%;
+                height: 200px;
+                border-radius: var(--border-radius);
+                border: none;
+                background: #000;
+            }
+
+            .video-title {
+                font-size: 0.875rem;
+                font-weight: 500;
+                margin-top: 0.5rem;
+                color: var(--text-color);
+            }
+
+            .channel-actions {
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .action-button {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem 1rem;
+                border: 1px solid var(--border-color);
+                border-radius: var(--border-radius);
+                text-decoration: none;
+                color: var(--text-color);
+                font-size: 0.875rem;
+                transition: var(--transition);
+            }
+
+            .action-button:hover {
+                background: var(--primary-color);
+                color: white;
+                border-color: var(--primary-color);
+            }
+
+            .action-button.primary {
+                background: var(--primary-color);
+                color: white;
+                border-color: var(--primary-color);
+            }
+
+            .action-button.primary:hover {
+                background: var(--primary-color);
+                opacity: 0.9;
+            }
+
+            .resources-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+
+            .resource-card {
+                background: var(--neutral-color);
+                border-radius: var(--border-radius);
+                padding: 1.5rem;
+                border: 1px solid var(--border-color);
+                transition: var(--transition);
+            }
+
+            .resource-card:hover {
+                transform: translateY(-1px);
+                box-shadow: var(--shadow-medium);
+            }
+
+            .resource-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .resource-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: var(--primary-color);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 1rem;
+            }
+
+            .resource-title {
+                font-size: 1.125rem;
+                font-weight: 600;
+                margin: 0;
+            }
+
+            .resource-meta {
+                font-size: 0.875rem;
+                color: var(--text-secondary);
+                margin: 0;
+            }
+
+            .resource-description {
+                color: var(--text-secondary);
+                margin-bottom: 1rem;
+                line-height: 1.5;
+            }
+
+            .resource-link {
+                color: var(--primary-color);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.875rem;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .resource-link:hover {
+                text-decoration: underline;
+            }
+
+            .back-button {
+                position: fixed;
+                top: 100px;
+                left: 2rem;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                padding: 0.75rem;
+                border-radius: 50%;
+                cursor: pointer;
+                box-shadow: var(--shadow-medium);
+                transition: var(--transition);
+                z-index: 100;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .back-button:hover {
+                transform: scale(1.1);
+                box-shadow: var(--shadow-heavy);
+            }
+
+            .loading-state {
+                text-align: center;
+                padding: 4rem 0;
+                color: var(--text-secondary);
+            }
+
+            .loading-spinner {
+                width: 50px;
+                height: 50px;
+                border: 3px solid var(--border-color);
+                border-top: 3px solid var(--primary-color);
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin: 0 auto 1rem;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+            /* Dark mode styles */
+            [data-theme="dark"] .research-hero {
+                background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            }
+
+            [data-theme="dark"] .channel-card,
+            [data-theme="dark"] .resource-card {
+                background: var(--neutral-color);
+                border: 1px solid var(--border-color);
+            }
+
+            [data-theme="dark"] .action-button {
+                background: var(--neutral-color);
+                border-color: var(--border-color);
+            }
+
+            [data-theme="dark"] .action-button:hover {
+                background: var(--primary-color);
+                border-color: var(--primary-color);
+            }
+
+            /* Responsive design */
+            @media (max-width: 768px) {
+                .research-title {
+                    font-size: 2rem;
+                }
+
+                .channels-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .resources-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .back-button {
+                    left: 1rem;
+                    top: 80px;
+                }
+
+                .content-tabs {
+                    flex-wrap: wrap;
+                }
+
+                .content-tab {
+                    padding: 0.75rem 1rem;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .research-hero {
+                    padding: 6rem 0 2rem;
+                }
+
+                .research-main {
+                    padding: 2rem 0;
+                }
+
+                .channel-card,
+                .resource-card {
+                    padding: 1.5rem;
+                }
+
+                .video-embed {
+                    height: 180px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Back Button -->
+        <button class="back-button" onclick="window.history.back()" aria-label="Go back">
+            <i data-lucide="arrow-left"></i>
+        </button>
+
+        <!-- Hero Section -->
+        <section class="research-hero">
+            <div class="container">
+                <div class="research-hero-content">
+                    <nav class="research-nav">
+                        <a href="../index.html">Home</a> / <span>Research Area</span>
+                    </nav>
+                    
+                    <div id="hero-content" class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Loading research area...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="research-main">
+            <div class="container">
+                <div id="main-content" class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading content...</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Scripts -->
+        <script>
+            // Get research area ID from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const areaId = urlParams.get('id');
+            let currentArea = null;
+
+            // Initialize page
+            document.addEventListener('DOMContentLoaded', function() {
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+                
+                if (areaId) {
+                    loadResearchAreaData(areaId);
+                } else {
+                    showError('No research area specified');
+                }
+            });
+
+            // Load research area data
+            async function loadResearchAreaData(id) {
+                try {
+                    const response = await fetch('../data/research-areas.json');
+                    const data = await response.json();
+                    const area = data.research_areas.find(item => item.id === id);
+                    
+                    if (area) {
+                        currentArea = area;
+                        renderResearchArea(area);
+                    } else {
+                        showError('Research area not found');
+                    }
+                } catch (error) {
+                    console.error('Error loading research area data:', error);
+                    showError('Error loading research area data');
+                }
+            }
+
+            // Render research area content
+            function renderResearchArea(area) {
+                // Update page title
+                document.title = `${area.title} | EU GenAI Hub`;
+
+                // Render hero section
+                const heroContent = document.getElementById('hero-content');
+                heroContent.innerHTML = `
+                    <h1 class="research-title">${area.title}</h1>
+                    <p class="research-overview">${area.overview}</p>
+                    <div class="research-topics">
+                        ${area.key_topics.map(topic => `<span class="research-topic">${topic}</span>`).join('')}
+                    </div>
+                `;
+
+                // Render main content with tabs
+                const mainContent = document.getElementById('main-content');
+                mainContent.innerHTML = `
+                    <div class="content-tabs">
+                        <button class="content-tab active" data-tab="channels">YouTube Channels</button>
+                        <button class="content-tab" data-tab="courses">Courses</button>
+                        <button class="content-tab" data-tab="papers">Research Papers</button>
+                        <button class="content-tab" data-tab="tools">Tools & Libraries</button>
+                    </div>
+
+                    <div id="channels-content" class="tab-content active">
+                        ${renderChannels(area.featured_channels)}
+                    </div>
+
+                    <div id="courses-content" class="tab-content">
+                        ${renderCourses(area.courses)}
+                    </div>
+
+                    <div id="papers-content" class="tab-content">
+                        ${renderPapers(area.papers)}
+                    </div>
+
+                    <div id="tools-content" class="tab-content">
+                        ${renderTools(area.tools)}
+                    </div>
+                `;
+
+                // Add tab functionality
+                setupTabs();
+
+                // Re-initialize Lucide icons
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+
+            // Render YouTube channels
+            function renderChannels(channels) {
+                return `
+                    <div class="channels-grid">
+                        ${channels.map(channel => `
+                            <div class="channel-card">
+                                <div class="channel-header">
+                                    <div class="channel-avatar">
+                                        ${channel.name.charAt(0)}
+                                    </div>
+                                    <div class="channel-info">
+                                        <h3>${channel.name}</h3>
+                                        <p class="channel-subscribers">${channel.subscribers} subscribers</p>
+                                    </div>
+                                </div>
+                                <p class="channel-description">${channel.description}</p>
+                                
+                                <div class="video-preview">
+                                    <iframe 
+                                        class="video-embed"
+                                        src="https://www.youtube-nocookie.com/embed/${channel.featured_video.video_id}"
+                                        title="${channel.featured_video.title}"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen
+                                        loading="lazy">
+                                    </iframe>
+                                    <div class="video-title">${channel.featured_video.title}</div>
+                                </div>
+
+                                <div class="channel-actions">
+                                    <a href="${channel.youtube_url}" target="_blank" rel="noopener noreferrer" class="action-button primary">
+                                        <i data-lucide="youtube"></i>
+                                        Visit Channel
+                                    </a>
+                                    <a href="${channel.featured_playlist.url}" target="_blank" rel="noopener noreferrer" class="action-button">
+                                        <i data-lucide="play-circle"></i>
+                                        ${channel.featured_playlist.title}
+                                    </a>
+                                    <a href="${channel.featured_video.url}" target="_blank" rel="noopener noreferrer" class="action-button">
+                                        <i data-lucide="external-link"></i>
+                                        Watch Video
+                                    </a>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Render courses
+            function renderCourses(courses) {
+                return `
+                    <div class="resources-grid">
+                        ${courses.map(course => `
+                            <div class="resource-card">
+                                <div class="resource-header">
+                                    <div class="resource-icon">
+                                        <i data-lucide="graduation-cap"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="resource-title">${course.title}</h3>
+                                        <p class="resource-meta">${course.institution} • ${course.level}</p>
+                                    </div>
+                                </div>
+                                <p class="resource-description">
+                                    Instructor: ${course.instructor}
+                                </p>
+                                <a href="${course.url}" target="_blank" rel="noopener noreferrer" class="resource-link">
+                                    <i data-lucide="external-link"></i>
+                                    Access Course
+                                </a>
+                                ${course.youtube_playlist ? `
+                                    <br><br>
+                                    <a href="${course.youtube_playlist}" target="_blank" rel="noopener noreferrer" class="resource-link">
+                                        <i data-lucide="youtube"></i>
+                                        YouTube Playlist
+                                    </a>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Render research papers
+            function renderPapers(papers) {
+                return `
+                    <div class="resources-grid">
+                        ${papers.map(paper => `
+                            <div class="resource-card">
+                                <div class="resource-header">
+                                    <div class="resource-icon">
+                                        <i data-lucide="file-text"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="resource-title">${paper.title}</h3>
+                                        <p class="resource-meta">${paper.authors} • ${paper.year}</p>
+                                    </div>
+                                </div>
+                                <p class="resource-description">${paper.description}</p>
+                                <a href="${paper.url}" target="_blank" rel="noopener noreferrer" class="resource-link">
+                                    <i data-lucide="external-link"></i>
+                                    Read Paper
+                                </a>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Render tools
+            function renderTools(tools) {
+                return `
+                    <div class="resources-grid">
+                        ${tools.map(tool => `
+                            <div class="resource-card">
+                                <div class="resource-header">
+                                    <div class="resource-icon">
+                                        <i data-lucide="wrench"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="resource-title">${tool.name}</h3>
+                                        <p class="resource-meta">${tool.type}</p>
+                                    </div>
+                                </div>
+                                <p class="resource-description">${tool.description}</p>
+                                <a href="${tool.url}" target="_blank" rel="noopener noreferrer" class="resource-link">
+                                    <i data-lucide="external-link"></i>
+                                    Explore Tool
+                                </a>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Setup tab functionality
+            function setupTabs() {
+                const tabButtons = document.querySelectorAll('.content-tab');
+                const tabContents = document.querySelectorAll('.tab-content');
+
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const targetTab = button.dataset.tab;
+
+                        // Remove active class from all tabs and contents
+                        tabButtons.forEach(btn => btn.classList.remove('active'));
+                        tabContents.forEach(content => content.classList.remove('active'));
+
+                        // Add active class to clicked tab and corresponding content
+                        button.classList.add('active');
+                        document.getElementById(`${targetTab}-content`).classList.add('active');
+
+                        // Re-initialize Lucide icons for the active tab
+                        if (typeof lucide !== 'undefined') {
+                            lucide.createIcons();
+                        }
+                    });
+                });
+            }
+
+            // Show error message
+            function showError(message) {
+                const heroContent = document.getElementById('hero-content');
+                const mainContent = document.getElementById('main-content');
+                
+                heroContent.innerHTML = `
+                    <h1 class="research-title">Error</h1>
+                    <p class="research-overview">${message}</p>
+                    <div class="research-topics">
+                        <a href="../index.html" class="btn btn-primary btn-lg">
+                            <i data-lucide="arrow-left" class="btn-icon"></i>
+                            Back to Home
+                        </a>
+                    </div>
+                `;
+                
+                mainContent.innerHTML = '';
+                
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+        </script>
+    </body>
+</html>

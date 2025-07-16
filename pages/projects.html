@@ -5,228 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Projects - EU GenAI Hub</title>
     <meta name="description" content="Explore ongoing and completed Generative AI research projects across European institutions.">
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/style.css">
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="redirect.css">
+    <script>
+        // Secure redirect to main page with hash
+        (function() {
+            'use strict';
+            // Validate current origin before redirect
+            const targetUrl = '/#projects';
+            const currentOrigin = window.location.origin;
+            
+            setTimeout(() => {
+                try {
+                    // Only redirect if on same origin
+                    if (window.location.origin === currentOrigin) {
+                        window.location.replace(targetUrl);
+                    }
+                } catch (e) {
+                    // Fallback to manual link click
+                    document.querySelector('.redirect-link').click();
+                }
+            }, 1000);
+        })();
+    </script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <h1><a href="../index.html" style="text-decoration: none; color: inherit;">EU GenAI Hub</a></h1>
-                <span class="nav-subtitle">European Generative AI Research Portal</span>
-            </div>
-            <div class="nav-menu">
-                <a href="../index.html" class="nav-link">Home</a>
-                <a href="../index.html#map" class="nav-link">Research Map</a>
-                <a href="institutions.html" class="nav-link">Institutions</a>
-                <a href="#" class="nav-link active">Projects</a>
-                <a href="resources.html" class="nav-link">Resources</a>
-            </div>
+    <div class="redirect-container">
+        <h2><span class="loading-spinner"></span>Redirecting...</h2>
+        <p>Taking you to the Projects section</p>
+        <a href="/#projects" class="redirect-link">Continue manually</a>
+        <div class="redirect-info">
+            <p>This page has moved to our new single-page application for better performance.</p>
         </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="section-header">
-            <h1>European GenAI Research Projects</h1>
-            <p>Explore ongoing and completed Generative AI research projects, collaborations, and initiatives across European institutions.</p>
-        </div>
-
-        <!-- Search and Filters -->
-        <div class="search-filters">
-            <input type="text" id="projects-search" placeholder="Search projects by name, description, or technology...">
-            <select id="projects-filter-status">
-                <option value="all">All Status</option>
-                <option value="active">Active</option>
-                <option value="completed">Completed</option>
-                <option value="planned">Planned</option>
-            </select>
-            <select id="projects-filter-type">
-                <option value="all">All Types</option>
-                <option value="research">Research</option>
-                <option value="development">Development</option>
-                <option value="collaboration">Collaboration</option>
-            </select>
-        </div>
-
-        <!-- Results Grid -->
-        <div id="projects-grid" class="content-grid">
-            <div class="loading">Loading research projects...</div>
-        </div>
-
-        <!-- Project Categories Section -->
-        <section class="project-categories" style="margin-top: 3rem; padding: 2rem 0; background: var(--neutral-color);">
-            <div class="container">
-                <h2>Project Categories</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
-                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
-                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🔬 Research Projects</h3>
-                        <p>Fundamental research initiatives exploring new frontiers in Generative AI, from theoretical foundations to practical applications.</p>
-                    </div>
-                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
-                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🚀 Development Projects</h3>
-                        <p>Applied research projects developing practical GenAI solutions, tools, and platforms for industry and academia.</p>
-                    </div>
-                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
-                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">🤝 Collaborative Initiatives</h3>
-                        <p>Multi-institutional partnerships fostering knowledge sharing and joint research across European borders.</p>
-                    </div>
-                    <div class="category-card" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow-light);">
-                        <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">💰 Funded Programs</h3>
-                        <p>EU-funded projects under Horizon Europe and other programs supporting GenAI research and innovation.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>EU GenAI Hub</h3>
-                    <p>A comprehensive portal for European Generative AI research, fostering collaboration and knowledge sharing across the continent.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Navigation</h4>
-                    <ul>
-                        <li><a href="../index.html">Home</a></li>
-                        <li><a href="../index.html#map">Research Map</a></li>
-                        <li><a href="institutions.html">Institutions</a></li>
-                        <li><a href="resources.html">Resources</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Submit Project</a></li>
-                        <li><a href="#">API Documentation</a></li>
-                        <li><a href="#">Data Export</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Platform Management</h4>
-                    <p>Managed by <a href="https://www.linkedin.com/in/drkualsuri/" target="_blank" rel="noopener noreferrer">Dr. Kunal Suri</a></p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 EU GenAI Hub. Supporting European AI research excellence.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="../js/search-utility.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Lucide icons
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-            
-            // Initialize page-specific functionality
-            loadProjectsData();
-        });
-
-        async function loadProjectsData() {
-            try {
-                const response = await fetch('../data/projects.json');
-                const projects = await response.json();
-                
-                // Initialize search with universal search utility
-                if (window.universalSearch) {
-                    window.universalSearch.init('projects', projects, renderProjects);
-                }
-                
-                // Render initial data
-                renderProjects(projects);
-                
-            } catch (error) {
-                console.error('Error loading projects data:', error);
-                document.getElementById('projects-grid').innerHTML = `
-                    <div class="empty-state">
-                        <h3>Error loading data</h3>
-                        <p>Please try refreshing the page</p>
-                    </div>
-                `;
-            }
-        }
-
-        function renderProjects(projects) {
-            const container = document.getElementById('projects-grid');
-            if (!container) return;
-
-            if (!projects || projects.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <h3>No projects found</h3>
-                        <p>Try adjusting your search criteria</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = projects.map(project => `
-                <div class="content-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i data-lucide="${getProjectIcon(project.status)}"></i>
-                        </div>
-                        <span class="card-badge card-badge-${getStatusColor(project.status)}">${project.status || 'Unknown'}</span>
-                    </div>
-                    <h3 class="card-title">${project.title || 'Unknown Project'}</h3>
-                    <div class="card-meta">
-                        <span><i data-lucide="building-2"></i> ${project.institution || ''}</span>
-                        ${project.duration ? `<span><i data-lucide="calendar"></i> ${project.duration}</span>` : ''}
-                    </div>
-                    <p class="card-description">${project.description || ''}</p>
-                    <div class="card-tags">
-                        ${(project.technologies || []).map(tech => `<span class="tag">${tech}</span>`).join('')}
-                    </div>
-                    ${project.website ? `
-                        <a href="${project.website}" class="card-link" target="_blank" rel="noopener noreferrer">
-                            <span>Learn More</span>
-                            <i data-lucide="external-link"></i>
-                        </a>
-                    ` : ''}
-                </div>
-            `).join('');
-
-            // Reinitialize Lucide icons
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-        }
-
-        function getProjectIcon(status) {
-            const iconMap = {
-                'active': 'play-circle',
-                'completed': 'check-circle',
-                'planned': 'clock',
-                'default': 'circle'
-            };
-            return iconMap[status] || iconMap.default;
-        }
-
-        function getStatusColor(status) {
-            const colorMap = {
-                'active': 'success',
-                'completed': 'primary',
-                'planned': 'warning',
-                'default': 'secondary'
-            };
-            return colorMap[status] || colorMap.default;
-        }
-    </script>
+    </div>
 </body>
 </html>

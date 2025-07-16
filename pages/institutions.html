@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,249 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Institutions - EU GenAI Hub</title>
     <meta name="description" content="Leading European institutions advancing Generative AI research across the continent.">
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/style.css">
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="redirect.css">
+    <script>
+        // Secure redirect to main page with hash
+        (function() {
+            'use strict';
+            // Validate current origin before redirect
+            const targetUrl = '/#institutions';
+            const currentOrigin = window.location.origin;
+            
+            setTimeout(() => {
+                try {
+                    // Only redirect if on same origin
+                    if (window.location.origin === currentOrigin) {
+                        window.location.replace(targetUrl);
+                    }
+                } catch (e) {
+                    // Fallback to manual link click
+                    document.querySelector('.redirect-link').click();
+                }
+            }, 1000);
+        })();
+    </script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <h1><a href="../index.html" style="text-decoration: none; color: inherit;">EU GenAI Hub</a></h1>
-                <span class="nav-subtitle">European Generative AI Research Portal</span>
-            </div>
-            <div class="nav-menu">
-                <a href="../index.html" class="nav-link">Home</a>
-                <a href="../index.html#map" class="nav-link">Research Map</a>
-                <a href="#" class="nav-link active">Institutions</a>
-                <a href="projects.html" class="nav-link">Projects</a>
-                <a href="resources.html" class="nav-link">Resources</a>
-            </div>
+    <div class="redirect-container">
+        <h2><span class="loading-spinner"></span>Redirecting...</h2>
+        <p>Taking you to the Institutions section</p>
+        <a href="/#institutions" class="redirect-link">Continue manually</a>
+        <div class="redirect-info">
+            <p>This page has moved to our new single-page application for better performance.</p>
         </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="section-header">
-            <h1>European GenAI Research Institutions</h1>
-            <p>Discover the leading universities, research centers, and laboratories driving Generative AI innovation across Europe.</p>
-        </div>
-
-        <!-- Search and Filters -->
-        <div class="search-filters">
-            <input type="text" id="institutions-search" placeholder="Search institutions by name, country, or research area...">
-            <select id="institutions-filter-country">
-                <option value="all">All Countries</option>
-            </select>
-            <select id="institutions-filter-type">
-                <option value="all">All Types</option>
-                <option value="university">Universities</option>
-                <option value="research">Research Centers</option>
-                <option value="industry">Industry Labs</option>
-            </select>
-        </div>
-
-        <!-- Results Grid -->
-        <div id="institutions-grid" class="content-grid">
-            <div class="loading">Loading research institutions...</div>
-        </div>
-
-        <!-- Additional Information -->
-        <section class="info-section" style="margin-top: 3rem; padding: 2rem 0; background: var(--neutral-color);">
-            <div class="container">
-                <h2>About European GenAI Research</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
-                    <div>
-                        <h3>Research Excellence</h3>
-                        <p>European institutions are at the forefront of responsible AI development, combining cutting-edge research with ethical considerations and regulatory compliance.</p>
-                    </div>
-                    <div>
-                        <h3>Collaboration Network</h3>
-                        <p>Strong partnerships between universities, research centers, and industry create a vibrant ecosystem for GenAI innovation across Europe.</p>
-                    </div>
-                    <div>
-                        <h3>Funding Support</h3>
-                        <p>Significant investment from EU programs like Horizon Europe supports groundbreaking research in artificial intelligence and machine learning.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>EU GenAI Hub</h3>
-                    <p>A comprehensive portal for European Generative AI research, fostering collaboration and knowledge sharing across the continent.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Navigation</h4>
-                    <ul>
-                        <li><a href="../index.html">Home</a></li>
-                        <li><a href="../index.html#map">Research Map</a></li>
-                        <li><a href="projects.html">Projects</a></li>
-                        <li><a href="resources.html">Resources</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Submit Institution</a></li>
-                        <li><a href="#">API Documentation</a></li>
-                        <li><a href="#">Data Export</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Platform Management</h4>
-                    <p>Managed by <a href="https://www.linkedin.com/in/drkualsuri/" target="_blank" rel="noopener noreferrer">Dr. Kunal Suri</a></p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 EU GenAI Hub. Supporting European AI research excellence.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="../js/search-utility.js"></script>
-    <script>
-        let institutionsData = [];
-        let isSearchInitialized = false;
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Lucide icons
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-            
-            // Load institutions data
-            loadInstitutionsData();
-        });
-
-        async function loadInstitutionsData() {
-            try {
-                const response = await fetch('../data/institutions.json');
-                institutionsData = await response.json();
-                
-                console.log('Loaded institutions data:', institutionsData.length, 'items');
-                
-                // Populate filter options
-                populateCountryFilter(institutionsData);
-                populateTypeFilter(institutionsData);
-                
-                // Render initial data
-                renderInstitutions(institutionsData);
-                
-                // Initialize search only once
-                if (!isSearchInitialized && window.universalSearch) {
-                    window.universalSearch.init('institutions', institutionsData, renderInstitutions);
-                    isSearchInitialized = true;
-                    console.log('Search initialized for institutions');
-                }
-                
-            } catch (error) {
-                console.error('Error loading institutions data:', error);
-                document.getElementById('institutions-grid').innerHTML = `
-                    <div class="empty-state">
-                        <h3>Error loading data</h3>
-                        <p>Please try refreshing the page</p>
-                    </div>
-                `;
-            }
-        }
-
-        function renderInstitutions(institutions) {
-            const container = document.getElementById('institutions-grid');
-            if (!container) return;
-
-            if (!institutions || institutions.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <h3>No institutions found</h3>
-                        <p>Try adjusting your search criteria</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = institutions.map(institution => `
-                <div class="content-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i data-lucide="building-2"></i>
-                        </div>
-                        <span class="card-badge">${institution.type || 'Institution'}</span>
-                    </div>
-                    <h3 class="card-title">${institution.name || 'Unknown Institution'}</h3>
-                    <div class="card-meta">
-                        <span><i data-lucide="map-pin"></i> ${institution.city || ''}, ${institution.country || ''}</span>
-                    </div>
-                    <p class="card-description">${institution.description || ''}</p>
-                    <div class="card-tags">
-                        ${(institution.research_areas || []).map(area => `<span class="tag">${area}</span>`).join('')}
-                    </div>
-                    ${institution.website ? `
-                        <a href="${institution.website}" class="card-link" target="_blank" rel="noopener noreferrer">
-                            <span>Visit Website</span>
-                            <i data-lucide="external-link"></i>
-                        </a>
-                    ` : ''}
-                </div>
-            `).join('');
-
-            // Reinitialize Lucide icons
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-        }
-
-        function populateCountryFilter(institutions) {
-            const countryFilter = document.getElementById('institutions-filter-country');
-            if (!countryFilter) return;
-
-            // Get unique countries
-            const countries = [...new Set(institutions.map(inst => inst.country).filter(Boolean))].sort();
-            
-            // Clear existing options except "All Countries"
-            countryFilter.innerHTML = '<option value="all">All Countries</option>';
-            
-            // Add country options
-            countries.forEach(country => {
-                const option = document.createElement('option');
-                option.value = country;
-                option.textContent = country;
-                countryFilter.appendChild(option);
-            });
-        }
-
-        function populateTypeFilter(institutions) {
-            const typeFilter = document.getElementById('institutions-filter-type');
-            if (!typeFilter) return;
-
-            // Get unique types
-            const types = [...new Set(institutions.map(inst => inst.type).filter(Boolean))].sort();
-            
-            // Clear existing options except "All Types"
-            typeFilter.innerHTML = '<option value="all">All Types</option>';
-            
-            // Add type options
-            types.forEach(type => {
-                const option = document.createElement('option');
-                option.value = type;
-                option.textContent = type;
-                typeFilter.appendChild(option);
-            });
-        }
-    </script>
+    </div>
 </body>
 </html>

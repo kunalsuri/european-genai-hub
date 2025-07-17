@@ -28,6 +28,9 @@ coverage.xml
 .pytest_cache
 .hypothesis
 
+# Replit specific directories
+replit.md
+
 # Replit database
 *.db
 

@@ -6,6 +6,7 @@ Ensures Replit preview always shows latest code changes
 
 import http.server
 import socketserver
+import sys
 from datetime import datetime
 
 class NoCacheHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
@@ -28,7 +29,8 @@ class NoCacheHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         print(f"[{timestamp}] {format % args}")
 
-PORT = 5000
+# Get port from command line argument, default to 5000
+PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 5000
 Handler = NoCacheHTTPRequestHandler
 
 print(f"Starting no-cache HTTP server on port {PORT}")

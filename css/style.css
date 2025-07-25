@@ -1446,11 +1446,57 @@ p { margin-bottom: 1rem; }
     z-index: 10;
 }
 
+/* Multiple flags container */
+.hero-flags-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 .hero-flag {
     width: 100%;
+    max-width: 7rem;
     height: auto;
-    border-radius: 1.5rem;
+    border-radius: 0.5rem;
     box-shadow: var(--shadow-heavy);
+    transition: var(--transition-slow);
+    filter: brightness(1.05) saturate(1.1);
+}
+
+.hero-flag:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+}
+
+/* Individual flag styling */
+.hero-flag-eu {
+    animation: flagFloat 3s ease-in-out infinite;
+}
+
+.hero-flag-uk {
+    animation: flagFloat 3s ease-in-out infinite 1s;
+}
+
+.hero-flag-ch {
+    animation: flagFloat 3s ease-in-out infinite 2s;
+}
+
+@keyframes flagFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Responsive adjustments for flags */
+@media (max-width: 768px) {
+    .hero-flags-container {
+        gap: 0.75rem;
+    }
+    
+    .hero-flag {
+        max-width: 5rem;
+    }
 }
 
 .floating-element {

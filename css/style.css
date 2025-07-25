@@ -1454,22 +1454,46 @@ p { margin-bottom: 1rem; }
 }
 
 .hero-earth-symbol {
-    width: 4rem;
-    height: 4rem;
-    background: rgba(255, 255, 255, 0.15);
+    width: 5rem;
+    height: 5rem;
+    background: linear-gradient(145deg, #4A90E2, #2E5BBA);
     backdrop-filter: blur(10px);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: earthRotate 8s linear infinite;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    animation: earthRotate 12s linear infinite;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-earth-symbol::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        transparent 30%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        transparent 70%);
+    border-radius: 50%;
+    animation: earthShine 3s ease-in-out infinite;
+}
+
+@keyframes earthShine {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
 }
 
 .earth-icon {
-    width: 2rem;
-    height: 2rem;
-    color: rgba(255, 255, 255, 0.9);
+    width: 2.5rem;
+    height: 2.5rem;
+    color: rgba(255, 255, 255, 0.95);
+    z-index: 1;
 }
 
 @keyframes earthRotate {
@@ -1480,7 +1504,7 @@ p { margin-bottom: 1rem; }
 /* Multiple flags container */
 .hero-flags-container {
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
@@ -1488,9 +1512,9 @@ p { margin-bottom: 1rem; }
 
 .hero-flag {
     width: 100%;
-    max-width: 10rem;
+    max-width: 15rem;
     height: auto;
-    border-radius: 0.75rem;
+    border-radius: 1rem;
     box-shadow: var(--shadow-heavy);
     transition: var(--transition-slow);
     filter: brightness(1.05) saturate(1.1);
@@ -1522,21 +1546,21 @@ p { margin-bottom: 1rem; }
 /* Responsive adjustments for flags */
 @media (max-width: 768px) {
     .hero-flags-container {
-        gap: 1rem;
+        gap: 1.5rem;
     }
     
     .hero-flag {
-        max-width: 7rem;
+        max-width: 10rem;
     }
     
     .hero-earth-symbol {
-        width: 3rem;
-        height: 3rem;
+        width: 4rem;
+        height: 4rem;
     }
     
     .earth-icon {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 2rem;
+        height: 2rem;
     }
 }
 

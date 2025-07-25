@@ -1446,10 +1446,41 @@ p { margin-bottom: 1rem; }
     z-index: 10;
 }
 
+/* Earth symbol container */
+.hero-earth-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.hero-earth-symbol {
+    width: 4rem;
+    height: 4rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: earthRotate 8s linear infinite;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.earth-icon {
+    width: 2rem;
+    height: 2rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+@keyframes earthRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 /* Multiple flags container */
 .hero-flags-container {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
@@ -1457,9 +1488,9 @@ p { margin-bottom: 1rem; }
 
 .hero-flag {
     width: 100%;
-    max-width: 7rem;
+    max-width: 10rem;
     height: auto;
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     box-shadow: var(--shadow-heavy);
     transition: var(--transition-slow);
     filter: brightness(1.05) saturate(1.1);
@@ -1491,11 +1522,21 @@ p { margin-bottom: 1rem; }
 /* Responsive adjustments for flags */
 @media (max-width: 768px) {
     .hero-flags-container {
-        gap: 0.75rem;
+        gap: 1rem;
     }
     
     .hero-flag {
-        max-width: 5rem;
+        max-width: 7rem;
+    }
+    
+    .hero-earth-symbol {
+        width: 3rem;
+        height: 3rem;
+    }
+    
+    .earth-icon {
+        width: 1.5rem;
+        height: 1.5rem;
     }
 }
 

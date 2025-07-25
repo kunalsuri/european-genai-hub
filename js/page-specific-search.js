@@ -1,5 +1,5 @@
 /**
- * Page-Specific Search Managers for EU GenAI Hub
+ * Page-Specific Search Managers for European GenAI Hub
  * Each page type has different data structures and needs specialized search logic
  */
 'use strict';

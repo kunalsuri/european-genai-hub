@@ -1,8 +1,16 @@
-# European Gen AI Hub - Replit Development Guide
+# European GenAI Hub - Replit Development Guide
 
 ## Overview
 
-European Gen AI Hub is a static web application that serves as a comprehensive directory and resource hub for Generative AI research and innovation across the European Union and Switzerland. The application provides an interactive platform for exploring AI institutions, research projects, models, and resources throughout Europe.
+European GenAI Hub is a static web application that serves as a comprehensive directory and resource hub for Generative AI research and innovation across the European Union, United Kingdom, and Switzerland. The application provides an interactive platform for exploring AI institutions, research projects, models, and resources throughout Europe.
+
+## Recent Changes (July 2025)
+
+- **Multi-Flag Display**: Updated hero section to show EU, UK, and Swiss flags side by side
+- **Local Flag Assets**: Created `resources/flags/` directory with local flag images to eliminate external dependencies
+- **Branding Update**: Renamed from "EU GenAI Hub" to "European GenAI Hub" across entire codebase
+- **Security Enhancement**: Simplified CSP headers by removing external image sources
+- **Cache-Busting**: Implemented comprehensive cache control for development
 
 ## User Preferences
 

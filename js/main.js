@@ -34,7 +34,7 @@ class EUGenAIHub {
             // Show home section
             this.showSection('home');
 
-            window.logger.log('EU GenAI Hub initialized successfully');
+            window.logger.log('European GenAI Hub initialized successfully');
 
             // Load other data in background
             this.loadRemainingDataInBackground();
@@ -1279,7 +1279,7 @@ class EUGenAIHub {
                 window.modelsSearchManager.destroy();
             }
             
-            window.logger.log('EU GenAI Hub destroyed successfully');
+            window.logger.log('European GenAI Hub destroyed successfully');
         } catch (error) {
             window.logger.error('Error during cleanup:', error);
         }

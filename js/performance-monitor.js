@@ -1,6 +1,6 @@
 /**
  * Performance Monitoring and Optimization
- * EU GenAI Hub - Security and Performance Enhancements
+ * European GenAI Hub - Security and Performance Enhancements
  */
 'use strict';
 

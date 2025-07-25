@@ -12,7 +12,7 @@ short_description: A Space for tracking the latest in GenAI in EU and Swiss
 
 <div align="center">
 
-![European Union Flag](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/100px-Flag_of_Europe.svg.png)
+![European Union Flag](resources/flags/eu.png)
 
 **European Generative AI Research Space**
 
@@ -25,7 +25,7 @@ short_description: A Space for tracking the latest in GenAI in EU and Swiss
 
 ## 🌟 Overview
 
-European Gen AI Hub is a modern, interactive web space that serves as a one-stop destination for researchers, engineers, and AI enthusiasts to discover European Generative AI research initiatives, institutions, projects, and resources.
+European GenAI Hub is a modern, interactive web space that serves as a one-stop destination for researchers, engineers, and AI enthusiasts to discover European Generative AI research initiatives, institutions, projects, and resources.
 
 
 ### ✨ Key Features
@@ -98,7 +98,7 @@ Access research resources including:
 
 ## 🤝 Contributing
 
-We welcome contributions to expand and improve the EU GenAI Hub:
+We welcome contributions to expand and improve the European GenAI Hub:
 
 1. **Improvements**: Enhance functionality or design
 2. **Add Institution**: Submit new research institutions

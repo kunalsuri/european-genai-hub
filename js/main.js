@@ -77,9 +77,15 @@ class EUGenAIHub {
                     <div class="emergency-mode">
                         <h2>Service Temporarily Unavailable</h2>
                         <p>We're experiencing technical difficulties. Please try refreshing the page.</p>
-                        <button onclick="location.reload()" class="btn btn-primary">Refresh Page</button>
+                        <button id="emergency-refresh-btn" class="btn btn-primary">Refresh Page</button>
                     </div>
                 `;
+                
+                // Add event listener for emergency refresh button
+                const refreshBtn = document.getElementById('emergency-refresh-btn');
+                if (refreshBtn) {
+                    refreshBtn.addEventListener('click', () => location.reload());
+                }
             }
         } catch (error) {
             window.logger.error('Emergency mode failed:', error);
@@ -306,9 +312,15 @@ class EUGenAIHub {
                 <div class="error-state">
                     <h3>Error Loading Content</h3>
                     <p>Failed to load ${sectionName} data. Please try refreshing the page.</p>
-                    <button onclick="location.reload()" class="btn btn-primary">Refresh Page</button>
+                    <button class="error-refresh-btn btn btn-primary">Refresh Page</button>
                 </div>
             `;
+            
+            // Add event listener for error refresh button
+            const errorRefreshBtn = container.querySelector('.error-refresh-btn');
+            if (errorRefreshBtn) {
+                errorRefreshBtn.addEventListener('click', () => location.reload());
+            }
         }
     }
 

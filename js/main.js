@@ -194,6 +194,10 @@ class EUGenAIHub {
         const navLinks = document.querySelectorAll('.nav-link, .nav-dropdown-link, .mobile-nav-link, .footer-link');
         navLinks.forEach(link => {
             const listener = (e) => {
+                // Don't prevent default for external links
+                if (link.href && !link.href.includes('#') && !link.dataset.section) {
+                    return; // Allow normal navigation
+                }
                 e.preventDefault();
                 const section = link.dataset.section;
                 if (section) {
@@ -233,7 +237,7 @@ class EUGenAIHub {
         if (this.isDestroyed) return;
 
         // Validate section name to prevent XSS
-        const allowedSections = ['home', 'institutions', 'projects', 'models', 'resources', 'featured-initiatives', 'research-areas'];
+        const allowedSections = ['home', 'institutions', 'projects', 'models', 'resources', 'featured-initiatives', 'research-areas', 'eu-region', 'uk-region', 'swiss-region'];
         if (!allowedSections.includes(sectionName)) {
             window.logger.warn('Invalid section name:', sectionName);
             return;
@@ -295,6 +299,13 @@ class EUGenAIHub {
                     break;
                 case 'research-areas':
                     this.renderResearchAreas();
+                    break;
+                case 'eu-region':
+                case 'uk-region':
+                case 'swiss-region':
+                    if (window.loadRegionContent) {
+                        window.loadRegionContent(sectionName);
+                    }
                     break;
             }
 

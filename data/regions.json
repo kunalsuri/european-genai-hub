@@ -1,0 +1,160 @@
+{
+  "regions": {
+    "eu": {
+      "name": "European Union",
+      "flag": "🇪🇺",
+      "description": "Cutting-edge innovations from across the European Union",
+      "models": [
+        {
+          "icon": "🤖",
+          "title": "Mistral 7B",
+          "tags": ["LLM", "French", "Open Source"],
+          "description": "Mistral AI's breakthrough 7-billion parameter language model delivers exceptional performance while maintaining efficiency. This French innovation outperforms larger models on many benchmarks, representing a new paradigm in cost-effective AI deployment.",
+          "link": "https://github.com/mistralai/mistral-src",
+          "organization": "Mistral AI",
+          "country": "France"
+        },
+        {
+          "icon": "🎨",
+          "title": "FLUX.1",
+          "tags": ["Image Generation", "German", "Diffusion"],
+          "description": "Black Forest Labs' revolutionary text-to-image model sets new standards for photorealistic generation. Built by former Stability AI researchers in Germany, FLUX.1 delivers unprecedented quality and prompt adherence.",
+          "link": "https://github.com/black-forest-labs/flux",
+          "organization": "Black Forest Labs",
+          "country": "Germany"
+        },
+        {
+          "icon": "🧠",
+          "title": "Phi-3 Mini",
+          "tags": ["SLM", "Microsoft", "Efficient"],
+          "description": "Microsoft Research Europe's compact 3.8B parameter model proves that smaller can be smarter. Optimized for mobile deployment, it delivers GPT-3.5 level performance in a fraction of the size.",
+          "link": "https://github.com/microsoft/Phi-3",
+          "organization": "Microsoft Research Europe",
+          "country": "Netherlands"
+        },
+        {
+          "icon": "🔬",
+          "title": "ESMFold",
+          "tags": ["Protein", "Meta", "Biology"],
+          "description": "Meta AI's protein structure prediction model revolutionizes biological research. Trained on evolutionary data, ESMFold enables rapid protein folding predictions for drug discovery and synthetic biology applications.",
+          "link": "https://github.com/facebookresearch/esm",
+          "organization": "Meta AI Research",
+          "country": "France"
+        },
+        {
+          "icon": "🌐",
+          "title": "mT5",
+          "tags": ["Multilingual", "Google", "Translation"],
+          "description": "Google Research's multilingual T5 model supports 101 languages with exceptional cross-lingual transfer capabilities. Developed in European research centers, mT5 democratizes NLP for global applications.",
+          "link": "https://github.com/google-research/multilingual-t5",
+          "organization": "Google Research",
+          "country": "Germany"
+        }
+      ]
+    },
+    "uk": {
+      "name": "United Kingdom",
+      "flag": "🇬🇧",
+      "description": "Pioneering innovations from British research institutions",
+      "models": [
+        {
+          "icon": "🏆",
+          "title": "AlphaFold 3",
+          "tags": ["Protein", "DeepMind", "Nobel Prize"],
+          "description": "DeepMind's Nobel Prize-winning breakthrough in protein structure prediction. AlphaFold 3 has revolutionized biology by solving the 50-year-old protein folding problem, enabling unprecedented advances in drug discovery.",
+          "link": "https://github.com/deepmind/alphafold3",
+          "organization": "DeepMind",
+          "country": "United Kingdom"
+        },
+        {
+          "icon": "🌍",
+          "title": "GraphCast",
+          "tags": ["Weather", "DeepMind", "Forecasting"],
+          "description": "Revolutionary weather prediction AI that outperforms traditional numerical models. GraphCast provides 10-day forecasts with unprecedented accuracy, transforming meteorology and climate science.",
+          "link": "https://github.com/deepmind/graphcast",
+          "organization": "DeepMind",
+          "country": "United Kingdom"
+        },
+        {
+          "icon": "🎮",
+          "title": "MuZero",
+          "tags": ["RL", "DeepMind", "Games"],
+          "description": "Advanced reinforcement learning algorithm that masters games without knowing the rules. MuZero combines tree search with learned models, achieving superhuman performance across diverse domains.",
+          "link": "https://github.com/deepmind/muzero",
+          "organization": "DeepMind",
+          "country": "United Kingdom"
+        },
+        {
+          "icon": "🧬",
+          "title": "AlphaMissense",
+          "tags": ["Genetics", "DeepMind", "Medicine"],
+          "description": "Predicts the pathogenicity of genetic variants with remarkable accuracy. AlphaMissense helps clinicians interpret genetic mutations and advance personalized medicine approaches.",
+          "link": "https://github.com/deepmind/alphamissense",
+          "organization": "DeepMind",
+          "country": "United Kingdom"
+        },
+        {
+          "icon": "🔊",
+          "title": "Whisper",
+          "tags": ["Speech", "OpenAI", "Multilingual"],
+          "description": "Robust speech recognition system trained on diverse audio data. Whisper approaches human-level accuracy across languages and demonstrates remarkable robustness to accents and background noise.",
+          "link": "https://github.com/openai/whisper",
+          "organization": "OpenAI (UK Research)",
+          "country": "United Kingdom"
+        }
+      ]
+    },
+    "swiss": {
+      "name": "Switzerland",
+      "flag": "🇨🇭",
+      "description": "Precision engineering from Swiss research excellence",
+      "models": [
+        {
+          "icon": "🔒",
+          "title": "FedML",
+          "tags": ["Privacy", "ETH", "Federated"],
+          "description": "ETH Zurich's federated machine learning framework enables privacy-preserving AI training across distributed devices. FedML allows collaborative learning without sharing sensitive data.",
+          "link": "https://github.com/FedML-AI/FedML",
+          "organization": "ETH Zurich",
+          "country": "Switzerland"
+        },
+        {
+          "icon": "⚡",
+          "title": "PyTorch Lightning",
+          "tags": ["Framework", "EPFL", "Performance"],
+          "description": "High-performance PyTorch wrapper developed at EPFL for scalable deep learning. Lightning simplifies distributed training while maintaining research flexibility and reproducibility.",
+          "link": "https://github.com/Lightning-AI/lightning",
+          "organization": "EPFL",
+          "country": "Switzerland"
+        },
+        {
+          "icon": "💊",
+          "title": "ChemBERTa",
+          "tags": ["Chemistry", "Roche", "Molecular"],
+          "description": "Swiss pharmaceutical giant Roche's molecular property prediction model. ChemBERTa accelerates drug discovery by predicting chemical properties and toxicity from molecular structures.",
+          "link": "https://github.com/seyonechithrananda/bert-loves-chemistry",
+          "organization": "Roche",
+          "country": "Switzerland"
+        },
+        {
+          "icon": "💰",
+          "title": "FinBERT",
+          "tags": ["Finance", "UBS", "NLP"],
+          "description": "Financial sentiment analysis model developed by Swiss banking institutions. FinBERT specializes in understanding financial language for risk assessment and market analysis.",
+          "link": "https://github.com/ProsusAI/finBERT",
+          "organization": "UBS",
+          "country": "Switzerland"
+        },
+        {
+          "icon": "🏔️",
+          "title": "SwissGPT",
+          "tags": ["Multilingual", "IDIAP", "Swiss Languages"],
+          "description": "IDIAP Research Institute's multilingual model optimized for Swiss German, French, Italian, and Romansh. SwissGPT preserves linguistic diversity while delivering state-of-the-art performance.",
+          "link": "https://github.com/idiap/swissgpt",
+          "organization": "IDIAP Research Institute",
+          "country": "Switzerland"
+        }
+      ]
+    }
+  }
+}

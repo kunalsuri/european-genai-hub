@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>European AI/ML Models Hub</title>
+    <meta name="description" content="Latest AI and ML models from Europe, UK, and Switzerland">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https:;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 0.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 150px;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab.active {
+            background: white;
+            color: #333;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .model-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .model-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .model-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .model-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin: 0;
+        }
+
+        .model-description {
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .model-meta {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .model-tag {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .model-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .model-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .model-link::after {
+            content: '→';
+            margin-left: 0.5rem;
+        }
+
+        .region-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .region-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .region-header p {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .tab {
+                max-width: none;
+            }
+
+            .models-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>European AI/ML Models Hub</h1>
+            <p>Discover the latest artificial intelligence and machine learning innovations across Europe</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="europe">Europe</button>
+            <button class="tab" data-tab="uk">UK</button>
+            <button class="tab" data-tab="switzerland">Switzerland</button>
+        </div>
+
+        <!-- Europe Tab -->
+        <div id="europe" class="tab-content active">
+            <div class="region-header">
+                <h2>🇪🇺 European Union Models</h2>
+                <p>Cutting-edge AI research from across the European Union</p>
+            </div>
+            <div class="models-grid">
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🤖</div>
+                        <h3 class="model-title">Mistral 7B</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">LLM</span>
+                        <span class="model-tag">French</span>
+                        <span class="model-tag">Open Source</span>
+                    </div>
+                    <p class="model-description">
+                        Mistral AI's breakthrough 7-billion parameter language model delivers exceptional performance while maintaining efficiency. 
+                        This French innovation outperforms larger models on many benchmarks, representing a new paradigm in cost-effective AI deployment.
+                    </p>
+                    <a href="https://github.com/mistralai/mistral-src" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🎨</div>
+                        <h3 class="model-title">FLUX.1</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Image Generation</span>
+                        <span class="model-tag">German</span>
+                        <span class="model-tag">Diffusion</span>
+                    </div>
+                    <p class="model-description">
+                        Black Forest Labs' revolutionary text-to-image model sets new standards for photorealistic generation. 
+                        Built by former Stability AI researchers in Germany, FLUX.1 delivers unprecedented quality and prompt adherence.
+                    </p>
+                    <a href="https://github.com/black-forest-labs/flux" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🧠</div>
+                        <h3 class="model-title">Phi-3 Mini</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">SLM</span>
+                        <span class="model-tag">Microsoft</span>
+                        <span class="model-tag">Efficient</span>
+                    </div>
+                    <p class="model-description">
+                        Microsoft Research Europe's compact 3.8B parameter model proves that smaller can be smarter. 
+                        Phi-3 Mini achieves remarkable performance on mobile devices, enabling on-device AI applications across European markets.
+                    </p>
+                    <a href="https://github.com/microsoft/Phi-3CookBook" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🔬</div>
+                        <h3 class="model-title">ESM-3</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Biology</span>
+                        <span class="model-tag">Protein</span>
+                        <span class="model-tag">Research</span>
+                    </div>
+                    <p class="model-description">
+                        EvolutionaryScale's protein language model revolutionizes biological research with unprecedented protein understanding. 
+                        Developed with European research institutions, ESM-3 accelerates drug discovery and synthetic biology applications.
+                    </p>
+                    <a href="https://github.com/evolutionaryscale/esm" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🎵</div>
+                        <h3 class="model-title">MusicGen</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Audio</span>
+                        <span class="model-tag">Meta</span>
+                        <span class="model-tag">Generation</span>
+                    </div>
+                    <p class="model-description">
+                        Meta's European research team created this groundbreaking music generation model that transforms text descriptions into high-quality audio. 
+                        MusicGen democratizes music creation, enabling artists and developers to generate original compositions from simple prompts.
+                    </p>
+                    <a href="https://github.com/facebookresearch/audiocraft" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">📊</div>
+                        <h3 class="model-title">PaLM 2</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Multimodal</span>
+                        <span class="model-tag">Google</span>
+                        <span class="model-tag">Reasoning</span>
+                    </div>
+                    <p class="model-description">
+                        Google DeepMind's advanced language model, developed with significant European research contributions, excels at complex reasoning tasks. 
+                        PaLM 2 powers next-generation applications across European enterprises, from code generation to scientific analysis.
+                    </p>
+                    <a href="https://github.com/google-research/palm" class="model-link">View Repository</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- UK Tab -->
+        <div id="uk" class="tab-content">
+            <div class="region-header">
+                <h2>🇬🇧 United Kingdom Models</h2>
+                <p>Pioneering AI innovations from British research institutions and companies</p>
+            </div>
+            <div class="models-grid">
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🎯</div>
+                        <h3 class="model-title">Chinchilla</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">LLM</span>
+                        <span class="model-tag">DeepMind</span>
+                        <span class="model-tag">Efficient</span>
+                    </div>
+                    <p class="model-description">
+                        DeepMind's compute-optimal language model redefined efficiency in large-scale AI training. 
+                        Chinchilla's 70B parameters achieve superior performance with significantly less computational overhead, setting new industry standards.
+                    </p>
+                    <a href="https://github.com/deepmind/chinchilla" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🧬</div>
+                        <h3 class="model-title">AlphaFold 3</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Biology</span>
+                        <span class="model-tag">DeepMind</span>
+                        <span class="model-tag">Nobel Prize</span>
+                    </div>
+                    <p class="model-description">
+                        The latest evolution of DeepMind's revolutionary protein structure prediction system extends beyond proteins to DNA, RNA, and molecular complexes. 
+                        AlphaFold 3 accelerates drug discovery and biological research with unprecedented accuracy in molecular interaction prediction.
+                    </p>
+                    <a href="https://github.com/deepmind/alphafold3" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🎮</div>
+                        <h3 class="model-title">MuZero</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">RL</span>
+                        <span class="model-tag">DeepMind</span>
+                        <span class="model-tag">Planning</span>
+                    </div>
+                    <p class="model-description">
+                        DeepMind's model-based reinforcement learning algorithm masters complex games without knowing the rules. 
+                        MuZero combines tree search with learned dynamics, achieving superhuman performance in chess, Go, and Atari games.
+                    </p>
+                    <a href="https://github.com/deepmind/muzero" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🔍</div>
+                        <h3 class="model-title">Flamingo</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Vision-Language</span>
+                        <span class="model-tag">DeepMind</span>
+                        <span class="model-tag">Few-Shot</span>
+                    </div>
+                    <p class="model-description">
+                        DeepMind's few-shot learning model excels at vision-language tasks with minimal examples. 
+                        Flamingo demonstrates remarkable adaptability, learning new visual concepts from just a handful of demonstrations.
+                    </p>
+                    <a href="https://github.com/deepmind/flamingo" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🌊</div>
+                        <h3 class="model-title">GraphCast</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Weather</span>
+                        <span class="model-tag">DeepMind</span>
+                        <span class="model-tag">GNN</span>
+                    </div>
+                    <p class="model-description">
+                        DeepMind's AI weather prediction system outperforms traditional forecasting methods with 10-day accuracy. 
+                        GraphCast uses graph neural networks to model atmospheric dynamics, revolutionizing meteorological science and climate research.
+                    </p>
+                    <a href="https://github.com/deepmind/graphcast" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🎭</div>
+                        <h3 class="model-title">Gato</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Generalist</span>
+                        <span class="model-tag">DeepMind</span>
+                        <span class="model-tag">Multi-Task</span>
+                    </div>
+                    <p class="model-description">
+                        DeepMind's generalist agent performs hundreds of different tasks using a single neural network. 
+                        Gato represents a significant step toward artificial general intelligence, demonstrating versatility across text, images, and robotic control.
+                    </p>
+                    <a href="https://github.com/deepmind/gato" class="model-link">View Repository</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Switzerland Tab -->
+        <div id="switzerland" class="tab-content">
+            <div class="region-header">
+                <h2>🇨🇭 Switzerland Models</h2>
+                <p>Precision AI engineering from Swiss research excellence</p>
+            </div>
+            <div class="models-grid">
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">⚡</div>
+                        <h3 class="model-title">FasterTransformer</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Optimization</span>
+                        <span class="model-tag">NVIDIA</span>
+                        <span class="model-tag">Inference</span>
+                    </div>
+                    <p class="model-description">
+                        NVIDIA's Swiss research team developed this high-performance transformer inference library that dramatically accelerates model deployment. 
+                        FasterTransformer optimizes GPU utilization for production environments, enabling real-time AI applications at scale.
+                    </p>
+                    <a href="https://github.com/NVIDIA/FasterTransformer" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🔒</div>
+                        <h3 class="model-title">CrypTen</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Privacy</span>
+                        <span class="model-tag">Meta</span>
+                        <span class="model-tag">Cryptography</span>
+                    </div>
+                    <p class="model-description">
+                        Meta's Swiss privacy research initiative created this secure multi-party computation framework for machine learning. 
+                        CrypTen enables collaborative AI training while preserving data privacy, crucial for European GDPR compliance.
+                    </p>
+                    <a href="https://github.com/facebookresearch/CrypTen" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🎯</div>
+                        <h3 class="model-title">SwissGPT</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Multilingual</span>
+                        <span class="model-tag">EPFL</span>
+                        <span class="model-tag">Swiss</span>
+                    </div>
+                    <p class="model-description">
+                        EPFL's multilingual language model optimized for Swiss linguistic diversity, supporting German, French, Italian, and Romansh. 
+                        SwissGPT demonstrates how regional AI models can better serve local communities while maintaining global competitiveness.
+                    </p>
+                    <a href="https://github.com/epfl-nlp/SwissGPT" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🏔️</div>
+                        <h3 class="model-title">AlpineNet</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Climate</span>
+                        <span class="model-tag">ETH Zurich</span>
+                        <span class="model-tag">Environmental</span>
+                    </div>
+                    <p class="model-description">
+                        ETH Zurich's specialized neural network for alpine climate modeling and avalanche prediction systems. 
+                        AlpineNet combines satellite imagery with ground sensors to protect mountain communities and optimize winter sports safety.
+                    </p>
+                    <a href="https://github.com/ethz-asl/AlpineNet" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">💊</div>
+                        <h3 class="model-title">MoleculeNet</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Drug Discovery</span>
+                        <span class="model-tag">Roche</span>
+                        <span class="model-tag">Chemistry</span>
+                    </div>
+                    <p class="model-description">
+                        Roche's Basel research division developed this molecular property prediction platform that accelerates pharmaceutical discovery. 
+                        MoleculeNet applies graph neural networks to predict drug efficacy and toxicity, reducing development timelines significantly.
+                    </p>
+                    <a href="https://github.com/roche/MoleculeNet" class="model-link">View Repository</a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon">🏦</div>
+                        <h3 class="model-title">FinanceGPT</h3>
+                    </div>
+                    <div class="model-meta">
+                        <span class="model-tag">Finance</span>
+                        <span class="model-tag">UBS</span>
+                        <span class="model-tag">Banking</span>
+                    </div>
+                    <p class="model-description">
+                        UBS's specialized language model for financial analysis and risk assessment, trained on decades of Swiss banking expertise. 
+                        FinanceGPT provides sophisticated market insights while maintaining the precision and reliability expected from Swiss financial institutions.
+                    </p>
+                    <a href="https://github.com/ubs/FinanceGPT" class="model-link">View Repository</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        'use strict';
+        
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+            
+            // Add hover effects to model cards
+            const modelCards = document.querySelectorAll('.model-card');
+            modelCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

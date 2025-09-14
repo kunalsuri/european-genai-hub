@@ -94,6 +94,15 @@
                             <a href="#research-areas" class="nav-dropdown-link" data-section="research-areas">
                                 <i data-lucide="book-open" class="nav-link-icon"></i>Research Areas
                             </a>
+                            <a href="#eu-region" class="nav-dropdown-link" data-section="eu-region">
+                                <i data-lucide="flag" class="nav-link-icon"></i>EU Region
+                            </a>
+                            <a href="#uk-region" class="nav-dropdown-link" data-section="uk-region">
+                                <i data-lucide="flag" class="nav-link-icon"></i>UK Region
+                            </a>
+                            <a href="#swiss-region" class="nav-dropdown-link" data-section="swiss-region">
+                                <i data-lucide="flag" class="nav-link-icon"></i>Swiss Region
+                            </a>
                         </div>
                     </div>
                     <a
@@ -532,6 +541,60 @@
                     <p>Loading resources...</p>
                 </div>
             </section>
+
+            <!-- EU Region Section -->
+            <section id="eu-region" class="section hidden">
+                <div class="section-container">
+                    <div class="section-header">
+                        <h1 class="section-title">🇪🇺 European Union AI Models</h1>
+                        <p class="section-description">
+                            Cutting-edge innovations from across the European Union
+                        </p>
+                    </div>
+                    <div id="eu-region-content" class="content-grid">
+                        <div class="loading-state">
+                            <div class="loading-spinner"></div>
+                            <p>Loading EU models...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- UK Region Section -->
+            <section id="uk-region" class="section hidden">
+                <div class="section-container">
+                    <div class="section-header">
+                        <h1 class="section-title">🇬🇧 United Kingdom AI Models</h1>
+                        <p class="section-description">
+                            Pioneering innovations from British research institutions
+                        </p>
+                    </div>
+                    <div id="uk-region-content" class="content-grid">
+                        <div class="loading-state">
+                            <div class="loading-spinner"></div>
+                            <p>Loading UK models...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Swiss Region Section -->
+            <section id="swiss-region" class="section hidden">
+                <div class="section-container">
+                    <div class="section-header">
+                        <h1 class="section-title">🇨🇭 Switzerland AI Models</h1>
+                        <p class="section-description">
+                            Precision engineering from Swiss research excellence
+                        </p>
+                    </div>
+                    <div id="swiss-region-content" class="content-grid">
+                        <div class="loading-state">
+                            <div class="loading-spinner"></div>
+                            <p>Loading Swiss models...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <!-- Footer -->
@@ -654,8 +717,9 @@
         </footer>
 
         <!-- Scripts -->
-        <script src="js/content-loader.js?v=1.0.3"></script>
-        <script src="js/init.js?v=1.0.3"></script>
+        <script src="js/content-loader.js"></script>
+        <script src="js/region-loader.js"></script>
+        <script src="js/init.js"></script>
         <script src="js/logger.js?v=1.0.2"></script>
         <script src="js/performance-monitor.js?v=1.0.2"></script>
         <script src="js/page-specific-search.js?v=1.0.2"></script>

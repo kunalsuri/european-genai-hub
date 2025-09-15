@@ -6,8 +6,8 @@
     "key_partners": ["Unbabel", "University of Edinburgh", "CentraleSupélec", "Instituto Superior Técnico"],
     "funding": "EuroHPC + EU Horizon Europe - €37.4M (OpenEuroLLM project)",
     "status": "released",
-    "languages": ["All 24 EU languages", "35 total languages including Arabic, Turkish, Russian"],
-    "description": "World's first multilingual LLM supporting all official EU languages, trained on 4 trillion tokens",
+    "languages": ["All 24 EU languages", "35 total languages including Arabic, Turkish, Russian, Chinese"],
+    "description": "World's first multilingual LLM supporting all official EU languages, trained on 4 trillion tokens. Released September 24, 2024 as open-weight, open-source suite.",
     "url": "https://sites.google.com/view/eurollm",
     "year": "2024"
   },
@@ -70,6 +70,18 @@
     "description": "World's best performing open-source medical LLM, featured in Stanford 2024 AI Index Report",
     "url": "https://huggingface.co/epfl-llm/meditron-70b",
     "year": "2023-2024"
+  },
+  {
+    "project_name": "BgGPT (INSAIT)",
+    "model_type": "LLM",
+    "models_developed": ["BgGPT-7B", "BgGPT-9B", "BgGPT-27B", "BgGPT-2.6B"],
+    "key_partners": ["INSAIT", "Sofia University", "ETH Zurich", "EPFL"],
+    "funding": "€90M BRAIN++ AI factory + Bulgarian government support",
+    "status": "released",
+    "languages": ["Bulgarian", "Multilingual capabilities"],
+    "description": "First open Bulgarian LLM launched January 2024, publicly available March 2024. Trained on 3+ billion Bulgarian sentences with Apache 2.0 license.",
+    "url": "https://bggpt.ai",
+    "year": "2024"
   },
   {
     "project_name": "ELM (Edinburgh Language Models)",

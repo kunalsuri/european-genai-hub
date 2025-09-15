@@ -90,12 +90,12 @@
     "country": "Europe-wide",
     "status": "Active",
     "category": "Infrastructure",
-    "description": "European initiative to develop world-class supercomputing capabilities for AI and scientific computing.",
-    "funding": "€7B",
+    "description": "European initiative to develop world-class supercomputing capabilities for AI and scientific computing. Expanded in 2024 to include AI Factories pillar with seven consortia selected.",
+    "funding": "€7B+ (expanded with AI Factory investments)",
     "start_date": "2018-01-01",
     "end_date": "2030-12-31",
-    "participants": ["Multiple EU Member States", "Associated Countries"],
-    "technologies": ["Exascale Computing", "AI Acceleration", "Quantum Computing", "Green Computing"],
+    "participants": ["Multiple EU Member States", "Associated Countries", "Seven AI Factory Consortia (selected Dec 2024)"],
+    "technologies": ["Exascale Computing", "AI Acceleration", "Quantum Computing", "Green Computing", "AI Factories", "AI-optimised Supercomputing"],
     "website": "https://eurohpc-ju.europa.eu/"
   }
 ]

@@ -40,12 +40,12 @@
     {
       "id": "insait",
       "title": "INSAIT - Sofia AI Hub",
-      "description": "Eastern Europe's premier AI institute at Sofia University with ETH Zurich & EPFL. Features €90M BRAIN++ AI factory and Bulgarian LLMs (2.6/9/27B parameters).",
+      "description": "Eastern Europe's premier AI institute at Sofia University with ETH Zurich & EPFL. Features €90M BRAIN++ AI factory and Bulgarian LLMs (2.6/9/27B parameters). First to launch BgGPT for Bulgarian language.",
       "icon": "brain",
       "tags": ["🇧🇬 Bulgaria", "Research Institute"],
       "website": "https://insait.ai/",
       "youtube": "https://www.youtube.com/@insaitai",
-      "embedded_demo": "https://insait.ai/",
+      "embedded_demo": "https://bggpt.ai",
       "details": {
         "established": "2022",
         "funding": "€90M BRAIN++ AI factory",
@@ -55,13 +55,16 @@
           "Large Language Models",
           "Computer Vision",
           "Reinforcement Learning",
-          "AI Safety"
+          "AI Safety",
+          "Bulgarian Language AI"
         ],
         "key_achievements": [
+          "BgGPT - First Bulgarian LLM (launched Jan 2024, public March 2024)",
           "Bulgarian LLMs (2.6B, 9B, 27B parameters)",
           "Partnership with ETH Zurich & EPFL",
           "State-of-the-art AI research facility",
-          "Leading AI education programs"
+          "Leading AI education programs",
+          "First CEE country with publicly developed LLM"
         ]
       },
       "contact": {
@@ -188,28 +191,30 @@
     {
       "id": "eu-ai-office",
       "title": "European AI Office",
-      "description": "European Commission office responsible for EU AI Act enforcement and guidance. Promotes responsible AI, coordinates practices, and supports AI sandboxes.",
+      "description": "European Commission office responsible for EU AI Act enforcement and guidance. Operational since August 2024 with 100+ experts. Promotes responsible AI, coordinates practices, and supports AI sandboxes.",
       "icon": "shield-check",
       "tags": ["🏛️ EU Governance", "Regulation"],
       "website": "https://digital-strategy.ec.europa.eu/en/policies/ai-office",
       "youtube": "https://www.youtube.com/@EuropeanCommission",
       "embedded_demo": "https://digital-strategy.ec.europa.eu/en/policies/ai-act",
       "details": {
-        "established": "2024",
-        "funding": "European Commission",
-        "members": "EU Commission staff",
+        "established": "June 2024",
+        "funding": "European Commission + €50B EU AI boost announced 2025",
+        "members": "100+ experts across AI policy, research and innovation",
         "countries": "27 EU countries",
         "focus_areas": [
-          "AI Act Enforcement",
+          "AI Act Enforcement (entered force Aug 1, 2024)",
           "Regulatory Guidance",
           "AI Sandboxes",
-          "International Cooperation"
+          "International Cooperation",
+          "GPAI Code of Practice (due April 2025)"
         ],
         "key_achievements": [
-          "EU AI Act implementation",
+          "EU AI Act implementation (operational since Aug 2024)",
           "Regulatory sandbox program",
-          "International AI governance",
-          "Industry guidance documents"
+          "International AI governance leadership",
+          "Industry guidance documents",
+          "First comprehensive AI regulation globally"
         ]
       },
       "contact": {
